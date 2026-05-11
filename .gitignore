@@ -22,6 +22,11 @@ settings.toml
 /models/*.bin
 /models/*.gguf
 /models/*.onnx
+/models/piper/piper.exe
+/models/piper/*.dll
+/models/piper/voices/
+/models/piper/cache/
+/models/piper/espeak-ng-data/
 
 # Build artifacts
 *.exe

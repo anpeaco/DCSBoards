@@ -15,7 +15,6 @@ PWR = "POWER"
 EPU = "E P U"
 PMG = "P M G"
 GEN = "Gen"
-PT. = "Part"
 
 # FLCS / flight controls
 FLCS = "Flickus"
@@ -69,13 +68,13 @@ BARO = "Barometric"
 SPI = "SPEE"
 
 # Weapons / brevity
-AGM = "A G M"          # so "AGM-65D" reads "A G M 65 dee" rather than "Aim-Gee-Em…"
-AIM = "Aim"
+AGM = "A.G.M "
+AIM = "Aim "
 WPN = "Weapon"
 HARM = "Harm"
 JDAM = "J Dam"
 JSOW = "J Sow"
-GBU = "G B U"
+GBU = "G B U "
 LGB = "L G B"
 WCMD = "Wickmid"
 CCRP = "C C R P"
@@ -84,11 +83,13 @@ DTOS = "D Toss"
 MIL = "Mil"
 AB = "Afterburner"
 MK = "Mark"
+POS = "Pozz"
+SRCH = "Search"
 
 # Sensor / cockpit terms
 SOI = "Soy"
-osb = "O S B"          # lowercase form used in source ("MODE osb")
-OSB = "O S B"          # uppercase form ("OSB-1")
+osb = "O S B"          
+OSB = "O S B"          
 
 # Common states
 ARM = "Arm"
@@ -97,5 +98,11 @@ BATT = "Battery"
 TEST = "Test"
 PRE = "Pre"
 BORE = "Bore"
-VIS = "Vis"
-REQ = "Required"       # "AS REQ" reads "as required"
+VIS = "Vizz"
+REQ = "Required"       
+
+
+[phrases]
+"POS Mode" = "POZ Mode"
+"AGM-" = "A.G.M. "
+"POS, EOM" = "Poz, E O M "

@@ -277,6 +277,19 @@ slint::slint! {
         in-out property <bool> mic-pulse: false;
         callback audio-input-clicked(string);
 
+        // TTS engine + voice selection. The voice list is the basenames of
+        // .onnx files found in models/piper/voices/; clicking sends the full
+        // path back to Rust (we pre-compute the mapping so Slint doesn't
+        // need PathBuf).
+        in property <string> tts-engine-selected;
+        in property <[string]> piper-voices;
+        in property <string> piper-voice-selected;
+        in-out property <float> tts-rate: 1.0;
+        in-out property <float> tts-volume: 1.0;
+        callback tts-engine-clicked(string);
+        callback piper-voice-clicked(string);
+        callback tts-test-clicked();
+
         // Last STT transcript shown in a pill next to the mic icon. Rust
         // flips `transcript-visible` to true on a new transcript, then to
         // false after `transcript_pill_seconds`; the opacity binding fades it.
@@ -1030,6 +1043,186 @@ slint::slint! {
                 Rectangle { height: 8px; }
                 Rectangle { height: 1px; background: #444; }
 
+                Text { text: "TEXT-TO-SPEECH"; color: #c0c0c0; font-size: 12px; font-weight: 500; }
+                Text {
+                    text: "WinRT uses your installed Windows voices (instant, OK quality). Piper is open-source neural TTS — drop a voice into models/piper/voices/ and pick it below. See models/piper/README.md.";
+                    color: #a0a0a0;
+                    font-size: 11px;
+                    wrap: word-wrap;
+                }
+                HorizontalLayout {
+                    spacing: 6px;
+                    alignment: start;
+                    Rectangle {
+                        width: 120px;
+                        height: 28px;
+                        background: root.tts-engine-selected == "winrt"
+                            ? #ffcc33
+                            : (winrt-touch.has-hover ? #2e2e34 : #1e1e22);
+                        border-color: root.tts-engine-selected == "winrt" ? #e6b820 : #555;
+                        border-width: 1px;
+                        border-radius: 4px;
+                        Text {
+                            text: "WinRT (system)";
+                            color: root.tts-engine-selected == "winrt" ? #1a1a1e : #d8d8d8;
+                            font-weight: root.tts-engine-selected == "winrt" ? 600 : 400;
+                            font-size: 12px;
+                            horizontal-alignment: center;
+                            vertical-alignment: center;
+                            width: parent.width;
+                            height: parent.height;
+                        }
+                        winrt-touch := TouchArea {
+                            clicked => { root.tts-engine-clicked("winrt"); }
+                        }
+                    }
+                    Rectangle {
+                        width: 120px;
+                        height: 28px;
+                        background: root.tts-engine-selected == "piper"
+                            ? #ffcc33
+                            : (piper-touch.has-hover ? #2e2e34 : #1e1e22);
+                        border-color: root.tts-engine-selected == "piper" ? #e6b820 : #555;
+                        border-width: 1px;
+                        border-radius: 4px;
+                        Text {
+                            text: "Piper (neural)";
+                            color: root.tts-engine-selected == "piper" ? #1a1a1e : #d8d8d8;
+                            font-weight: root.tts-engine-selected == "piper" ? 600 : 400;
+                            font-size: 12px;
+                            horizontal-alignment: center;
+                            vertical-alignment: center;
+                            width: parent.width;
+                            height: parent.height;
+                        }
+                        piper-touch := TouchArea {
+                            clicked => { root.tts-engine-clicked("piper"); }
+                        }
+                    }
+                    Rectangle {
+                        width: 70px;
+                        height: 28px;
+                        background: test-touch.has-hover ? #2e2e34 : #1e1e22;
+                        border-color: #555;
+                        border-width: 1px;
+                        border-radius: 4px;
+                        Text {
+                            text: "Test";
+                            color: #d8d8d8;
+                            font-size: 12px;
+                            horizontal-alignment: center;
+                            vertical-alignment: center;
+                            width: parent.width;
+                            height: parent.height;
+                        }
+                        test-touch := TouchArea {
+                            clicked => { root.tts-test-clicked(); }
+                        }
+                    }
+                }
+                HorizontalLayout {
+                    spacing: 10px;
+                    Text {
+                        text: "Speed:";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        font-size: 14px;
+                        width: 70px;
+                    }
+                    rate-slider := Slider {
+                        minimum: 0.5;
+                        maximum: 2.0;
+                        value: root.tts-rate;
+                        changed value => {
+                            root.tts-rate = self.value;
+                            root.settings-changed();
+                        }
+                    }
+                    Text {
+                        text: round(root.tts-rate * 100) / 100 + "x";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        horizontal-alignment: right;
+                        font-size: 14px;
+                        font-weight: 500;
+                        width: 56px;
+                    }
+                }
+                HorizontalLayout {
+                    spacing: 10px;
+                    Text {
+                        text: "Volume:";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        font-size: 14px;
+                        width: 70px;
+                    }
+                    vol-slider := Slider {
+                        minimum: 0.0;
+                        maximum: 1.0;
+                        value: root.tts-volume;
+                        changed value => {
+                            root.tts-volume = self.value;
+                            root.settings-changed();
+                        }
+                    }
+                    Text {
+                        text: round(root.tts-volume * 100) + "%";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        horizontal-alignment: right;
+                        font-size: 14px;
+                        font-weight: 500;
+                        width: 56px;
+                    }
+                }
+                if root.tts-engine-selected == "piper": VerticalLayout {
+                    spacing: 2px;
+                    Text {
+                        text: root.piper-voices.length > 0
+                            ? "Available voices:"
+                            : "No voices in models/piper/voices/ — see README.";
+                        color: #a0a0a0;
+                        font-size: 11px;
+                    }
+                    for voice[idx] in root.piper-voices: Rectangle {
+                        height: 26px;
+                        background: voice == root.piper-voice-selected
+                            ? #4a3a16
+                            : (pv-touch.has-hover ? #1f1f23 : #1a1a1e);
+                        border-color: voice == root.piper-voice-selected ? #ffcc33 : #333;
+                        border-width: 1px;
+                        border-radius: 3px;
+
+                        HorizontalLayout {
+                            padding-left: 8px;
+                            padding-right: 8px;
+                            spacing: 6px;
+                            alignment: stretch;
+                            Rectangle {
+                                width: 8px;
+                                background: voice == root.piper-voice-selected ? #ffcc33 : transparent;
+                                border-radius: 4px;
+                            }
+                            Text {
+                                text: voice;
+                                color: #f0f0f0;
+                                font-size: 12px;
+                                font-weight: voice == root.piper-voice-selected ? 600 : 400;
+                                vertical-alignment: center;
+                                horizontal-stretch: 1;
+                                overflow: elide;
+                            }
+                        }
+                        pv-touch := TouchArea {
+                            clicked => { root.piper-voice-clicked(voice); }
+                        }
+                    }
+                }
+
+                Rectangle { height: 8px; }
+                Rectangle { height: 1px; background: #444; }
+
                 Text { text: "BINDINGS"; color: #c0c0c0; font-size: 12px; font-weight: 500; }
                 Text {
                     text: "Click a row to bind a new key. Press Esc to cancel. Clear removes the binding.";
@@ -1271,15 +1464,58 @@ slint::slint! {
 const DISPLAY_W: f32 = 600.0;
 const DISPLAY_H: f32 = 900.0;
 
-fn init_tts() -> Result<Box<dyn TtsEngine>> {
+fn init_tts(settings: &Settings) -> Result<Box<dyn TtsEngine>> {
     #[cfg(windows)]
     {
+        if settings.tts_engine == "piper" {
+            let piper_exe = piper_exe_path();
+            let voice = settings.tts_piper_voice.as_ref().map(PathBuf::from);
+            if let Some(voice) = voice {
+                match tts::PiperTts::new(piper_exe.clone(), voice.clone()) {
+                    Ok(p) => return Ok(Box::new(p)),
+                    Err(e) => {
+                        eprintln!(
+                            "[tts] piper init failed ({e:?}); falling back to WinRT"
+                        );
+                    }
+                }
+            } else {
+                eprintln!("[tts] piper selected but no voice configured; using WinRT");
+            }
+        }
         Ok(Box::new(tts::WinRtTts::new()?))
     }
     #[cfg(not(windows))]
     {
+        let _ = settings;
         Ok(Box::new(tts::NoopTts::new()?))
     }
+}
+
+#[cfg(windows)]
+fn piper_exe_path() -> PathBuf {
+    PathBuf::from("models/piper/piper.exe")
+}
+
+/// Scan `models/piper/voices/` for `.onnx` files. Each one paired with a
+/// `.onnx.json` counts as a usable voice.
+fn list_piper_voices() -> Vec<PathBuf> {
+    let dir = PathBuf::from("models/piper/voices");
+    let mut out = Vec::new();
+    let Ok(entries) = std::fs::read_dir(&dir) else {
+        return out;
+    };
+    for e in entries.flatten() {
+        let p = e.path();
+        if p.extension().map_or(false, |ext| ext == "onnx") {
+            let cfg = p.with_extension("onnx.json");
+            if cfg.exists() {
+                out.push(p);
+            }
+        }
+    }
+    out.sort();
+    out
 }
 
 fn last_navigable(items: &[Item]) -> usize {
@@ -2182,6 +2418,108 @@ impl AppState {
         self.refresh_audio_ui();
     }
 
+    /// Push the current TTS engine + Piper voice list into the Slint model.
+    fn refresh_tts_ui(&self) {
+        let Some(win) = self.win.upgrade() else { return };
+        let s = self.settings.borrow();
+        win.set_tts_engine_selected(SharedString::from(s.tts_engine.as_str()));
+
+        let voices = list_piper_voices();
+        let names: Vec<SharedString> = voices
+            .iter()
+            .map(|p| SharedString::from(
+                p.file_name().and_then(|n| n.to_str()).unwrap_or(""),
+            ))
+            .collect();
+        win.set_piper_voices(slint::ModelRc::new(VecModel::from(names)));
+
+        let selected = s
+            .tts_piper_voice
+            .as_ref()
+            .map(|full| {
+                std::path::Path::new(full)
+                    .file_name()
+                    .and_then(|n| n.to_str())
+                    .unwrap_or("")
+                    .to_string()
+            })
+            .unwrap_or_default();
+        win.set_piper_voice_selected(SharedString::from(selected.as_str()));
+    }
+
+    /// Rebuild the TTS engine after the user changes the selected engine or
+    /// Piper voice. Stops in-flight speech, drops the old engine, then tries
+    /// to build the new one. Falls back to WinRT on failure.
+    fn rebuild_tts(&self) {
+        self.stop_speaking();
+        *self.tts.borrow_mut() = None;
+        let (r, v) = {
+            let s = self.settings.borrow();
+            (s.tts_rate, s.tts_volume)
+        };
+        let s = self.settings.borrow();
+        match init_tts(&s) {
+            Ok(mut engine) => {
+                eprintln!("[tts] engine ready: {}", engine.name());
+                engine.set_rate(r);
+                engine.set_volume(v);
+                drop(s);
+                *self.tts.borrow_mut() = Some(engine);
+            }
+            Err(e) => eprintln!("[tts] rebuild failed: {e:?}"),
+        }
+    }
+
+    fn set_tts_engine(&self, name: String) {
+        {
+            let mut s = self.settings.borrow_mut();
+            if s.tts_engine == name {
+                return;
+            }
+            s.tts_engine = name;
+            let _ = s.save(&settings_path());
+        }
+        self.refresh_tts_ui();
+        self.rebuild_tts();
+    }
+
+    fn set_piper_voice(&self, voice_basename: String) {
+        let full = PathBuf::from("models/piper/voices").join(&voice_basename);
+        let full_str = full.to_string_lossy().to_string();
+        {
+            let mut s = self.settings.borrow_mut();
+            if s.tts_piper_voice.as_deref() == Some(full_str.as_str()) {
+                return;
+            }
+            s.tts_piper_voice = Some(full_str);
+            // Picking a voice also implies switching the engine.
+            if s.tts_engine != "piper" {
+                s.tts_engine = "piper".into();
+            }
+            let _ = s.save(&settings_path());
+        }
+        self.refresh_tts_ui();
+        self.rebuild_tts();
+    }
+
+    fn test_tts(&self) {
+        // Build a pronounceable phrase — using engine.name() verbatim makes
+        // WinRT spell out "winrt" badly.
+        let label: &str = match self.tts.borrow().as_ref().map(|e| e.name()) {
+            Some("piper") => "Piper voice ready.",
+            Some("winrt") => "Windows speech engine ready.",
+            Some(_) => "Speech engine ready.",
+            None => "No speech engine loaded.",
+        };
+        let phrase = label.to_string();
+        eprintln!("[tts] test: {phrase}");
+        if let Some(engine) = self.tts.borrow_mut().as_mut() {
+            if let Err(e) = engine.speak(&phrase, true) {
+                eprintln!("[tts] test speak failed: {e:?}");
+            }
+        }
+    }
+
     /// Push the current device list + selection into the Slint model.
     fn refresh_audio_ui(&self) {
         let Some(win) = self.win.upgrade() else { return };
@@ -2381,8 +2719,16 @@ fn main() -> Result<()> {
     )));
 
     let tts: Rc<RefCell<Option<Box<dyn TtsEngine>>>> = Rc::new(RefCell::new(
-        init_tts().map_err(|e| eprintln!("TTS init failed: {e:?}")).ok(),
+        init_tts(&settings.borrow()).map_err(|e| eprintln!("TTS init failed: {e:?}")).ok(),
     ));
+    // Apply the persisted rate / volume to the freshly built engine.
+    {
+        let s = settings.borrow();
+        if let Some(engine) = tts.borrow_mut().as_mut() {
+            engine.set_rate(s.tts_rate);
+            engine.set_volume(s.tts_volume);
+        }
+    }
 
     let win = MainWindow::new()?;
     {
@@ -2395,6 +2741,8 @@ fn main() -> Result<()> {
         win.set_hot_reload(s.hot_reload);
         win.set_mute_mic_during_speech(s.mute_mic_during_speech);
         win.set_click_through(s.click_through);
+        win.set_tts_rate(s.tts_rate);
+        win.set_tts_volume(s.tts_volume);
         if let (Some(x), Some(y)) = (s.window_x, s.window_y) {
             win.window().set_position(slint::PhysicalPosition::new(x, y));
         }
@@ -2598,6 +2946,8 @@ fn main() -> Result<()> {
                 // Only update the click-through field; the Win32 apply
                 // happens unconditionally below so the new state takes effect.
                 sett.click_through = win.get_click_through();
+                sett.tts_rate = win.get_tts_rate();
+                sett.tts_volume = win.get_tts_volume();
                 if let Err(e) = sett.save(&settings_path()) {
                     eprintln!("[settings] save failed: {e:?}");
                 }
@@ -2608,6 +2958,17 @@ fn main() -> Result<()> {
             {
                 let want = s.settings.borrow().click_through;
                 overlay::set_click_through(want);
+            }
+            // Push rate / volume into the live engine.
+            {
+                let (r, v) = {
+                    let sett = s.settings.borrow();
+                    (sett.tts_rate, sett.tts_volume)
+                };
+                if let Some(engine) = s.tts.borrow_mut().as_mut() {
+                    engine.set_rate(r);
+                    engine.set_volume(v);
+                }
             }
             s.refresh_watcher();
         });
@@ -2813,6 +3174,7 @@ fn main() -> Result<()> {
     // with the current state.
     state.refresh_bindings_ui();
     state.refresh_audio_ui();
+    state.refresh_tts_ui();
 
     // Build the voice-commands help model once — RULES is static so this
     // never changes during a session.
@@ -2827,6 +3189,18 @@ fn main() -> Result<()> {
         win.set_voice_commands(slint::ModelRc::new(VecModel::from(rows)));
     }
 
+    {
+        let s = state.clone();
+        win.on_tts_engine_clicked(move |name| s.set_tts_engine(name.to_string()));
+    }
+    {
+        let s = state.clone();
+        win.on_piper_voice_clicked(move |voice| s.set_piper_voice(voice.to_string()));
+    }
+    {
+        let s = state.clone();
+        win.on_tts_test_clicked(move || s.test_tts());
+    }
     {
         let s = state.clone();
         win.on_audio_input_clicked(move |name| {

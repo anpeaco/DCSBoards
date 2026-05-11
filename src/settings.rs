@@ -78,6 +78,25 @@ pub struct Settings {
     /// before you turn this on.
     #[serde(default)]
     pub click_through: bool,
+
+    /// Which TTS engine to use: "winrt" (Windows system voices, default) or
+    /// "piper" (open-source neural — needs models/piper/piper.exe + a .onnx
+    /// voice). Falls back to winrt if piper is selected but unavailable.
+    #[serde(default = "Settings::default_tts_engine")]
+    pub tts_engine: String,
+
+    /// Path to the chosen Piper voice (.onnx). Files placed in
+    /// `models/piper/voices/` appear automatically in the voice picker.
+    #[serde(default)]
+    pub tts_piper_voice: Option<String>,
+
+    /// Speaking rate multiplier (1.0 = normal). Sensible UI range: 0.5–2.0.
+    #[serde(default = "Settings::default_tts_rate")]
+    pub tts_rate: f32,
+
+    /// Output volume, 0.0..=1.0.
+    #[serde(default = "Settings::default_tts_volume")]
+    pub tts_volume: f32,
 }
 
 impl Settings {
@@ -87,6 +106,9 @@ impl Settings {
     fn default_read_notes() -> bool { false }
     fn default_transcript_pill() -> f32 { 5.0 }
     fn default_mute_mic_during_speech() -> bool { true }
+    fn default_tts_engine() -> String { "winrt".into() }
+    fn default_tts_rate() -> f32 { 1.0 }
+    fn default_tts_volume() -> f32 { 1.0 }
 
     pub fn load_or_default(path: &Path) -> Self {
         let mut s = match std::fs::read_to_string(path) {
@@ -142,6 +164,10 @@ impl Default for Settings {
             hot_reload: false,
             mute_mic_during_speech: Self::default_mute_mic_during_speech(),
             click_through: false,
+            tts_engine: Self::default_tts_engine(),
+            tts_piper_voice: None,
+            tts_rate: Self::default_tts_rate(),
+            tts_volume: Self::default_tts_volume(),
         }
     }
 }
