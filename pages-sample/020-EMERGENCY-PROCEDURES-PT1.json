@@ -1,0 +1,656 @@
+{
+  "schema_version": "0.1",
+  "page_index": 20,
+  "title": "EMERGENCY PROCEDURES, Pt.1",
+  "image": "020-EMERGENCY-PROCEDURES-PT1.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-info",
+      "text": "Use when engine flames out and JFS start is available.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-caution",
+      "text": "Maintain 250+ kts. If below 15,000 ft, consider ejection.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        139.58,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "step",
+      "text": "THROTTLE ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        170.81,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-info",
+      "text": "Wait 10 seconds for engine spool-down",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        207.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "step",
+      "text": "ENG FEED switch | verify ... NORM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        235.99,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "step",
+      "text": "AIR SOURCE switch | verify ... NORM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        276.73,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "step",
+      "text": "JFS switch ... START 2",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        317.47,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-info",
+      "text": "JFS spools to provide engine start assist",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        354.14,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-info",
+      "text": "Wait for RPM to reach 20-25%",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        382.66,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "step",
+      "text": "THROTTLE | at 20-25% RPM ... IDLE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        411.18,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-check",
+      "text": "Monitor RPM, FTIT for normal start indications",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        447.84,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-check",
+      "text": "FTIT <650°C, RPM rising to 62-80%",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        476.36,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "ENGINE FLAMEOUT — AIRSTART (JFS)",
+      "kind": "note-caution",
+      "text": "If no light within 30 seconds: throttle to OFF, attempt windmill start",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        504.88,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "",
+      "kind": "section-header",
+      "text": "ENGINE FLAMEOUT — WINDMILL START",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        589.07,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "note-info",
+      "text": "Use when JFS is unavailable. Requires 400+ kts for windmill effect.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        630.35,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "note-caution",
+      "text": "Dive to gain airspeed. Minimum 400 kts, 350+ kts for marginal start.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        658.86,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "step",
+      "text": "THROTTLE ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        715.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "note-info",
+      "text": "Wait 10 seconds",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        752.57,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "step",
+      "text": "SPEED | dive to 400+ kts ... ACCELERATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        781.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "step",
+      "text": "THROTTLE ... IDLE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        821.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "note-info",
+      "text": "Wind-driven engine rotation provides start. Monitor RPM/FTIT.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        858.49,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "note-info",
+      "text": "Slow RPM rise expected. May take 30-60 seconds.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        887.01,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "ENGINE FLAMEOUT — WINDMILL START",
+      "kind": "note-caution",
+      "text": "If no light after 60 seconds: prepare to eject if altitude insufficient for another attempt.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        915.53,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "",
+      "kind": "section-header",
+      "text": "EPU (EMERGENCY POWER UNIT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        999.72,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "note-info",
+      "text": "EPU automatically activates when main generator fails. Hydrazine-powered.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1040.99,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "step",
+      "text": "EPU light | on warning panel ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1095.31,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "note-info",
+      "text": "EPU AUTO: activates automatically on main gen failure",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1131.98,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "note-info",
+      "text": "EPU provides emergency hydraulic pressure and electrical power",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1160.5,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "step",
+      "text": "FLCS | check control authority ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1189.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "note-info",
+      "text": "Reduced flight control authority on EPU",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1225.68,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "note-caution",
+      "text": "EPU fuel: ~10 minutes. Land immediately.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1254.2,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "note-caution",
+      "text": "EPU FUEL LOW light = <1 minute remaining. Eject if cannot land immediately.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1285.43,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "EPU (EMERGENCY POWER UNIT)",
+      "kind": "note-caution",
+      "text": "Hydrazine is toxic. After EPU activation, ground crew must handle aircraft with care.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1342.47,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "",
+      "kind": "section-header",
+      "text": "HYDRAULIC FAILURE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1426.66,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "note-info",
+      "text": "A-system or B-system failure. F-16 has dual hydraulic systems.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1467.93,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "step",
+      "text": "HYD warning light ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1496.45,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "note-check",
+      "text": "Check HYD A and HYD B pressure gauges (2850-3250 psi normal)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1533.12,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "branch-header",
+      "text": "SINGLE SYSTEM FAILURE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1594.23,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "note-info",
+      "text": "Remaining system provides full control. Land at nearest suitable airfield.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1632.51,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "step",
+      "text": "AIRSPEED | maintain 200+ kts ... MAINTAIN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1686.83,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "step",
+      "text": "LANDING | plan for nearest airfield ... PLAN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1727.57,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "note-caution",
+      "text": "Avoid aggressive maneuvering. Gentle control inputs.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1768.31,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "branch-header",
+      "text": "DUAL SYSTEM FAILURE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1806.33,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "note-caution",
+      "text": "Loss of all hydraulic flight controls. FLCS inoperative.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1844.61,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "HYDRAULIC FAILURE",
+      "kind": "note-caution",
+      "text": "EJECT. Dual hydraulic failure = no flight control authority.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1875.84,
+        679,
+        31.23
+      ]
+    }
+  ]
+}

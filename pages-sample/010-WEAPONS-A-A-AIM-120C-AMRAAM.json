@@ -1,0 +1,880 @@
+{
+  "schema_version": "0.1",
+  "page_index": 10,
+  "title": "WEAPONS A-A, AIM-120C AMRAAM",
+  "image": "010-WEAPONS-A-A-AIM-120C-AMRAAM.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "AIM-120C - SINGLE TARGET (STT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-info",
+      "text": "Medium-range active radar homing. Fire-and-forget after Pitbull.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        139.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        180.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "A120C osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        221.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "SLAVE/BORE osb ... SLAVE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        261.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-info",
+      "text": "Seeker slaved to radar. Radar must find and lock target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        298.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "FCR page | RWS mode ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        326.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-info",
+      "text": "Range While Search. Set scan volume and range as needed.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        363.65,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "CURSOR | Cursor/Enable to target return ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        392.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "BUG TARGET | TMS UP ... BUG",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        432.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-check",
+      "text": "Target bugged. Radar prioritises this return.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        469.57,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "STT LOCK | TMS UP again ... LOCK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        498.09,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-check",
+      "text": "Single Target Track. Full radar resolution on target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        534.75,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-info",
+      "text": "STT alerts target's RWR. Consider TWS for reduced detection.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        563.27,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "ASC / ASEC | maneuver ASC into ASEC circle ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        591.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-info",
+      "text": "ASC = Attack Steering Cue. ASEC = Allowable Steering Error Circle.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        628.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "DLZ | Rmax1, Rmax2, Raero, Rmin on HUD ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        656.97,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-check",
+      "text": "Target must be between Rmax and Rmin",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        693.64,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "WEAPON RELEASE ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        722.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-radio",
+      "text": "\"Fox Three\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        762.9,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "step",
+      "text": "SUPPORT | maintain radar lock until Pitbull ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        794.13,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-info",
+      "text": "Pitbull = missile goes active (self-guiding). Range shown on DLZ.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        830.8,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "AIM-120C - SINGLE TARGET (STT)",
+      "kind": "note-info",
+      "text": "Post-Pitbull: free to maneuver / break lock. Missile is autonomous.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        859.32,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "",
+      "kind": "section-header",
+      "text": "AIM-120C - BORE (CLOSE RANGE)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        914.99,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "step",
+      "text": "DGFT switch | enters dogfight ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        956.27,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "step",
+      "text": "A120C osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        997.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "step",
+      "text": "ACM BORESIGHT | TMS UP short ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1037.75,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "note-info",
+      "text": "20 nm range, scans ahead of nose",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1074.41,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "step",
+      "text": "FLY | place target in HUD bore cross ... MANEUVER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1102.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "note-check",
+      "text": "Radar auto-acquires within scan volume",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1139.6,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "step",
+      "text": "DLZ | verify in range ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1168.11,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "step",
+      "text": "WEAPON RELEASE ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1208.85,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "AIM-120C - BORE (CLOSE RANGE)",
+      "kind": "note-radio",
+      "text": "\"Fox Three\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1249.59,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "",
+      "kind": "section-header",
+      "text": "AIM-120C - MULTI-TARGET (TWS)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1307.99,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-info",
+      "text": "Track While Scan. Multiple targets without STT. Reduced RWR signature.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1349.26,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1403.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1444.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "A120C osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1485.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "FCR page | TWS mode ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1525.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-check",
+      "text": "Radar maintains tracks on multiple contacts.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1562.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "CURSOR | Cursor/Enable to first target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1590.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "BUG FIRST TARGET | TMS UP ... BUG",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1631.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-check",
+      "text": "Bugged target shown with full DLZ and steering cues",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1668.39,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-info",
+      "text": "Radar continues scanning. Does not alert target's RWR like STT.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1696.91,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "ASC / ASEC | maneuver ASC into ASEC ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1725.42,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "DLZ | verify first target in range ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1766.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | launch on first target ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1806.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-radio",
+      "text": "\"Fox Three\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1847.64,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-info",
+      "text": "Missile guides via datalink.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1878.88,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "CYCLE TARGET | TMS RIGHT short ... NEXT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1907.4,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-check",
+      "text": "Next bugged target becomes primary. New DLZ and steering cues.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1944.06,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | launch on second target ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-radio",
+      "text": "\"Fox Three\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        110.53,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-info",
+      "text": "Second missile. Both missiles in flight.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        141.76,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-optional",
+      "text": "Repeat TMS RIGHT short + WPN REL for additional targets.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        170.28,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "step",
+      "text": "SUPPORT | maintain TWS scan until Pitbull ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        198.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "AIM-120C - MULTI-TARGET (TWS)",
+      "kind": "note-info",
+      "text": "Each missile goes Pitbull independently at its displayed range.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        235.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        263.98,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Brevity: \"Fox Three\" = launch. \"Pitbull\" = missile active.\"Timeout\" = exceeded flight time. \"Trashed\" = missile defeated.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        307.97,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "STT vs TWS: STT: strongest lock, best data, alerts target RWR.TWS: stealthy, multi-target, less precise. Missile uses datalink + own seeker.Tip: Launch in TWS, transition to STT if missile needs better guidance.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        365,
+        679,
+        129.01
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "DLZ: Rmax1 = max if target runs. Rmax2 = max if target holds course.Raero = max aerodynamic (no maneuver energy). Rmin = minimum effective.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        499.45,
+        679,
+        103.21
+      ]
+    }
+  ]
+}

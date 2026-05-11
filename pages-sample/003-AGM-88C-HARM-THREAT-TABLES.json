@@ -1,0 +1,334 @@
+{
+  "schema_version": "0.1",
+  "page_index": 3,
+  "title": "AGM-88C HARM THREAT TABLES",
+  "image": "003-AGM-88C-HARM-THREAT-TABLES.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "RUSSIAN SAM / AAA",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "RUSSIAN SAM / AAA",
+      "kind": "table",
+      "text": "HASHADIDRWRDescription11103CSSA-10 S-300PS SR 5N66M11104BBSA-10 S-300PS SR 64H6E11107SDSA-11 Buk SR 9S18M11111010SA-10 S-300PS TR 30N61111511SA-11 Buk LN 9A310M12111915SA-15 Tor 9A331221178SA-8 Osa 9A3323109DECP 9S80M1 Sborka2312019SA-19 Tunguska 2S623121AZSU-23-4 Shilka321086SA-6 Kub STR 1S913211813SA-13 Strela-10M3 9A35M332122SSR P-19321233SA-3 S-125 TR SNR321262SA-2 TR SNR-75 Fan Song",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        124.64,
+        668.14,
+        658.63
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "",
+      "kind": "section-header",
+      "text": "RUSSIAN MISC",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        796.85,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "RUSSIAN MISC",
+      "kind": "table",
+      "text": "HASHADIDRWRDescription-11277HQ-7 Self-Propelled LN-1128HQHQ-7 Self-Propelled STR-1130TSSA-5 SR Tin Shield-21295SA-5 SR Gammon",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        851.7,
+        668.14,
+        205.06
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "",
+      "kind": "section-header",
+      "text": "RUSSIAN EWR",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1070.34,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "RUSSIAN EWR",
+      "kind": "table",
+      "text": "HASHADIDRWRDescription-4101SEWR 1L13-4102SEWR 55G6",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1125.19,
+        668.14,
+        123.58
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "",
+      "kind": "section-header",
+      "text": "RUSSIAN NAVAL",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1262.35,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "RUSSIAN NAVAL",
+      "kind": "table",
+      "text": "HASHADIDRWRDescription-5301SWCV 1143.5 Admiral Kuznetsov-5303T2CG 1164 Moskva-5306HPFFL 1124.4 Grisha-5309TPFF 1135M Rezky-5312PSFSG 1241.1MP Molniya-5313HNCGN 1144.2 Piotr Velikiy-5319TPFFG 11540 Neustrashimy-5320SWCV 1143.5 Admiral Kuznetsov (2017)-5408PSType 071 Amphibious Transport Dock-5409MRType 052B Destroyer-5410HNType 052C Destroyer-5411MRType 054A Frigate",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1317.2,
+        668.14,
+        530.98
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "",
+      "kind": "section-header",
+      "text": "NATO SAM",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "NATO SAM",
+      "kind": "table",
+      "text": "HASHADIDRWRDescription-6202PPatriot STR AN/MPQ-53-6209NSNASAMS SR MPQ64F1-7124RPRapier Blindfire Tracker-7125RTRapier FSA Launcher-7201RORoland ADS-7203HKHawk SR AN/MPQ-50-7204HKHawk TR AN/MPQ-46-7205RORoland SR-7206HKHawk CWAR AN/MPQ-55",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        124.64,
+        668.14,
+        408.76
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "",
+      "kind": "section-header",
+      "text": "NATO AAA",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        546.98,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "NATO AAA",
+      "kind": "table",
+      "text": "HASHADIDRWRDescription-8207AGepard-8208AVulcan M163",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        601.83,
+        668.14,
+        123.58
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "",
+      "kind": "section-header",
+      "text": "NATO NAVAL",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        738.99,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "NATO NAVAL",
+      "kind": "table",
+      "text": "HASHADIDRWRDescription-10315AETiconderoga class-1040149Oliver Hazzard Perry class-10402SSCVN-70 Carl Vinson-10403SSCVN-71 Theodore Roosevelt-10404SSCVN-72 Abraham Lincoln-10405SSCVN-73 George Washington-10406SSCVN-74 John C. Stennis-1040740LHA-1 Tarawa-10412AEDDG Arleigh Burke IIa-10413SSCVN-75 Harry S. Truman",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        793.84,
+        668.14,
+        449.5
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1256.91,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "HAS = HAS mode table (select in ALIC).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1300.9,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "HAD = HAD page table. Both filter differently.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1332.13,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "HAS 1 = SA-10/11 (high priority).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1389.17,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "HAS 2 = SA-15/8/19 (medium-high).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1420.4,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "HAS 3 = SA-2/3/6 (medium).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1451.64,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Emitters with no HAS table (-) are HAD-only — visible on HAD page but not targetable via HAS ALIC.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1508.67,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "RWR Symbol: Match RWR display to ID/RWR column to identify the threat tracking you.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1565.71,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Source: DCS F-16C AGM-88C HARM Threat Tables v3.0.0",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1622.75,
+        679,
+        25.8
+      ]
+    }
+  ]
+}

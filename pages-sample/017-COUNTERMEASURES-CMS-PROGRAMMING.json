@@ -1,0 +1,642 @@
+{
+  "schema_version": "0.1",
+  "page_index": 17,
+  "title": "COUNTERMEASURES (CMS) PROGRAMMING",
+  "image": "017-COUNTERMEASURES-CMS-PROGRAMMING.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "CMS PANEL SETUP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "CMS PANEL SETUP",
+      "kind": "step",
+      "text": "CMDS RWR ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "CMS PANEL SETUP",
+      "kind": "step",
+      "text": "CMDS JMR | jammer ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "CMS PANEL SETUP",
+      "kind": "step",
+      "text": "CMDS CH | chaff ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "CMS PANEL SETUP",
+      "kind": "step",
+      "text": "CMDS FL | flare ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        233.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "CMS PANEL SETUP",
+      "kind": "step",
+      "text": "CMDS MODE ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        274.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "CMS PANEL SETUP",
+      "kind": "note-info",
+      "text": "MAN: Manual only. CMS button dispenses per selected program.SEMI: CMS button + automatic response to threats.AUTO: Fully automatic. System dispenses based on threats.BYP: Bypass. Continuous dispense while CMS held.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        310.68,
+        679,
+        105.92
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "CMS PANEL SETUP",
+      "kind": "step",
+      "text": "CMDS PRGM | 1-4 rotary ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        416.61,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "CMS PANEL SETUP",
+      "kind": "note-info",
+      "text": "Selects which program the CMS dispense button uses",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        453.27,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "",
+      "kind": "section-header",
+      "text": "PROGRAM EDITING (VIA DED)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        508.95,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "ICP LIST button ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        550.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "ICP 7 | CMDS page on DED ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        590.96,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-check",
+      "text": "DED shows CMDS CHAFF page",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        627.63,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "PROGRAM | DED dobber up/down to select 1-6 ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        656.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "BQ (Burst Quantity) | ICP keypad ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        696.89,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-info",
+      "text": "Number of chaff/flare released per burst",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        733.55,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "BI (Burst Interval) | dobber down, ICP keypad ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        762.07,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-info",
+      "text": "Time between bursts (seconds)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        798.74,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "SQ (Salvo Quantity) | dobber down, ICP keypad ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        827.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-info",
+      "text": "Number of bursts per salvo",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        863.92,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "SI (Salvo Interval) | dobber down, ICP keypad ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        892.44,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-info",
+      "text": "Time between salvos (seconds)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        929.11,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "step",
+      "text": "ICP Dobber right | switch to FLARE page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        957.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-info",
+      "text": "Repeat BQ/BI/SQ/SI for flare program",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        994.29,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-info",
+      "text": "Each program (1-6) has independent chaff AND flare settings.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1022.81,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "PROGRAM EDITING (VIA DED)",
+      "kind": "note-info",
+      "text": "PRGM rotary on CMDS panel selects which program is active.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1051.33,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "",
+      "kind": "section-header",
+      "text": "RECOMMENDED PROGRAMS",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1107,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "note-info",
+      "text": "Adjust based on threat environment and expendable quantities.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1148.27,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "branch-header",
+      "text": "PROGRAM 1 — DEFENSIVE (IR + RADAR)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1183.58,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "note-info",
+      "text": "General purpose. Good default for mixed threat environment.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1221.86,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "table",
+      "text": "BQBISQSIChaff10.20101.00Flare10.20101.00",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1263.96,
+        668.14,
+        123.58
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "branch-header",
+      "text": "PROGRAM 2 — HEAVY SAM (RADAR)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1401.12,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "note-info",
+      "text": "Priority chaff. For SA-6, SA-11, SA-15 radar threats.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1439.4,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "table",
+      "text": "BQBISQSIChaff20.20100.50Flare10.5041.00",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1481.49,
+        668.14,
+        123.58
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "branch-header",
+      "text": "PROGRAM 3 — HEAVY IR (MANPADS/IR SAM)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1618.65,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "note-info",
+      "text": "Priority flare. For SA-9, SA-13, Igla, Stinger IR threats.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1656.93,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "table",
+      "text": "BQBISQSIChaff10.5041.00Flare20.20100.50",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1699.03,
+        668.14,
+        123.58
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "branch-header",
+      "text": "PROGRAM 4 — BVR (A-A)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1836.19,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "note-info",
+      "text": "Single dispense for BVR notch/crank maneuvers.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1874.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "RECOMMENDED PROGRAMS",
+      "kind": "table",
+      "text": "BQBISQSIChaff10.10201.00Flare11.0022.00",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        69.79,
+        1347.14,
+        1962.31
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        124.79,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Standard loadout: 60 chaff + 30 flare (typical). Check SMS/CMDS for actual quantities.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        168.77,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "CMS Dispense button: On throttle (pinky switch). Single press = one salvo per active program.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        225.81,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "SEMI mode is recommended for most missions. Provides automatic threat response while allowing manual override. AUTO can deplete expendables rapidly.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        282.85,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Bypass mode: Continuous dispense while CMS held. Emergency use only — depletes stores fast.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        365.68,
+        679,
+        51.6
+      ]
+    }
+  ]
+}

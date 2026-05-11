@@ -1,0 +1,1034 @@
+{
+  "schema_version": "0.1",
+  "page_index": 25,
+  "title": "TGP, LST & AIR-TO-AIR",
+  "image": "025-TGP-LST-AIR-TO-AIR.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "LST ACQUISITION",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "LST ACQUISITION",
+      "kind": "note-info",
+      "text": "Acquire target from JTAC/FAC via offboard laser designation.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "LST ACQUISITION",
+      "kind": "step",
+      "text": "LASR DED | set LST CODE to match designator PRF ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        139.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "LST ACQUISITION",
+      "kind": "note-info",
+      "text": "ICP LIST > M-SEL > CRUS > DCS down to LST CODE > enter code > ENTR.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        176.24,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "LST ACQUISITION",
+      "kind": "step",
+      "text": "SMS page | select weapon and sub-mode ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        230.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "LST ACQUISITION",
+      "kind": "note-info",
+      "text": "Pre-planned sub-modes (CCRP, LADD, EO-PRE) slave TGP to steerpoint.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        267.23,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "LST ACQUISITION",
+      "kind": "note-info",
+      "text": "Visual sub-modes (DTOS, CCIP) slave TGP to TD box or pipper.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        321.55,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "LST ACQUISITION",
+      "kind": "step",
+      "text": "TGP page | DMS AFT ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        350.07,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "LST ACQUISITION",
+      "kind": "note-optional",
+      "text": "Ensure TGP pointed toward approximate target area for LST scan.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        390.81,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "LST ACQUISITION",
+      "kind": "step",
+      "text": "CONFIRM DESIGNATOR | verify offboard platform is lasing ... CONFIRM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        445.13,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "LST ACQUISITION",
+      "kind": "step",
+      "text": "LST ENABLE | OSB 20 or MAN RNG/UNCAGE depress ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        513.03,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "LST ACQUISITION",
+      "kind": "note-info",
+      "text": "TGP video blanks while searching. SA indicator oscillates.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        549.69,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "LST ACQUISITION",
+      "kind": "note-check",
+      "text": "LSRCH — scanning for laser spot",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        578.21,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "LST ACQUISITION",
+      "kind": "note-check",
+      "text": "DETECT — laser found, TGP slewing to designation",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        606.73,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "LST ACQUISITION",
+      "kind": "note-check",
+      "text": "LTRACK — tracking designation. Sensor video restored.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        635.25,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "LST ACQUISITION",
+      "kind": "step",
+      "text": "TISL SYMBOL | appears in HUD at target location ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        663.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "",
+      "kind": "section-header",
+      "text": "TRANSITION TO OWN TRACKING",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        727.59,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "TRANSITION TO OWN TRACKING",
+      "kind": "step",
+      "text": "AREA TRACK | TMS RIGHT short ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        768.86,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "TRANSITION TO OWN TRACKING",
+      "kind": "note-info",
+      "text": "Or: TMS FWD release for Point Track.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        805.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "TRANSITION TO OWN TRACKING",
+      "kind": "note-info",
+      "text": "Or: OSB 20 / MAN RNG/UNCAGE to disable LST.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        834.05,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "TRANSITION TO OWN TRACKING",
+      "kind": "note-caution",
+      "text": "Disable LST before designator stops lasing. If laser lost, TGP reverts to scanning.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        862.56,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "",
+      "kind": "section-header",
+      "text": "MULTI-TARGET TRACK (A-G)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        946.76,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "step",
+      "text": "MT ENABLE | OSB 18 on TGP MFD ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        988.03,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "note-info",
+      "text": "Up to 10 ground targets tracked simultaneously.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1024.7,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "step",
+      "text": "CURSOR/ENABLE | slew crosshairs to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1053.21,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "step",
+      "text": "ADD TARGET | TMS FWD short ... ADD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1093.95,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "note-info",
+      "text": "Target added to MT list as Selected Target (circle symbol).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1130.62,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "step",
+      "text": "STEP SELECTED | TMS RIGHT short ... STEP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1159.14,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "note-info",
+      "text": "Cycles Selected Target symbol through list in add order.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1195.8,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "step",
+      "text": "SLEW TO SELECTED | TMS FWD long (in Slave) ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1224.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "step",
+      "text": "DELETE TARGET | TMS AFT short (in Slave) ... DELETE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1265.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "note-info",
+      "text": "Deletes Primary Target (under crosshairs) from list.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1301.73,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "MULTI-TARGET TRACK (A-G)",
+      "kind": "note-optional",
+      "text": "Disabling MT (OSB 18) clears all targets from list.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1330.25,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "",
+      "kind": "section-header",
+      "text": "A-A TARGET TRACKING",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1385.92,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "A-A TARGET TRACKING",
+      "kind": "note-info",
+      "text": "Passive detection and tracking. No CMBT laser, no LST, no IR pointer in A-A.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1427.19,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "A-A TARGET TRACKING",
+      "kind": "step",
+      "text": "TGP MODE MENU | OSB 1 ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1481.51,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "A-A TARGET TRACKING",
+      "kind": "note-info",
+      "text": "TGP auto-slaves to FCR cursor or bugged TOI.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1518.18,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "A-A TARGET TRACKING",
+      "kind": "step",
+      "text": "DMS AFT | set TGP as SOI ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1546.7,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "A-A TARGET TRACKING",
+      "kind": "step",
+      "text": "CURSOR/ENABLE | slew to target aircraft ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1587.44,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "A-A TARGET TRACKING",
+      "kind": "note-info",
+      "text": "If no FCR TOI, TGP follows FCR acquisition cursor + antenna elevation.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1624.1,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "A-A TARGET TRACKING",
+      "kind": "note-info",
+      "text": "If FCR TOI bugged, TGP slaves to 3D position of bugged target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1678.42,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "A-A TARGET TRACKING",
+      "kind": "step",
+      "text": "POINT TRACK | TMS FWD short ... TRACK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1706.94,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "A-A TARGET TRACKING",
+      "kind": "note-check",
+      "text": "TGP tracks aircraft independently of FCR",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1743.61,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "A-A TARGET TRACKING",
+      "kind": "note-info",
+      "text": "HUD: solid TD box = FCR TOI, dashed TD box = TGP tracked.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1772.13,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "A-A TARGET TRACKING",
+      "kind": "note-optional",
+      "text": "TMS AFT short to return TGP to Slave mode.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1800.64,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "",
+      "kind": "section-header",
+      "text": "AIM-9 SLAVE TO TGP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1856.32,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "AIM-9 SLAVE TO TGP",
+      "kind": "step",
+      "text": "AIM-9 selected | SMS SLAVE mode (OSB 19) ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1897.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "AIM-9 SLAVE TO TGP",
+      "kind": "step",
+      "text": "TGP in A-A mode + Point Track ... CONFIRM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1938.33,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "AIM-9 SLAVE TO TGP",
+      "kind": "step",
+      "text": "TGP set as SOI | DMS AFT ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "AIM-9 SLAVE TO TGP",
+      "kind": "note-check",
+      "text": "AIM-9 seeker slaved to TGP line-of-sight",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        106.45,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "AIM-9 SLAVE TO TGP",
+      "kind": "note-info",
+      "text": "Toggle SOI (FCR/TGP) to slave AIM-9 to different targets.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        134.97,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "AIM-9 SLAVE TO TGP",
+      "kind": "note-info",
+      "text": "DLZ remains referenced to FCR TOI regardless of AIM-9 slave source.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        163.49,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "",
+      "kind": "section-header",
+      "text": "LASER RANGING (A-A)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        244.97,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "LASER RANGING (A-A)",
+      "kind": "step",
+      "text": "LASER ARM switch | TRNG mode only in A-A ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        286.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "LASER RANGING (A-A)",
+      "kind": "step",
+      "text": "TRIGGER 1st detent | hold for range ... FIRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        326.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "LASER RANGING (A-A)",
+      "kind": "note-info",
+      "text": "HUD range: L003.6 (nm) if ≥1nm, L 045 (hundreds ft) if <1nm.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        363.65,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "LASER RANGING (A-A)",
+      "kind": "note-caution",
+      "text": "Laser may alert target's laser warning sensors.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        392.16,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "",
+      "kind": "section-header",
+      "text": "IR POINTER",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        450.56,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "IR POINTER",
+      "kind": "step",
+      "text": "IR PTR ENABLE | OSB 2 or TMS RIGHT x2 ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        491.83,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "IR POINTER",
+      "kind": "note-info",
+      "text": "P indicator in HUD when enabled. Flashes when firing.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        528.5,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "IR POINTER",
+      "kind": "step",
+      "text": "TRIGGER 1st detent | hold to fire IR pointer ... FIRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        557.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "IR POINTER",
+      "kind": "note-info",
+      "text": "Near-IR beam visible through NVGs. Marks target for ground troops.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        593.68,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "IR POINTER",
+      "kind": "note-caution",
+      "text": "Laser designator disabled while IR pointer is active.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        648,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        679.23,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "LST requires: A-G mode, MT off. LST FOV = 3° (83% of FLIR WIDE). Laser designator disabled during LST.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        723.22,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "TISL symbol: Solid box = tracking. X overlay = off-screen. Dashed box = lost (reacquiring 10s).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        780.26,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Laser codes: PRF 1111-1788 or PIM 2111-2888. TGP CODE for self-lase, LST CODE for offboard.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        837.29,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "MT A-G: Up to 10 ground targets. TMS FWD adds, TMS RIGHT steps, TMS FWD long slews, TMS AFT deletes.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        894.33,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "MT A-A: OSB 18 enables. Up to 50 auto-detected by FLIR IR signatures. Top 10 priority shown. Range from relative motion — maneuver to improve accuracy.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        951.36,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "A-A restrictions: No CMBT laser, no LST, no IR pointer. Laser limited to TRNG mode.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1034.2,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Independent tracking: FCR and TGP can track two separate aircraft simultaneously in A-A modes.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1091.24,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "SA Indicator: Shows turret position relative to fuselage. Top=nose, bottom=tail, centre=straight down.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1148.27,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "North Pointing Cue: Shows sensor orientation relative to cardinal directions. Flattens near horizon.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1205.31,
+        679,
+        51.6
+      ]
+    }
+  ]
+}

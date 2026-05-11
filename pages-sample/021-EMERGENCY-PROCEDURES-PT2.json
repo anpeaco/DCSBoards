@@ -1,0 +1,460 @@
+{
+  "schema_version": "0.1",
+  "page_index": 21,
+  "title": "EMERGENCY PROCEDURES, Pt.2",
+  "image": "021-EMERGENCY-PROCEDURES-PT2.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "FLCS FAULT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "FLCS FAULT",
+      "kind": "note-info",
+      "text": "FLCS fault light indicates flight control computer issue.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "FLCS FAULT",
+      "kind": "step",
+      "text": "FLCS warning light ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        139.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "FLCS FAULT",
+      "kind": "note-info",
+      "text": "May be transient or persistent",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        176.24,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "FLCS FAULT",
+      "kind": "step",
+      "text": "STORES CONFIG | verify ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        204.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "FLCS FAULT",
+      "kind": "note-info",
+      "text": "Incorrect stores config can cause FLCS warnings",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        241.43,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "FLCS FAULT",
+      "kind": "step",
+      "text": "FLCS RESET | override switch ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        269.94,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "FLCS FAULT",
+      "kind": "note-info",
+      "text": "Located on left aux console. Momentary reset.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        306.61,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "FLCS FAULT",
+      "kind": "note-optional",
+      "text": "If fault persists after reset: reduce airspeed, land as soon as practical.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        335.13,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "FLCS FAULT",
+      "kind": "note-caution",
+      "text": "FLCS degradation may result in reduced G limits and pitch authority.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        389.45,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "",
+      "kind": "section-header",
+      "text": "LANDING GEAR — EMERGENCY EXTEND",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        473.64,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "note-info",
+      "text": "Use when normal gear handle fails to lower gear.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        514.92,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "step",
+      "text": "LANDING GEAR | normal handle ... DOWN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        543.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "note-optional",
+      "text": "If gear does not indicate down and locked:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        584.17,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "step",
+      "text": "ALT GEAR handle | pull ... PULL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        612.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "note-info",
+      "text": "Emergency gear extension handle on left console floor area",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        649.36,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "note-info",
+      "text": "Releases gear doors and gear free-falls to down position",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        677.88,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "note-check",
+      "text": "Gear locks mechanically. Three green lights should illuminate.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        706.39,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "note-caution",
+      "text": "Emergency gear extend is one-way. Gear cannot be retracted after emergency extend.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        734.91,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "LANDING GEAR — EMERGENCY EXTEND",
+      "kind": "note-caution",
+      "text": "If gear still not down: consider belly landing or ejection.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        791.95,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "",
+      "kind": "section-header",
+      "text": "EJECTION",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        850.34,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "EJECTION",
+      "kind": "note-caution",
+      "text": "Eject when aircraft is uncontrollable or crash is imminent.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        891.61,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "EJECTION",
+      "kind": "note-caution",
+      "text": "Minimum: 0 kts/0 ft (ACES II 0/0 seat). Upright, wings level preferred.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        922.85,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "EJECTION",
+      "kind": "step",
+      "text": "EJECTION SEAT | verify ARMED ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        979.88,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "EJECTION",
+      "kind": "step",
+      "text": "EJECT | pull handle between legs ... PULL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1020.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "EJECTION",
+      "kind": "note-info",
+      "text": "Canopy jettisons, seat fires. Parachute deploys automatically.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1057.29,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "EJECTION",
+      "kind": "note-caution",
+      "text": "Decision to eject: make it early. Waiting too long is the primary cause of ejection fatalities.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1085.81,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1142.84,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Engine restart priority: JFS start preferred (lower speed required).Windmill start needs 400+ kts. If altitude/speed insufficient, eject.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1186.83,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "EPU duration: ~10 minutes on full hydrazine charge. Plan accordingly.Land immediately when EPU activates. Declare emergency.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1243.86,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "EmergencyActionEngine flameout &gt;15k ftAirstart (JFS or windmill)Engine flameout &lt;10k ftPrepare ejection, attempt one restartDual hyd failureEjectFire/smoke in cockpitEjectFLCS faultReset, reduce speed, landGear won't extendALT GEAR handle",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1334.85,
+        668.14,
+        286.54
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "NOTES",
+      "kind": "note-caution",
+      "text": "Declare emergency on guard (243.0) for any of the above. Squawk 7700.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1634.97,
+        679,
+        57.04
+      ]
+    }
+  ]
+}

@@ -1,0 +1,782 @@
+{
+  "schema_version": "0.1",
+  "page_index": 22,
+  "title": "BVR ENGAGEMENT FLOW",
+  "image": "022-BVR-ENGAGEMENT-FLOW.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "DETECTION & SORT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "DETECTION & SORT",
+      "kind": "step",
+      "text": "FCR | CRM mode, 40nm+ range ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "DETECTION & SORT",
+      "kind": "note-info",
+      "text": "4-bar scan for altitude coverage. 60° azimuth for wide search.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        147.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "DETECTION & SORT",
+      "kind": "step",
+      "text": "TARGETS | identify contacts on FCR ... ASSESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        176.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "DETECTION & SORT",
+      "kind": "note-info",
+      "text": "Correlate with datalink. Known friendlies = blue. Unknown = yellow.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        212.91,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "DETECTION & SORT",
+      "kind": "step",
+      "text": "IFF | interrogate unknowns via IFF ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        241.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "DETECTION & SORT",
+      "kind": "note-info",
+      "text": "IFF response or lack thereof. ROE dependent.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        278.09,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "DETECTION & SORT",
+      "kind": "step",
+      "text": "SORT | assign targets within flight ... COORDINATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        306.61,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "DETECTION & SORT",
+      "kind": "note-info",
+      "text": "Lead takes near/left target. Wing takes far/right. As briefed.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        343.28,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "",
+      "kind": "section-header",
+      "text": "TARGET & SHOOT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        398.95,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "TARGET & SHOOT",
+      "kind": "step",
+      "text": "TARGET | TMS UP to bug priority target ... BUG",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        440.23,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "TARGET & SHOOT",
+      "kind": "note-check",
+      "text": "DLZ appears on HUD. ASC shows optimal heading.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        476.89,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "TARGET & SHOOT",
+      "kind": "step",
+      "text": "RADAR | TWS for multi-target, STT for single ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        505.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "TARGET & SHOOT",
+      "kind": "note-info",
+      "text": "TWS allows re-bugging quickly. STT gives best track quality.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        542.08,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "TARGET & SHOOT",
+      "kind": "step",
+      "text": "DLZ | verify target inside Rmax ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        570.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "TARGET & SHOOT",
+      "kind": "note-info",
+      "text": "Rmax 1 = maximum aerodynamic range (low Pk at max range)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        607.26,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "TARGET & SHOOT",
+      "kind": "note-info",
+      "text": "Rmax 2 = maximum effective range (reasonable Pk)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        635.78,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "TARGET & SHOOT",
+      "kind": "note-info",
+      "text": "Rmin = minimum range (missile needs time to arm/guide)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        664.3,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "TARGET & SHOOT",
+      "kind": "step",
+      "text": "AIM-120 | verify selected on SMS ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        692.81,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "TARGET & SHOOT",
+      "kind": "step",
+      "text": "WEAPON RELEASE | inside Rmax ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        733.55,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "TARGET & SHOOT",
+      "kind": "note-radio",
+      "text": "\"Fox Three\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        774.29,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "TARGET & SHOOT",
+      "kind": "note-info",
+      "text": "AIM-120 guides on datalink initially, then goes active (pitbull)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        805.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "",
+      "kind": "section-header",
+      "text": "CRANK",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        861.21,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "CRANK",
+      "kind": "note-info",
+      "text": "After launch, turn 40-60° off target bearing to open lateral distance while maintaining radar contact.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        902.48,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "CRANK",
+      "kind": "step",
+      "text": "TURN | 40-60° offset from target heading ... CRANK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        956.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "CRANK",
+      "kind": "note-info",
+      "text": "Keeps target within radar gimbal limits (60° off nose)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        993.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "CRANK",
+      "kind": "note-info",
+      "text": "Builds lateral separation for missile defense",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1021.98,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "CRANK",
+      "kind": "step",
+      "text": "RADAR | maintain bug on target ... TRACK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1050.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "CRANK",
+      "kind": "note-info",
+      "text": "Missile receives mid-course updates while target is in gimbal",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1087.16,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "CRANK",
+      "kind": "step",
+      "text": "DLZ | monitor for Rmin or missile active ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1115.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "CRANK",
+      "kind": "note-check",
+      "text": "Wait for \"ACTIVE\" on HUD = missile has gone active (pitbull)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1152.35,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "CRANK",
+      "kind": "note-radio",
+      "text": "\"Pitbull\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1180.87,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "CRANK",
+      "kind": "note-info",
+      "text": "Once missile is active, you can break lock (cold turn, notch, etc.)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1212.1,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "",
+      "kind": "section-header",
+      "text": "NOTCH",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1267.78,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "NOTCH",
+      "kind": "note-info",
+      "text": "Place threat on your 3 or 9 o'clock to put yourself in the Doppler notch.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1309.05,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "NOTCH",
+      "kind": "step",
+      "text": "TURN | place threat at beam (90° to threat) ... BEAM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1363.37,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "NOTCH",
+      "kind": "note-info",
+      "text": "Radar-guided missiles lose track in beam due to ground clutter",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1400.03,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "NOTCH",
+      "kind": "step",
+      "text": "CHAFF | CMS dispense ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1428.55,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "NOTCH",
+      "kind": "note-info",
+      "text": "Chaff blooms in beam aspect maximise Doppler confusion",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1465.22,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "NOTCH",
+      "kind": "step",
+      "text": "ALTITUDE | descend toward terrain if able ... LOWER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1493.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "NOTCH",
+      "kind": "note-info",
+      "text": "Ground clutter helps mask your return",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1530.4,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "NOTCH",
+      "kind": "note-caution",
+      "text": "Maintain beam until missile passes or times out. Then reassess.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1558.92,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "",
+      "kind": "section-header",
+      "text": "RECOMMIT / DISENGAGE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1617.31,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "RECOMMIT / DISENGAGE",
+      "kind": "step",
+      "text": "THREAT | assess remaining contacts ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1658.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "RECOMMIT / DISENGAGE",
+      "kind": "note-info",
+      "text": "How many targets remain? Fuel state? Missile inventory?",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1695.25,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "RECOMMIT / DISENGAGE",
+      "kind": "step",
+      "text": "DECISION ... RECOMMIT or DISENGAGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1723.77,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "RECOMMIT / DISENGAGE",
+      "kind": "note-info",
+      "text": "Recommit: Reset to BVR flow, re-acquire targets, re-engage",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1760.43,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "RECOMMIT / DISENGAGE",
+      "kind": "note-info",
+      "text": "Disengage: Cold turn (180° away), max AB, chaff/flare, descend",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1788.95,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "RECOMMIT / DISENGAGE",
+      "kind": "note-info",
+      "text": "\"Skate\" = cold turn after missile goes active. Preserves energy while maintaining shot.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1817.47,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1871.79,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "BVR Timeline Summary:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1915.78,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "1. Detect → 2. Sort → 3. Target → 4. Shoot → 5. Crank → 6. Pitbull → 7. Recommit/Disengage",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1947.01,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "AIM-120C ranges (approximate, altitude-dependent):",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        2004.05,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "ConditionRmax 2 (nm)Rmin (nm)Co-alt, head-on, 30k ft~30~3Co-alt, head-on, 15k ft~20~3Low alt, head-on~12-15~2Tail chase~8-12~3",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        69.79,
+        668.14,
+        205.06
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Key principle: First to detect, first to shoot, first to crank. BVR is won by the pilot who shoots first and defends first. Do not fly straight at the target after launching.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        288.43,
+        679,
+        77.41
+      ]
+    }
+  ]
+}

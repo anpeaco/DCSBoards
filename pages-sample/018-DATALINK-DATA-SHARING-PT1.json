@@ -1,0 +1,572 @@
+{
+  "schema_version": "0.1",
+  "page_index": 18,
+  "title": "DATALINK & DATA SHARING, Pt.1",
+  "image": "018-DATALINK-DATA-SHARING-PT1.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "TNDL / LINK 16 SETUP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "TNDL / LINK 16 SETUP",
+      "kind": "step",
+      "text": "MIDS LVT switch | right aux console ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "TNDL / LINK 16 SETUP",
+      "kind": "step",
+      "text": "ICP LIST > ENTR | DLNK page on DED ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "TNDL / LINK 16 SETUP",
+      "kind": "step",
+      "text": "XMT | select transmit source ... TNDL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "TNDL / LINK 16 SETUP",
+      "kind": "note-info",
+      "text": "TNDL = Tactical Network Datalink (formerly \"L16\" in earlier DCS versions)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        229.2,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "TNDL / LINK 16 SETUP",
+      "kind": "step",
+      "text": "OWN callsign | verify flight member number ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        283.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "TNDL / LINK 16 SETUP",
+      "kind": "note-info",
+      "text": "STN and NET assigned by mission data/DTC",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        320.19,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "",
+      "kind": "section-header",
+      "text": "DLNK MFD PAGE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        375.87,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "DLNK MFD PAGE",
+      "kind": "step",
+      "text": "MFD | cycle to DLNK page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        417.14,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "DLNK MFD PAGE",
+      "kind": "note-info",
+      "text": "Shows flight members, donor assignments, team membership",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        453.81,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "DLNK MFD PAGE",
+      "kind": "step",
+      "text": "TEAM MEMBER | osb to add/remove ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        482.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "DLNK MFD PAGE",
+      "kind": "note-info",
+      "text": "Team members share tracks and appear on HSD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        518.99,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "DLNK MFD PAGE",
+      "kind": "step",
+      "text": "DONOR | osb to select donor ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        547.51,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "DLNK MFD PAGE",
+      "kind": "note-info",
+      "text": "Donor's sensor data displayed on your FCR page",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        584.17,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "DLNK MFD PAGE",
+      "kind": "note-info",
+      "text": "\"Silent\" radar: see donor's picture without emitting",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        612.69,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "",
+      "kind": "section-header",
+      "text": "HSD DATALINK",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        668.37,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "HSD DATALINK",
+      "kind": "step",
+      "text": "HSD page | on MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        709.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "HSD DATALINK",
+      "kind": "step",
+      "text": "DLNK osb | on HSD ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        750.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "HSD DATALINK",
+      "kind": "note-info",
+      "text": "Blue circles = friendly. Red diamonds = hostile.Yellow squares = unknown. Green = own flight.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        787.05,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "HSD DATALINK",
+      "kind": "step",
+      "text": "XMT osb | on HSD ... TNDL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        841.37,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "HSD DATALINK",
+      "kind": "note-info",
+      "text": "HSD XMT must be set to TNDL to send/receive shared data",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        878.03,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "HSD DATALINK",
+      "kind": "note-check",
+      "text": "Verify TNDL is active on HSD before attempting any data sharing below.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        906.55,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "",
+      "kind": "section-header",
+      "text": "SEND MARKPOINT / STEERPOINT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        988.03,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "Transmit a markpoint or steerpoint to flight members on same TNDL network.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1029.3,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "step",
+      "text": "MARKPOINT | create via TGP (TMS UP long) ... CREATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1083.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "Markpoints stored in STPT 26-30",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1120.29,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "step",
+      "text": "HSD XMT osb | verify ... TNDL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1148.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "step",
+      "text": "HSD | DMS DOWN ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1189.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "step",
+      "text": "STEERPOINT | DED Increment/Decrement to select STPT ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1230.28,
+        665.42,
+        58.39
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "Select the markpoint/steerpoint number to transmit (e.g., STPT 26)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1288.68,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "step",
+      "text": "IFF IN | Comm UHF/VHF switch INBOARD, hold >0.5s ... TRANSMIT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1317.2,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "SEND MARKPOINT / STEERPOINT",
+      "kind": "note-check",
+      "text": "Data transmitted to flight members on same TNDL network",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1381.02,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "",
+      "kind": "section-header",
+      "text": "RECEIVE MARKPOINT / STEERPOINT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1436.7,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "RECEIVE MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "When a flight member shares a markpoint/steerpoint:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1477.97,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "RECEIVE MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "1. \"Data\" audio cue heard",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1506.49,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "RECEIVE MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "2. HUD shows MKPTXXXX DATA with reference number",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1535.01,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "RECEIVE MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "3. White cross appears on HSD at received position",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1563.52,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "RECEIVE MARKPOINT / STEERPOINT",
+      "kind": "note-info",
+      "text": "4. Coordinates stored in STPT 500+ (ICP STPT page to view)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1592.04,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "RECEIVE MARKPOINT / STEERPOINT",
+      "kind": "step",
+      "text": "WARNING RESET | ICP switch DOWN ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1620.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "RECEIVE MARKPOINT / STEERPOINT",
+      "kind": "note-check",
+      "text": "Clears MKPTXXXX DATA indication from HUD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1657.23,
+        679,
+        28.52
+      ]
+    }
+  ]
+}

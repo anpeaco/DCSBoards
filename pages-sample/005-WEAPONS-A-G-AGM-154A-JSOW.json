@@ -1,0 +1,810 @@
+{
+  "schema_version": "0.1",
+  "page_index": 5,
+  "title": "WEAPONS A-G, AGM-154A JSOW",
+  "image": "005-WEAPONS-A-G-AGM-154A-JSOW.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "AGM-154A - PRE-PLANNED MODE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-info",
+      "text": "GPS/INS guided glide weapon. ~70 nm standoff. BLU-97/B submunitions.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        165.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "RDR ALT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        206.12,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "RIGHT HDPT switch | w/TGP only ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        246.86,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "LASER switch | w/TGP only ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        287.6,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        328.34,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        369.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        409.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "A154A osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        450.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "POWER osb | wait for RDY ... PWR ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        491.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "MSL STATION | NWS / MSL STEP short ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        532.04,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "TGT MED osb | currently fixed ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        572.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "RIP osb | Single / Pairs Long / Pairs Lat ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        613.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "IMPACT SPACING (ft.) ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        654.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "CNTL page | ATK AZ, EGEA, ROB as required ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        695,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "MODE osb ... PRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        735.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "branch-header",
+      "text": "VIA TGP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        779.19,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "TGP page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        817.47,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "CNI DED page | Dauber RTN ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        858.21,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        898.95,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-info",
+      "text": "Navigate towards STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        935.62,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "TGP | DMS DOWN to TGP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        964.14,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | TMS RIGHT or TMS UP on STPT ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1004.88,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "TGP | Cursor/Enable to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1072.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "SENSOR MODE | TV/BHOT/WHOT osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1113.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "FOV osb | NARO/WIDE ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1154.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "ZOOM LEVEL | MAN RNG knob ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1195,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "AREA / POINT TRACK on target | TMS RIGHT or TMS UP ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1235.74,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1303.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-check",
+      "text": "JIZ (JSOW In Zone) indicator shows when within launch envelope",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1340.3,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1394.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-radio",
+      "text": "\"Rifle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1435.36,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-info",
+      "text": "Fire-and-forget after release",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1466.6,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "branch-header",
+      "text": "VIA STEERPOINT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1501.91,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "CNI DED page | Dauber RTN ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1540.18,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1580.92,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-info",
+      "text": "Navigate towards STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1617.59,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1646.11,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-check",
+      "text": "JIZ indicator shows when within launch envelope",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1682.77,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1711.29,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-radio",
+      "text": "\"Rifle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1752.03,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "branch-header",
+      "text": "VIA A-G RADAR",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1790.06,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "FCR page | on MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1828.33,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "GM / GMT osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1869.07,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "FCR page | DMS DOWN to FCR ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1909.81,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-info",
+      "text": "Crosshair is on SPI or Snowplow",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1946.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "CROSSHAIR | Cursor/Enable to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1975,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "DESIGNATE TARGET (FTT) | TMS UP ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-check",
+      "text": "Radar freeze-tracks target. SPI set to radar designation.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        106.45,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        134.97,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-check",
+      "text": "JIZ indicator shows within launch envelope",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        171.64,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        200.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "AGM-154A - PRE-PLANNED MODE",
+      "kind": "note-radio",
+      "text": "\"Rifle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        240.9,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        272.13,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Ripple (Multiple Targets):1. Designate first target to markpoint (STPT 26)2. Launch first JSOW (hold WPN REL)3. Cycle to STPT 27 (ICP DCS UP)4. Designate second target, launch second JSOWMarkpoints 26-30 available for sequential targeting.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        316.12,
+        679,
+        154.81
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Launch Envelope: Higher altitude = greater standoff (~70 nm at altitude).Low altitude significantly reduces glide range.JIZ indicator is primary go/no-go for launch.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        476.36,
+        679,
+        103.21
+      ]
+    }
+  ]
+}

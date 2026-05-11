@@ -1,0 +1,1328 @@
+{
+  "schema_version": "0.1",
+  "page_index": 12,
+  "title": "COLD START, Pt.1",
+  "image": "012-COLD-START-PT1.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "COLD START PROCEDURE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "POWER & FLCS TEST",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        117.85,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "MAIN PWR switch ... BATT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        156.13,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "FLCS RLY light is ON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        192.79,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "FLCS PWR TEST | hold switch to TEST ... TEST",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        221.31,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "FLCS PWR x4 lights ON, FLCS RLY OFF, TO FLCS ON, FLCS PMG ON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        257.98,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "MAIN PWR switch ... MAIN PWR",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        312.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "EPU GEN and EPU PMG lights are OFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        348.96,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "PARKING BRAKE ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        377.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CANOPY | close and lock ... CLOSED",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        418.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "ENGINE START",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        461.68,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "ENG FEED switch ... NORM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        499.96,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "AIR SOURCE switch ... NORM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        540.7,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "JFS switch ... START 2",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        581.44,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "JFS RUN light ON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        618.1,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "FLCS RLY OFF, TO FLCS ON, FLCS PMG ON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        646.62,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-info",
+      "text": "Wait for RPM 20-25%",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        675.14,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "THROTTLE | at 20-25% RPM ... IDLE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        703.66,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "SEC light OFF, ENGINE light OFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        740.32,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "STBY GEN light OFF, MAIN GEN light OFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        768.84,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "JFS RUN light OFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        797.36,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "HYD/OIL PRESS warning light OFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        825.88,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "Fuel Flow: 700-1700 pph",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        854.39,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "Oil Pressure: >15 psi",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        882.91,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "Nozzle Position: >94%",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        911.43,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "Engine RPM: 62-80%",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        939.95,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "FTIT: <650°C",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        968.47,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "Hydraulic Pressure A & B: 2850-3250 psi",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        996.98,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-caution",
+      "text": "If FTIT exceeds 650°C or RPM does not stabilise: throttle to OFF, wait 30s, retry",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1025.5,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "AVIONICS POWER",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1089.33,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "MMC switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1127.61,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "ST STA switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1168.35,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "MFD switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1209.09,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "UFC switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1249.83,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "GPS switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1290.57,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "LEFT HDPT switch | HTS pod ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1331.31,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "RIGHT HDPT switch | TGP pod ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1372.05,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1412.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "RDR ALT switch ... STBY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1453.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "COMMS & IFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1496.98,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "COMM 1 & 2 | PWR/VOL knob ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1535.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "COMM 1 & 2 MODE ... SQL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1576,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "UHF BACKUP switch ... BOTH",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1616.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "IFF MASTER switch ... NORM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1657.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "IFF MODE 3 | ICP LIST > 3 ... SET SQUAWK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1698.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "INS ALIGNMENT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1741.68,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "HUD SYMBOLOGY | scroll up ... FULL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1779.96,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "C&I knob ... UFC",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1820.7,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "EGI knob ... STOR HDG",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1861.44,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-info",
+      "text": "Wait for \"10 RDY\" on DED (~90 seconds)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1898.1,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-caution",
+      "text": "Do NOT move aircraft during alignment. Do not move control surfaces.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1926.62,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "EGI knob ... NAV",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "INS aligned. Steerpoints available.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        106.45,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "DATALINK & SENSORS",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        141.76,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "MIDS LVT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        180.04,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "XMT | on DED DLNK page ... L16",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        220.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "SAI | uncage ... UNCAGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        261.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "STORES CONFIG | on SMS ... CAT I / CAT III",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        302.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "THREAT WARNING & COUNTERMEASURES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        345.72,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "THREAT WARNING AUX | SYS PWR ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        384,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CMDS RWR ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        424.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CMDS JMR ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        465.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CMDS CH ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        506.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CMDS FL ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        546.96,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CMDS MODE | MAN/SEMI/AUTO ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        587.7,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CMDS PRGM | 1/2/3/4 ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        628.44,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-check",
+      "text": "RWR audio active. Check for self-test tones.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        665.1,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "TAXI",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        700.41,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "LANDING LIGHTS ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        738.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "POSITION LIGHTS ... FLASH",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        779.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "WING/TAIL NAV lights ... BRIGHT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        820.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "FUSELAGE lights ... BRIGHT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        860.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "PARKING BRAKE ... ANTI-SKID",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        901.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 73,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "NWS | enable ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        942.39,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 74,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-info",
+      "text": "Taxi speed <25 kts. Turns <10 kts.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        979.05,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 75,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "BEFORE TAKEOFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1014.36,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 76,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "CANOPY ... CLOSED & LOCKED",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1052.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 77,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "TRIM | check controls full travel ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1093.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 78,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "EJECT SEAT | safety pin removed ... ARMED",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1134.12,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 79,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "ALTIMETER | set barometric pressure ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1174.86,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 80,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "BINGO FUEL | set minimum recovery fuel ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1215.6,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 81,
+      "group": "COLD START PROCEDURE",
+      "kind": "branch-header",
+      "text": "TAKEOFF",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1259.06,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 82,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "LANDING LIGHTS ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1297.34,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 83,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "PROBE HEAT ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1338.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 84,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "NWS ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1378.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 85,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "SPEED BRAKES ... CLOSED",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1419.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 86,
+      "group": "COLD START PROCEDURE",
+      "kind": "step",
+      "text": "RDR ALT ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1460.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 87,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-info",
+      "text": "Release brakes, MIL or AB power",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1496.96,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 88,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-info",
+      "text": "NWS off at 70 kts",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1525.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 89,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-info",
+      "text": "Rotate 8-12° at 10-15 kts below takeoff speed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1554,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 90,
+      "group": "COLD START PROCEDURE",
+      "kind": "note-info",
+      "text": "Gear up before 300 kts",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1582.52,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 91,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1611.03,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 92,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "GW (lbs)TO Speed (kias)20,00012824,00014228,00015632,00016836,00017840,00018844,000198",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        1668.6,
+        668.14,
+        327.28
+      ]
+    },
+    {
+      "idx": 93,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "QRT Start: Skip FLCS test. MAIN PWR straight to MAIN PWR. JFS START 2 immediately.Avionics on while engine spools. Same sequence, fewer checks.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        1358,
+        69.79,
+        679,
+        77.41
+      ]
+    }
+  ]
+}

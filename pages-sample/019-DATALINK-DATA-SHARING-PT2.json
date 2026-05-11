@@ -1,0 +1,698 @@
+{
+  "schema_version": "0.1",
+  "page_index": 19,
+  "title": "DATALINK & DATA SHARING, Pt.2",
+  "image": "019-DATALINK-DATA-SHARING-PT2.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "note-info",
+      "text": "Transmit current TGP/sensor designation to flight as a shared SPI.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        139.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "step",
+      "text": "HSD XMT osb | verify ... TNDL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        180.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "step",
+      "text": "TGP | DMS DOWN to TGP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        221.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "step",
+      "text": "TARGET | Cursor/Enable to slew, TMS UP to designate ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        261.8,
+        665.42,
+        58.39
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "note-check",
+      "text": "TGP tracking target. SPI set.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        320.19,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "step",
+      "text": "IFF IN | Comm switch INBOARD, hold >0.5s ... TRANSMIT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        348.71,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "SEND SPI (SENSOR POINT OF INTEREST)",
+      "kind": "note-check",
+      "text": "SPI coordinates transmitted to TNDL network",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        385.37,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "",
+      "kind": "section-header",
+      "text": "RECEIVE SPI",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        441.05,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "RECEIVE SPI",
+      "kind": "note-info",
+      "text": "When a flight member shares an SPI:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        482.32,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "RECEIVE SPI",
+      "kind": "note-info",
+      "text": "1. \"Data\" audio cue heard",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        510.84,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "RECEIVE SPI",
+      "kind": "note-info",
+      "text": "2. HUD shows MKPTXXXX DATA with reference number",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        539.36,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "RECEIVE SPI",
+      "kind": "note-info",
+      "text": "3. Dashed blue line on HSD between sender and target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        567.88,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "RECEIVE SPI",
+      "kind": "note-info",
+      "text": "4. Coordinates stored in STPT 501+ (ICP STPT page to view)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        596.4,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "RECEIVE SPI",
+      "kind": "step",
+      "text": "WARNING RESET | ICP switch DOWN ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        624.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "RECEIVE SPI",
+      "kind": "note-check",
+      "text": "Clears MKPTXXXX DATA indication from HUD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        661.58,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "",
+      "kind": "section-header",
+      "text": "SEND HTS EMITTER (SEAD)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        717.26,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "note-info",
+      "text": "Transmit a designated radar emitter from HTS/HAD to flight.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        758.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        787.05,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "step",
+      "text": "HSD XMT osb | verify ... TNDL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        827.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "step",
+      "text": "HTS POD | power on ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        868.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "step",
+      "text": "HAD page | DMS DOWN to HAD ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        909.27,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "step",
+      "text": "EMITTER | Cursor/Enable to select, TMS UP ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        950.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "step",
+      "text": "IFF IN | Comm switch INBOARD, hold >0.5s ... TRANSMIT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        990.75,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "note-check",
+      "text": "Emitter data transmitted. Recipient sees yellow struck-through symbol on HSD.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1027.41,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "SEND HTS EMITTER (SEAD)",
+      "kind": "note-info",
+      "text": "Coordinates stored in recipient's STPT (e.g., STPT 107)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1081.73,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "",
+      "kind": "section-header",
+      "text": "HTS TDOA TRIANGULATION (SEAD)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1137.41,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-info",
+      "text": "TDOA = Time Difference of Arrival. Triangulates emitter position using multiple HTS pods.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1178.68,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-caution",
+      "text": "Requires: minimum 3 team members, all with HTS pods loaded.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1233,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "step",
+      "text": "TDOA TEAM SETUP | ICP LIST > ENTR > Dobber RIGHT x2 ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1264.23,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-check",
+      "text": "DED shows TDOA team member assignments",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1328.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "step",
+      "text": "TDOA ASSIGNMENT | Dobber UP/DOWN to select member, ICP 1-9 to toggle \"T\" ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1356.58,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-info",
+      "text": "\"T\" enabled = participating in TDOA team",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1420.4,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "step",
+      "text": "HAD page | DMS DOWN ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1448.92,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "step",
+      "text": "TM / AL osb | select team or all members ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1489.66,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-info",
+      "text": "TM = selected team members. AL = all. NO = disable.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1526.33,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "step",
+      "text": "EMITTER | Cursor/Enable + TMS UP ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1554.85,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "step",
+      "text": "TDOA COMMAND | TMS LEFT, hold >1s ... ACTIVATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1595.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-check",
+      "text": "HUD shows \"TDOA\". You are TD-M (TDOA Master).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1632.25,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-check",
+      "text": "Slave members receive TDOA designation and auto-track emitter.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1660.77,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-check",
+      "text": "White segmented lines appear between team members and target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1715.09,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "note-info",
+      "text": "PQ (Position Quality) reaches \"1\" faster with more contributors.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1769.41,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "HTS TDOA TRIANGULATION (SEAD)",
+      "kind": "step",
+      "text": "EXIT TDOA | TMS DOWN ... CANCEL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1797.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1838.67,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Transmit key: Always IFF IN (Comm switch INBOARD, hold >0.5s) to send any data.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1882.65,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Received data steerpoints:STPT 500+ = received markpoints/steerpointsSTPT 501+ = received SPI positionsSTPT 100+ = received HTS emitter positions",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        103.21
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "STPT 26-30 are reserved for ownship markpoints (TGP TMS UP long).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        178.43,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Common pattern: Lead designates target with TGP → sends SPI via IFF IN →wingman receives at STPT 501 → wingman navigates to shared coordinates → employs weapon.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        235.46,
+        679,
+        103.21
+      ]
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "schema_version": "0.1",
+  "page_index": 8,
+  "title": "WEAPONS A-G, ROCKETS, GUN & JETTISON",
+  "image": "008-WEAPONS-A-G-ROCKETS-GUN-JETTISON.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "2.75\" ROCKETS - CCIP MODE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "RDR ALT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "RIGHT HDPT switch | opt. TGP ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "LASER switch | opt. TGP ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        233.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        274.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        314.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        355.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "ROCKET osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        396.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "MODE osb | CCIP ... CCIP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        436.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "SGL / PAIR osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        477.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        514.38,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "DIVE | 20-30 deg ... ESTABLISH",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        542.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "CCIP PIPPER | on target ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        583.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "LASER | 1st trigger detent, opt. TGP ... RANGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        624.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "note-check",
+      "text": "In-Range Cue bar over pipper",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        661.05,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "step",
+      "text": "WEAPON RELEASE | hold ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        689.57,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "2.75\" ROCKETS - CCIP MODE",
+      "kind": "note-radio",
+      "text": "\"Rockets\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        730.31,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "",
+      "kind": "section-header",
+      "text": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        788.7,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        829.97,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "RIGHT HDPT switch | opt. TGP ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        870.71,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "LASER switch | opt. TGP ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        911.45,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        952.19,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        992.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1033.67,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "GUN osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1074.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "MODE osb | STRF ... STRF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1115.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "RNG osb | rec. 2,500-7,000 ft. ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1155.89,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1192.56,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "DIVE | 20-30 deg ... ESTABLISH",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1221.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "GUN PIPPER | on target ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1261.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "LASER | 1st trigger detent, opt. TGP ... RANGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1302.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "note-check",
+      "text": "In-Range Cue on reticle",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1339.22,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "step",
+      "text": "TRIGGER | hold to fire ... FIRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1367.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "note-info",
+      "text": "Short bursts (1-2 sec). 512 rounds depletes in ~3-4 sec at 6,000 rpm.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1404.41,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "M61A1 VULCAN 20MM - A-G STRAFE",
+      "kind": "note-caution",
+      "text": "Do not fixate on target. Set minimum recovery altitude and honour it.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1458.73,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "",
+      "kind": "section-header",
+      "text": "SELECTIVE JETTISON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1542.92,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "SELECTIVE JETTISON",
+      "kind": "note-info",
+      "text": "Drop specific stores from selected stations.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1584.19,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "SELECTIVE JETTISON",
+      "kind": "step",
+      "text": "SMS page | S-J osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1612.71,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "SELECTIVE JETTISON",
+      "kind": "note-check",
+      "text": "Station diagram with loaded stores displayed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1649.38,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "SELECTIVE JETTISON",
+      "kind": "step",
+      "text": "STATION osb | highlight stations to jettison ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1677.89,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "SELECTIVE JETTISON",
+      "kind": "note-caution",
+      "text": "Verify correct stations selected before release",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1718.63,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "SELECTIVE JETTISON",
+      "kind": "step",
+      "text": "WEAPON RELEASE | jettison selected stores ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1749.87,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "SELECTIVE JETTISON",
+      "kind": "note-check",
+      "text": "Selected stores released",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1786.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "",
+      "kind": "section-header",
+      "text": "EMERGENCY JETTISON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1842.21,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "EMERGENCY JETTISON",
+      "kind": "note-caution",
+      "text": "Drops ALL external stores immediately. Use in emergency only.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1883.48,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "EMERGENCY JETTISON",
+      "kind": "step",
+      "text": "EMER STORES JETTISON | button on left console ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "EMERGENCY JETTISON",
+      "kind": "note-check",
+      "text": "All jettisonable stores released",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        133.61,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "EMERGENCY JETTISON",
+      "kind": "note-caution",
+      "text": "Does NOT jettison: AIM-9 rails, AIM-120 LAU-129, TGP, HTS, ECM pods",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        162.13,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        219.17,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Selective preferred for non-emergency. Jettison empty tanks or hung weapons.Emergency only for: engine failure, structural damage, emergency landing, combat emergency.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        263.15,
+        679,
+        103.21
+      ]
+    }
+  ]
+}

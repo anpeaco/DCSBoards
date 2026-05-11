@@ -1,0 +1,740 @@
+{
+  "schema_version": "0.1",
+  "page_index": 14,
+  "title": "AIR-TO-AIR REFUELING",
+  "image": "014-AIR-TO-AIR-REFUELING.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "PRE-CONTACT SETUP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "TANKER FREQ | set on COMM 1 or 2 ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "note-info",
+      "text": "Contact tanker on assigned frequency. Request join clearance.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        147.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "TACAN | set to tanker channel ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        176.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "note-info",
+      "text": "Tanker TACAN = assigned channel + 63, Y band",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        212.91,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "note-info",
+      "text": "Example: tanker ch 37 → set 100Y on your TACAN",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        241.43,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "ICP T-ILS | TACAN page on DED ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        269.94,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "TACAN CHANNEL | ICP keypad ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        310.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "TACAN BAND | cycle X/Y ... Y",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        351.42,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "TACAN MODE | A-A or T/R ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        392.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "note-check",
+      "text": "TACAN bearing and range to tanker on HSI/HSD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        428.83,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "AUTOPILOT | altitude hold ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        457.35,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "note-info",
+      "text": "Stabilise at tanker altitude and speed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        494.01,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "LIGHTS | exterior as briefed ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        522.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "note-info",
+      "text": "Typically: position STEADY, anti-collision as briefed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        559.2,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "SPEED BRAKES ... CLOSED",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        587.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "FCR | as required for situational awareness ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        628.46,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "PRE-CONTACT SETUP",
+      "kind": "step",
+      "text": "MASTER ARM switch ... SAFE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        669.2,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "",
+      "kind": "section-header",
+      "text": "CONTACT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        733.02,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "CONTACT",
+      "kind": "step",
+      "text": "A/R DOOR switch | left console ... OPEN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        774.29,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "CONTACT",
+      "kind": "note-check",
+      "text": "A/R READY light illuminates on glareshield",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        810.96,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "CONTACT",
+      "kind": "note-check",
+      "text": "RDY status appears on AR door indicator",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        839.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "CONTACT",
+      "kind": "step",
+      "text": "REJOIN | fly to pre-contact position ... STABILISE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        868,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "CONTACT",
+      "kind": "note-info",
+      "text": "Pre-contact: ~50 ft aft and below tanker boom receptacle",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        904.66,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "CONTACT",
+      "kind": "note-info",
+      "text": "Airspeed: match tanker (~310 kts typical)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        933.18,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "CONTACT",
+      "kind": "step",
+      "text": "CLOSURE | smooth, small inputs ... FORWARD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        961.7,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "CONTACT",
+      "kind": "note-info",
+      "text": "Director lights on tanker belly guide fore/aft/up/down",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        998.36,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "CONTACT",
+      "kind": "note-caution",
+      "text": "Avoid large throttle inputs. Use small, smooth corrections only.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1026.88,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "CONTACT",
+      "kind": "step",
+      "text": "BOOM CONTACT | tanker operator connects ... CONTACT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1058.12,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "CONTACT",
+      "kind": "note-check",
+      "text": "AR status shows CONTACT. Fuel flow begins.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1094.78,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "CONTACT",
+      "kind": "note-info",
+      "text": "Maintain position using director lights",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1123.3,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "CONTACT",
+      "kind": "step",
+      "text": "FUEL STATE | monitor fuel quantity ... MONITOR",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1151.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "CONTACT",
+      "kind": "note-info",
+      "text": "When required fuel reached or tanker calls \"disconnect\"",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1188.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "",
+      "kind": "section-header",
+      "text": "DISCONNECT & POST-AAR",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1244.16,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "DISCONNECT | tanker calls or you back out ... DISCONNECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1285.43,
+        665.42,
+        58.39
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "note-info",
+      "text": "Ease back gently. Boom disconnects automatically or on command.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1343.83,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "note-optional",
+      "text": "If boom does not disconnect: cycle A/R door switch CLOSE then OPEN",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1398.15,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "A/R DOOR switch ... CLOSE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1452.47,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "note-check",
+      "text": "A/R READY light extinguishes",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1489.13,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "FUEL QUANTITY | verify expected fuel state ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1517.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "FUEL BALANCE | check L/R wing symmetry ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1558.39,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "note-optional",
+      "text": "If asymmetric: fuel should balance automatically. Monitor.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1599.13,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "AUTOPILOT | disengage if set ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1627.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "RESUME NAV | rejoin formation or proceed to next waypoint ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1668.39,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "TACAN | reset to mission channel ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1736.29,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "COMM | return to mission frequency ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1777.03,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "DISCONNECT & POST-AAR",
+      "kind": "step",
+      "text": "MASTER ARM switch | re-arm if returning to combat area ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1817.77,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "TACAN Y-band: Tanker broadcasts on assigned channel. Fighter tunes to assigned + 63, Y band.Example: tanker ch 37 → fighter sets 100Y. Tanker ch 50 → fighter sets 113Y.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        113.77,
+        679,
+        103.21
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Director Lights: Forward/Aft arrows = close/open distance.Up/Down arrows = climb/descend. Centered = in position.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        222.41,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Boom limits: Stay within boom envelope. If you drift out, the boom auto-disconnects.Re-stabilise in pre-contact before attempting reconnect.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        279.45,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Fuel Planning: Typical offload 5,000-10,000 lbs per tank. Note BINGO fuel and mission requirements.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        362.29,
+        679,
+        51.6
+      ]
+    }
+  ]
+}

@@ -1,0 +1,950 @@
+{
+  "schema_version": "0.1",
+  "page_index": 24,
+  "title": "TGP, SETUP & A-G OPERATIONS",
+  "image": "024-TGP-SETUP-A-G-OPERATIONS.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "ACTIVATION",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "ACTIVATION",
+      "kind": "step",
+      "text": "RIGHT HDPT switch | SNSR PWR panel, right console ... FWD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "ACTIVATION",
+      "kind": "note-info",
+      "text": "TGP OFF on MFD for ~90s, then NOT TIMED OUT message.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        174.88,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "ACTIVATION",
+      "kind": "note-info",
+      "text": "IBIT begins (~10 min). Requires MMC, ST STA, UFC, MFD powered + aligned INS.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        203.4,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "ACTIVATION",
+      "kind": "note-check",
+      "text": "IBIT 100% CMP — TGP enters STBY mode",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        257.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "ACTIVATION",
+      "kind": "step",
+      "text": "TGP mode menu | OSB 1 ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        286.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "ACTIVATION",
+      "kind": "note-info",
+      "text": "A-G for ground targeting. A-A for air tracking. STBY to stow sensor.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        322.91,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "ACTIVATION",
+      "kind": "note-optional",
+      "text": "OSB 4 (OVRD) forces STBY from any mode. Use during taxi/takeoff/landing.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        351.42,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "",
+      "kind": "section-header",
+      "text": "LASER SETUP (LASR DED)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        432.9,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "ICP LIST button ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        474.18,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "ICP 0/M-SEL button ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        514.92,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "ICP 5/CRUS button | LASR DED page ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        555.66,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "TGP CODE | DCS down to highlight, enter PRF ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        596.4,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "note-info",
+      "text": "PRF codes 1111-1788 or PIM codes 2111-2888.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        633.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "note-info",
+      "text": "Must match LGB guidance code for self-designation.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        661.58,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "LST CODE | DCS down, set to match designator ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        690.1,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "note-info",
+      "text": "Set to match offboard designator (JTAC/FAC) PRF code.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        726.76,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "A-G LASER MODE | press 1-9 to toggle ... CMBT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        755.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "note-info",
+      "text": "CMBT = designation + ranging. TRNG = ranging only (eye-safe).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        791.95,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "note-info",
+      "text": "Mode transition takes up to 8 seconds.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        820.47,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "LASER ST TIME | auto-lase timer ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        848.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "note-info",
+      "text": "Seconds before impact to start auto-lasing. 0 = disabled.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        885.65,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "step",
+      "text": "LASER ARM switch | MISC panel ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        914.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "LASER SETUP (LASR DED)",
+      "kind": "note-info",
+      "text": "Up to 8s for laser module to configure. L or T appears on MFD and HUD.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        950.83,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "",
+      "kind": "section-header",
+      "text": "A-G CONTROLS (TGP AS SOI)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1032.31,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "A-G CONTROLS (TGP AS SOI)",
+      "kind": "table",
+      "text": "InputShort (&lt;0.5s)Long (&gt;0.5s)TMS FWDPoint Track (on release)Area Track (while held)TMS AFTReturn to SlaveDeclutter symbologyTMS RIGHTArea TrackInertial TrackTMS RIGHT x2Toggle IR Pointer—TMS LEFTCycle WHOT/BHOT/TV—",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1087.16,
+        668.14,
+        245.8
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "A-G CONTROLS (TGP AS SOI)",
+      "kind": "table",
+      "text": "ControlActionExpand/FOV x1Cycle FOV (WIDE/NARO or TV variants)Expand/FOV x2Toggle XR zoom (3x enhanced)MAN RNG knob rotateVariable zoom 1.0x - 4.0xMAN RNG knob depressEnable LST (same as OSB 20)Trigger 1st detentFire laser (manual)DMS AFTSet TGP as SOI",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        5.43,
+        1346.54,
+        668.14,
+        286.54
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "",
+      "kind": "section-header",
+      "text": "ACQUIRE & TRACK TARGET",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1646.66,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1687.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "step",
+      "text": "TGP page | DMS AFT to set SOI ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1728.67,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "note-check",
+      "text": "Large crosshairs = Slave mode. TGP follows SPI.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1765.34,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "step",
+      "text": "CURSOR/ENABLE | slew TGP to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1793.85,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "step",
+      "text": "AREA TRACK | TMS RIGHT short ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1834.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "note-info",
+      "text": "Scene-locked. Good initial stabilisation before Point Track.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1871.26,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "step",
+      "text": "POINT TRACK | TMS FWD, release ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1899.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "note-check",
+      "text": "Small crosshairs. Point Track box on target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1936.44,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "note-info",
+      "text": "If Point Track fails, TGP reverts to Area Track.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1964.96,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "ACQUIRE & TRACK TARGET",
+      "kind": "note-optional",
+      "text": "Slewing during track overrides tracking. Resumes on release.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1993.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "",
+      "kind": "section-header",
+      "text": "LASER DESIGNATION (LGBs)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "step",
+      "text": "LGB selected on SMS | GBU-10/12/24 ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "step",
+      "text": "DELIVERY MODE | CCRP or DTOS ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "step",
+      "text": "SIGHTING POINT osb | OSB 10 ... TGT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-caution",
+      "text": "Sighting point must be TGT for laser-guided weapons.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        233.28,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "step",
+      "text": "TGP tracking target | Point or Area track ... CONFIRM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        264.51,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | hold continuously ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        305.25,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-info",
+      "text": "Laser auto-fires if LASER ST TIME > 0 and conditions met.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        341.92,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-info",
+      "text": "Auto-lase: fires at ST TIME before impact, stops 30s after.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        370.44,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-warning",
+      "text": "Hold WPN REL until release. Early release = hung store.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        398.95,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        430.19,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "branch-header",
+      "text": "MANUAL LASE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        468.21,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "step",
+      "text": "TRIGGER 1st detent | hold to lase ... FIRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        506.49,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-info",
+      "text": "Laser fires continuously while trigger held. Range updates to L.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        543.16,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-info",
+      "text": "Release trigger to stop. Range retained 3s then reverts to E/T.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        571.68,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "LASER DESIGNATION (LGBs)",
+      "kind": "note-radio",
+      "text": "\"Lasing\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        600.19,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        631.43,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Track modes: AREA = scene correlation (structures, fixed points). POINT = edge detection (vehicles, aircraft). INERTIAL = constant slew rate (use when LOS obscured). SLAVE = follows SPI.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        675.41,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Crosshairs: Large = Slave. Small = Track mode. Full-screen = LST.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        758.25,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Range prefix: E = estimated (low confidence). T = estimated (tracking). L = laser measured (precise).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        789.49,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Auto-lase conditions: LASER ARM on, ST TIME > 0, TGP in track, CCRP/LADD/DTOS sub-mode.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        846.52,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Laser inhibited when: LST enabled, IR PTR on, gear down, sighting point ≠ TGT with LGB.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        903.56,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "SPI logic: TGP in track = TGP controls SPI. FCR/HTS break track. TGP breaks track → reverts to FCR/MMC.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        960.59,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "FOV sizes: FLIR WIDE 3.6°, NARO 1.0°, TV 0.5°.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1017.63,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "FOV cycle (OSB 3): FLIR: WIDE → W-XR → NARO → N-XR. TV: Wide → PIP → TV → TVXR.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1048.86,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Sensors: FLIR WHOT/BHOT (Wide/Narrow), TV (high-mag single FOV), PIP (TV overlaid on FLIR NARO).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1105.9,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "XR zoom: 3x digital enhancement. Requires stabilised track. Several seconds to process. Disables variable zoom.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1162.94,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "MASK TGP: Crosshairs flash + HUD warning when sensor nearing fuselage obstruction. Laser auto-disabled.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1219.97,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Coord confidence: HQ ≤9m, MQ ≤15m, LQ <30m, blank ≥30m. Laser max range: 8.0 nm.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1277.01,
+        679,
+        51.6
+      ]
+    }
+  ]
+}

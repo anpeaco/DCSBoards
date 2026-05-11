@@ -1,0 +1,1020 @@
+{
+  "schema_version": "0.1",
+  "page_index": 2,
+  "title": "WEAPONS A-G, AGM-88 HARM",
+  "image": "002-WEAPONS-A-G-AGM-88-HARM.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-caution",
+      "text": "Set target steerpoint before entering POS mode",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        142.29,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        183.03,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        223.77,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "AGM88 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        264.51,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "MODE osb | cycle to POS ... POS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        305.25,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "POWER osb ... PWR ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        345.99,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "POS SUB-MODE osb | PB/RUK/EOM ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        386.73,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "TGT STPT osb | select target steerpoint ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        427.47,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "branch-header",
+      "text": "POS/PB (POSITION/BEARING)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        470.93,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "SUB-MODE osb ... PB",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        509.21,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "ASL | fly to ASL on HUD ≤10° ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        549.95,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "AMZ/MMZ | fly between min and max cues ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        590.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "LOFT | between min/max loft cues ... PULL UP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        631.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-check",
+      "text": "FOV box flashes when within launch parameters",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        668.09,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | when FOV box flashes ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        696.61,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-radio",
+      "text": "\"Magnum\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        737.35,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-info",
+      "text": "Seeker activates 15 nm from steerpoint",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        768.59,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "branch-header",
+      "text": "POS/RUK (RANGE UNKNOWN)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        803.89,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "SUB-MODE osb ... RUK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        842.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "FLY TO TARGET | ≤120° ... MANEUVER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        882.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "MMZ | fly to minimum maneuver zone ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        923.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | when FOV box flashes ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        964.39,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-radio",
+      "text": "\"Magnum\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1005.13,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-info",
+      "text": "Seeker activates 20 nm from steerpoint",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1036.37,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "branch-header",
+      "text": "POS/EOM (EQUATIONS OF MOTION)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1071.67,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "SUB-MODE osb ... EOM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1109.95,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "REQUIRED TURN | follow HUD markers ... MANEUVER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1150.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "AMZ | fly to acceptable maneuver zone ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1191.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "LOFT | follow loft cue ... PULL UP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1232.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | when FOV box flashes ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1272.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-radio",
+      "text": "\"Magnum\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1313.65,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "AGM-88C - POS MODE (PRE-BRIEFED)",
+      "kind": "note-info",
+      "text": "Seeker activates 5 nm from steerpoint with 40 deg FOV",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1344.89,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "",
+      "kind": "section-header",
+      "text": "AGM-88C WITH HTS POD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1400.56,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "step",
+      "text": "HTS pod | must be loaded on station ... VERIFY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1441.84,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "step",
+      "text": "HAD page | on MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1482.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "note-info",
+      "text": "Emitters shown as triangulated positions with threat rings",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1519.24,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "step",
+      "text": "CURSOR | Cursor/Enable to emitter ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1547.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "step",
+      "text": "DESIGNATE EMITTER | TMS UP ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1588.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "note-check",
+      "text": "Creates SPI at emitter location",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1625.17,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "step",
+      "text": "POS/EOM mode | most effective with HTS ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1653.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "step",
+      "text": "PROFILE | fly per EOM procedure ... MANEUVER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1694.42,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "step",
+      "text": "WEAPON RELEASE | when FOV box flashes ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1735.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "AGM-88C WITH HTS POD",
+      "kind": "note-radio",
+      "text": "\"Magnum\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1775.9,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "",
+      "kind": "section-header",
+      "text": "AGM-88C - HAS (SELF-PROTECT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "AGM88 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        233.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "MODE osb ... HAS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        274.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "POWER osb ... PWR ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        314.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "HAS ALIC table | filter threats, up to 8 classes ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        355.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "HAS SRCH page | on MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        396.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "note-info",
+      "text": "Detected emitters shown as diamond symbols with threat class",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        432.9,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "note-info",
+      "text": "Emitter must be radiating to appear",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        461.42,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "CURSOR | Cursor/Enable to emitter ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        489.94,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "HANDOFF | TMS UP to seeker ... HANDOFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        530.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "note-check",
+      "text": "HUD shows seeker target in HARM FOV",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        567.35,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "note-info",
+      "text": "No range data available in HAS mode",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        595.86,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "step",
+      "text": "WEAPON RELEASE ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        624.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "note-radio",
+      "text": "\"Magnum\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        665.12,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "AGM-88C - HAS (SELF-PROTECT)",
+      "kind": "note-info",
+      "text": "Missile guides on emitter radar emissions.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        696.36,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        750.68,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Mode Comparison:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        794.66,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "ModeBearingSeekerLoftBest ForPOS/PB≤10°15 nmYesPre-planned, direct approachPOS/RUK≤120°20 nmNoPre-planned, offset approachPOS/EOMAny5 nmYesPre-planned, HTS-assistedHASAnyImmediateNoSelf-protect, reactive SEAD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        834.05,
+        668.14,
+        230.86
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Launch Range (approx):",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1078.49,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "Alt (ft)Speed (kts)Range (nm)40,000380~4020,000450~2510,000500~201,000550~15",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        1117.87,
+        668.14,
+        205.06
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Tactics:Emitters may shut down after detecting HARM inbound. EOM mode counters this — missile follows computed trajectory even if emitter goes silent. HAS mode requires continuous radiation for guidance.Ingress: High altitude (30K+ ft) maximises HARM range. Launch 30-60s before strikers enter threat ring.Multi-shot: In HAS mode, target multiple emitters sequentially — handoff to each, fire, repeat.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1336.51,
+        679,
+        206.42
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "HTS Pod: PGM quality PGM5 (worst) to PGM1 (best). Wait for PGM1-2 before shooting for best accuracy. TDOA requires 3+ HTS pods for triangulation.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1548.35,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Glossary:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1631.19,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "TermMeaningASLAzimuth Steering LineAMZAcceptable Maneuver Zone (loft zone)MMZMinimum Maneuver ZoneALICAvailable List of Interesting Classes (HAS filter)PGMPosition Quality (5=worst, 1=best)TDOATime Difference of Arrival (HTS triangulation)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        1670.57,
+        668.14,
+        286.54
+      ]
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+{
+  "schema_version": "0.1",
+  "page_index": 15,
+  "title": "NAVIGATION SETUP",
+  "image": "015-NAVIGATION-SETUP.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "STEERPOINT SELECTION",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "STEERPOINT SELECTION",
+      "kind": "step",
+      "text": "ICP STPT button ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "STEERPOINT SELECTION",
+      "kind": "note-check",
+      "text": "DED shows current steerpoint number and coordinates",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        147.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "STEERPOINT SELECTION",
+      "kind": "step",
+      "text": "STEERPOINT NUMBER | ICP up/down arrows ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        176.24,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "STEERPOINT SELECTION",
+      "kind": "note-info",
+      "text": "Cycles through available steerpoints",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        240.07,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "STEERPOINT SELECTION",
+      "kind": "note-check",
+      "text": "HSD/HUD updates with new steerpoint bearing and distance",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        268.59,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "STEERPOINT SELECTION",
+      "kind": "note-optional",
+      "text": "Or enter steerpoint number directly via ICP keypad + ENTR",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        297.1,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "",
+      "kind": "section-header",
+      "text": "STEERPOINT ENTRY (MANUAL)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        352.78,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "note-info",
+      "text": "Enter new coordinates for a steerpoint when mission planning is incomplete.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        394.05,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "ICP STPT button ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        448.37,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "ICP up/down | to desired empty/rewrite STPT ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        489.11,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "ICP DATA | dobber switch right to LAT ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        529.85,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "LATITUDE | ICP keypad, N/S = 2/8 ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        570.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "ICP DATA | dobber switch down to LONG ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        611.33,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "LONGITUDE | ICP keypad, E/W = 6/4 ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        652.07,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "ICP DATA | dobber switch down to ELEV ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        692.81,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "step",
+      "text": "ELEVATION | ICP keypad (ft MSL) ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        733.55,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "note-check",
+      "text": "Steerpoint saved. HSD/HUD reflect new position.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        770.22,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "STEERPOINT ENTRY (MANUAL)",
+      "kind": "note-info",
+      "text": "Use ICP 2 for N, 8 for S, 6 for E, 4 for W (number pad directions)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        798.74,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "",
+      "kind": "section-header",
+      "text": "TACAN SETUP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        854.42,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "TACAN SETUP",
+      "kind": "step",
+      "text": "ICP T-ILS button ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        895.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "TACAN SETUP",
+      "kind": "note-check",
+      "text": "DED shows TACAN page (default first press)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        932.35,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "TACAN SETUP",
+      "kind": "step",
+      "text": "TACAN CHANNEL | ICP keypad ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        960.87,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "TACAN SETUP",
+      "kind": "note-info",
+      "text": "Enter 1-126 channel number",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        997.54,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "TACAN SETUP",
+      "kind": "step",
+      "text": "TACAN BAND | ICP up/down to toggle ... X or Y",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1026.05,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "TACAN SETUP",
+      "kind": "note-info",
+      "text": "X = ground station (most airfields). Y = air-to-air (tankers).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1062.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "TACAN SETUP",
+      "kind": "step",
+      "text": "TACAN MODE | cycle on DED ... T/R or A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1091.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "TACAN SETUP",
+      "kind": "note-info",
+      "text": "T/R: Range + bearing to ground station.A-A: Air-to-air mode for tanker/wingman (Y band required).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1127.9,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "TACAN SETUP",
+      "kind": "note-check",
+      "text": "Bearing/range appears on HSI and HSD. Course needle points to station.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1182.22,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "TACAN SETUP",
+      "kind": "note-info",
+      "text": "A-A TACAN: your channel = tanker channel + 63, Y band",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1236.54,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "",
+      "kind": "section-header",
+      "text": "ILS SETUP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1292.22,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "ILS SETUP",
+      "kind": "step",
+      "text": "ICP T-ILS button | press again for ILS page ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1333.49,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "ILS SETUP",
+      "kind": "note-check",
+      "text": "DED shows ILS page (frequency and course)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1370.16,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "ILS SETUP",
+      "kind": "step",
+      "text": "ILS FREQUENCY | ICP keypad ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1398.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "ILS SETUP",
+      "kind": "note-info",
+      "text": "Enter ILS frequency for destination runway (e.g., 109.10)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1435.34,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "ILS SETUP",
+      "kind": "step",
+      "text": "ILS COURSE | DCS dobber down to CRS field ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1463.86,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "ILS SETUP",
+      "kind": "step",
+      "text": "COURSE | ICP keypad, runway heading ... ENTER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1504.6,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "ILS SETUP",
+      "kind": "note-check",
+      "text": "ILS localizer and glideslope available on HUD when in range",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1541.27,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "ILS SETUP",
+      "kind": "note-check",
+      "text": "Course deviation bar and glideslope indicator appear on ADI/HUD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1569.78,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "",
+      "kind": "section-header",
+      "text": "BULLSEYE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1651.26,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "BULLSEYE",
+      "kind": "note-info",
+      "text": "Bullseye is a common reference point for position reporting.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1692.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "BULLSEYE",
+      "kind": "step",
+      "text": "ICP LIST > 6 | BULL page on DED ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1721.05,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "BULLSEYE",
+      "kind": "note-check",
+      "text": "Shows your position as bearing/range from bullseye",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1757.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "BULLSEYE",
+      "kind": "note-info",
+      "text": "Bullseye point set in mission data / DTC",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1786.24,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "BULLSEYE",
+      "kind": "note-optional",
+      "text": "HSD shows bullseye position if enabled (HSD BULL osb)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1814.75,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1843.27,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "ICP Keypad: Numbers 0-9 for data entry. ENTR to confirm. RCL to cancel/clear.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1887.26,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "DED Dobber: Small rocker switch near ICP. Up/down scrolls fields on DED page.Left/right selects between parameters on same line.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1944.3,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Common TACAN channels:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "PurposeChannelBandAirfieldvariesXTankerassigned+63YCarriervariesX",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        109.17,
+        668.14,
+        164.32
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Steerpoint types: STPT = standard waypoint. MARK = pilot-created point (TMS UP long on TGP).OA1/OA2 = offset aimpoints (used for IP-to-target runs).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        287.07,
+        679,
+        77.41
+      ]
+    }
+  ]
+}

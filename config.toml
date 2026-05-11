@@ -1,0 +1,57 @@
+# Static infrastructure config for DCS Kneeboard.
+#
+# Defines which aircraft exist and which tabs are loaded.
+# (Runtime user state — toggles, window position, current aircraft, last tab —
+# lives in settings.toml.)
+
+# Aircraft modules. The id matches the DCS folder name so {aircraft} placeholders
+# in tab paths resolve correctly. Label is what the picker shows.
+[[aircraft]]
+id = "F-16C_50"
+label = "F-16C Viper"
+
+[[aircraft]]
+id = "A-10C_2"
+label = "A-10C Warthog"
+
+[[aircraft]]
+id = "FA-18C_hornet"
+label = "F/A-18C Hornet"
+
+[[aircraft]]
+id = "AH-64D_BLK_II"
+label = "AH-64D Apache"
+
+
+# Tabs. Order is rendered top-to-bottom in the left strip.
+#
+# Source kinds:
+#   generator       — kneeboards generator output (PNG + sidecar JSON), full
+#                     item-level nav + TTS. Path supports {aircraft}.
+#   image_folder    — raw images, page-level nav only, no TTS.
+#   dcs_kneeboards  — resolves to %USERPROFILE%/Saved Games/DCS/Kneeboard/{aircraft}/
+#                     (falls back to DCS.openbeta). Override the base path here
+#                     if you keep DCS Saved Games elsewhere.
+
+[[tabs]]
+id = "checklists"
+label = "Generated Checklists"
+icon = "clipboard-list"
+source.kind = "generator"
+source.path = "pages-sample"   # change to "C:/.../kneeboards/output/{aircraft}" once aircraft-aware
+
+[[tabs]]
+id = "dcs"
+label = "DCS Kneeboards"
+icon = "plane"
+source.kind = "dcs_kneeboards"
+# source.base = "D:/Steam/SavedGames/DCS/Kneeboard"   # override if DCS is non-default
+
+# Example ImageFolder tab — uncomment and point at a folder of charts/maps:
+# [[tabs]]
+# id = "charts"
+# label = "Charts"
+# icon = "map"
+# source.kind = "image_folder"
+# source.path = "C:/Users/anpea/Documents/DCS-Charts/{aircraft}"
+# source.recursive = false

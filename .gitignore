@@ -1,0 +1,33 @@
+# Rust
+/target
+Cargo.lock.bak
+**/*.rs.bk
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Claude Code local state
+.claude/settings.local.json
+
+# Local config / user data
+config.local.toml
+
+# Per-user runtime state (window position, current aircraft, toggles).
+# config.toml + pronunciation.toml are shared; settings.toml is local.
+settings.toml
+
+# Models and large assets (downloaded separately)
+/models/*.bin
+/models/*.gguf
+/models/*.onnx
+
+# Build artifacts
+*.exe
+*.pdb
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store

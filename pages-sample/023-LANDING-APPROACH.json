@@ -1,0 +1,894 @@
+{
+  "schema_version": "0.1",
+  "page_index": 23,
+  "title": "LANDING & APPROACH",
+  "image": "023-LANDING-APPROACH.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "OVERHEAD BREAK PATTERN",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "APPROACH | fly runway heading at 1500 ft AGL ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-info",
+      "text": "Entry speed: 300-350 kts. Clean configuration.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        147.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "OVERHEAD | fly over runway threshold ... INITIAL",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        176.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "BREAK | 60-70° bank turn at midfield ... BREAK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        216.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-info",
+      "text": "Pull 3-4G in the break turn. Aim for 200 kts by rollout.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        253.65,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "DOWNWIND | parallel to runway, opposite direction ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        282.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-info",
+      "text": "1500 ft AGL. 200-220 kts. Check gear/flap schedule below.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        318.83,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "LANDING GEAR ... DOWN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        347.35,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-check",
+      "text": "Three green lights. Confirm down and locked.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        384.02,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-info",
+      "text": "Below 300 kts gear limit",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        412.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "SPEED BRAKES | as required ... OPEN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        441.05,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "REDUCE SPEED | target 190-200 kts on downwind ... DECELERATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        481.79,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "BASE TURN | abeam touchdown point, 30° bank ... TURN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        549.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-info",
+      "text": "Descend to pattern altitude. Maintain 180-190 kts.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        586.36,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "step",
+      "text": "FINAL | roll wings level, aligned with runway ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        614.88,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-info",
+      "text": "On-speed: 11-13° AOA (bracket on HUD)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        651.54,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "OVERHEAD BREAK PATTERN",
+      "kind": "note-info",
+      "text": "Approach speed: see table below",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        680.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "",
+      "kind": "section-header",
+      "text": "ILS APPROACH",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        735.74,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "ILS APPROACH",
+      "kind": "note-info",
+      "text": "Precision approach using ILS localizer and glideslope.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        777.01,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "ICP T-ILS | press twice for ILS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        805.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "ILS FREQUENCY | enter runway ILS freq ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        846.27,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "ILS COURSE | enter runway heading ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        887.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "ILS APPROACH",
+      "kind": "note-check",
+      "text": "Localizer and glideslope bars appear on HUD and ADI",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        923.67,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "FCR ... STBY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        952.19,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "ILS APPROACH",
+      "kind": "note-info",
+      "text": "Reduce radar emissions on approach",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        988.86,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "TACAN | set to field TACAN ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1017.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "ILS APPROACH",
+      "kind": "note-check",
+      "text": "Range to field available on HSI",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1054.04,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "INTERCEPT | fly to localizer intercept heading ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1082.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "ILS APPROACH",
+      "kind": "note-check",
+      "text": "Localizer bar centres as you align with runway centerline",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1119.23,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "GLIDESLOPE | intercept from below ... CAPTURE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1147.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "ILS APPROACH",
+      "kind": "note-check",
+      "text": "Glideslope bar centres. Maintain on glideslope.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1184.41,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "ILS APPROACH",
+      "kind": "note-info",
+      "text": "Standard glideslope: 3°. Descent rate ~700 fpm at 150 kts.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1212.93,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "LANDING GEAR ... DOWN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1241.45,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "SPEED | on-speed AOA, 11-13° bracket ... MAINTAIN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1282.19,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "ILS APPROACH",
+      "kind": "step",
+      "text": "TOUCHDOWN | runway threshold, main gear first ... LAND",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1322.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "",
+      "kind": "section-header",
+      "text": "AFTER LANDING",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1386.75,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "SPEED BRAKES ... OPEN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1428.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "DRAG CHUTE | if available ... DEPLOY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1468.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "WHEEL BRAKES | steady pressure ... APPLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1509.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "NWS ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1550.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "AFTER LANDING",
+      "kind": "note-info",
+      "text": "Steer to taxiway",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1586.91,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "LANDING LIGHTS ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1615.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "SPEED BRAKES ... CLOSED",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1656.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "PROBE HEAT ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1696.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "RDR ALT ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1737.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "AFTER LANDING",
+      "kind": "step",
+      "text": "EJECT SEAT | safety pin in ... SAFE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1778.39,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "AFTER LANDING",
+      "kind": "note-info",
+      "text": "Taxi to parking. Speed <25 kts, turns <10 kts.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1815.05,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "",
+      "kind": "section-header",
+      "text": "SHUTDOWN",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1870.73,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "SHUTDOWN",
+      "kind": "step",
+      "text": "PARKING BRAKE ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1912,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "SHUTDOWN",
+      "kind": "step",
+      "text": "THROTTLE ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1952.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "SHUTDOWN",
+      "kind": "note-check",
+      "text": "Engine spools down. FTIT decreases.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1989.41,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "SHUTDOWN",
+      "kind": "step",
+      "text": "EGI knob ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "SHUTDOWN",
+      "kind": "step",
+      "text": "ALL AVIONICS | MMC, MFD, UFC, etc. ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        110.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "SHUTDOWN",
+      "kind": "step",
+      "text": "CANOPY ... OPEN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        151.27,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "SHUTDOWN",
+      "kind": "step",
+      "text": "MAIN PWR switch ... OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        192.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "SHUTDOWN",
+      "kind": "note-check",
+      "text": "Aircraft secured.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        228.67,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        257.19,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Approach Speeds (on-speed AOA 11-13°):",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        301.18,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "GW (lbs)Approach (kias)Final (kias)20,00015514524,00016515528,00017516532,00018517536,000195185",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        340.56,
+        668.14,
+        245.8
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "AOA Bracket on HUD: Centre doughnut = on speed (11-13°).Chevron up (flight path above bracket) = too fast.Chevron down (flight path below bracket) = too slow (add power).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        599.94,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Night/IMC: Use ILS approach. Set HUD brightness. Use ADI for backup attitude reference.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        682.78,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "NOTES",
+      "kind": "note-caution",
+      "text": "Go-around: If unstable below 300 ft: throttle MIL/AB, maintain/gain altitude,gear UP when positive rate, re-enter pattern. Do not force a bad approach.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        739.81,
+        679,
+        108.64
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1342 @@
+{
+  "schema_version": "0.1",
+  "page_index": 0,
+  "title": "WEAPONS A-G, AGM-65 MAVERICK, Pt.1",
+  "image": "000-WEAPONS-A-G-AGM-65-MAVERICK-PT1.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "FCR switch | FCR provides target ranging ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "RDR ALT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "RIGHT HDPT switch | if using laser ranging ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "LASER switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        233.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        274.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        314.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        355.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "nAG65x osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        396.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-info",
+      "text": "count and variant (D, G, H, K) displayed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        432.9,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-optional",
+      "text": "NWS / MSL STEP short to select station",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        461.42,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "MODE osb | Radar/Cursor Enable to cycle ... PRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        489.94,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "POWER osb ... PWR ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        530.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-info",
+      "text": "Await 180s cooldown time (WoW inhibits cooldown)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        567.35,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-optional",
+      "text": "If LAU-88 racks, set ripple quantity (RP osb)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        595.86,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "WPN page | on left MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        624.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-check",
+      "text": "Camera feed is on",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        661.05,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-check",
+      "text": "MODE is PRE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        689.57,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "TRACK / POLARITY osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        718.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "TGP page | on right MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        758.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "TGP page | DMS DOWN to TGP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        799.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "AREA TRACK | TMS RIGHT on STPT ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        840.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-info",
+      "text": "Slew TGP using Cursor/Enable",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        876.97,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "TRACK / POLARITY osb | TV/BHOT/WHOT ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        905.49,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "FOV osb | Expand/FOV button depress ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        946.23,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "ZOOM LEVEL | MAN RNG knob ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        986.97,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "HANDOFF MODE osb | AUTO/MAN ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1027.71,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-info",
+      "text": "* Manual Handoff: Select WPN as SOI (DMS DOWN). Attempt lock (TMS UP).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1064.37,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-info",
+      "text": "* Automatic Handoff: System auto-attempts lock. May lock unintended target.If handoff fails, uncage (TMS DOWN) then TMS UP to re-attempt.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1118.69,
+        679,
+        80.12
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-check",
+      "text": "Verify lock and in range",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1198.82,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "WEAPON RELEASE ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1227.33,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-radio",
+      "text": "\"Rifle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1268.07,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "AGM-65 D/G/H/K - PRE-PLANNED (TGP)",
+      "kind": "note-optional",
+      "text": "TMS DOWN to cancel lock or cage to velocity vector",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1299.31,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "",
+      "kind": "section-header",
+      "text": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1354.99,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1396.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1437,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1477.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1518.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "nAG65x osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1559.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-optional",
+      "text": "NWS / MSL STEP short to select station",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1599.96,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "MODE osb | Radar/Cursor Enable to cycle ... PRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1628.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "POWER osb ... PWR ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1669.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-info",
+      "text": "Await 180s cooldown time (WoW inhibits cooldown)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1705.88,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-optional",
+      "text": "If LAU-88 racks, set ripple quantity (RP osb)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1734.4,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "WPN page | on left MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1762.92,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-check",
+      "text": "Camera feed is on",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1799.58,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-check",
+      "text": "MODE is PRE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1828.1,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "TRACK / POLARITY osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1856.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "FCR page | on right MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1897.36,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "GMT osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1938.1,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-optional",
+      "text": "Adjust gain and contrast on Ground Map Overlay",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1978.84,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "FCR page | DMS DOWN to FCR ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-info",
+      "text": "Radar Crosshair set to SPI (e.g. Steerpoint)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        106.45,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-optional",
+      "text": "SP osb for snowplow modeTMS UP to ground stabilise and exit Snowplow mode",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        134.97,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "CROSSHAIR | Cursor/Enable switch ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        189.29,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "GMTT TARGET | TMS UP to designate ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        230.03,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-info",
+      "text": "FCR image freezes; radar coasts for 10s if LOS lost",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        266.7,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "WPN page | DMS DOWN ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        295.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "FOV osb | NARO/WIDE ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        335.96,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-check",
+      "text": "Inside MLE (7.5 nm)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        372.62,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "LOCK TARGET | TMS UP ... LOCK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        401.14,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-check",
+      "text": "Check WPN page for valid lock",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        437.81,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "step",
+      "text": "WEAPON RELEASE ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        466.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-radio",
+      "text": "\"Rifle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        507.06,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "AGM-65 H/K - PRE-PLANNED (FCR)",
+      "kind": "note-optional",
+      "text": "TMS DOWN to cancel lock or cage to velocity vector",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        538.3,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "",
+      "kind": "section-header",
+      "text": "AGM-65 D/G/H/K - VISUAL",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        593.98,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        635.25,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        675.99,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        716.73,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        757.47,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "nAG65x osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        798.21,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-info",
+      "text": "count and variant (D, G, H, K) displayed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        834.87,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-optional",
+      "text": "NWS / MSL STEP short to select station",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        863.39,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 73,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "MODE osb | Radar/Cursor Enable to cycle ... VIS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        891.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 74,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "POWER osb ... PWR ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        932.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 75,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-info",
+      "text": "Await 180s cooldown time (WoW inhibits cooldown)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        969.31,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 76,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-optional",
+      "text": "If LAU-88 racks, set ripple quantity (RP osb)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        997.83,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 77,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "WPN page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1026.35,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 78,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "TRACK / POLARITY osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1067.09,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 79,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "HUD | DMS UP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1107.83,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 80,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-info",
+      "text": "TD Box caged to velocity vector",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1144.5,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 81,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-optional",
+      "text": "Uncage with TMS DOWN",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1173.01,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 82,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "HUD TD Box | Cursor/Enable switch ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1201.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 83,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-info",
+      "text": "HUD TD Box will ground stabilise on seeker location",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1238.2,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 84,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "WPN page | DMS DOWN ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1266.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 85,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "FOV osb | Expand/FOV button depress ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1307.46,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 86,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "MAV RETICLE | Cursor/Enable switch ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1348.2,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 87,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-info",
+      "text": "Reticle is ground stabilized, remains fixed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1384.86,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 88,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-check",
+      "text": "Inside MLE (7.5 nm)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1413.38,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 89,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "LOCK TARGET | TMS UP ... LOCK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1441.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 90,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-check",
+      "text": "Lock circle appears on HUD; check WPN page for valid lock",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1478.56,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 91,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "step",
+      "text": "WEAPON RELEASE ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1507.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 92,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-radio",
+      "text": "\"Rifle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1547.82,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 93,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-optional",
+      "text": "TMS DOWN to cancel lock or cage to velocity vector",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1579.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 94,
+      "group": "AGM-65 D/G/H/K - VISUAL",
+      "kind": "note-info",
+      "text": "HMCS can also be used to designate target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1607.57,
+        679,
+        28.52
+      ]
+    }
+  ]
+}

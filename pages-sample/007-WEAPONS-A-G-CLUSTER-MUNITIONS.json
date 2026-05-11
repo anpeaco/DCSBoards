@@ -1,0 +1,1034 @@
+{
+  "schema_version": "0.1",
+  "page_index": 7,
+  "title": "WEAPONS A-G, CLUSTER MUNITIONS",
+  "image": "007-WEAPONS-A-G-CLUSTER-MUNITIONS.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "CBU-87/97 - CCIP MODE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        233.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "CBU-87 / CBU-97 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        274.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "PROF1 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        314.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "MODE osb | CCIP ... CCIP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        355.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "SGL / PAIR osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        396.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "RELEASE INTERVAL (ft.) ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        436.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "RELEASE PULSES | for multiple releases ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        477.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "FUZE osb | NOSE / TAIL / NSTL ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        518.46,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "note-info",
+      "text": "NOSE=Dispense immediately, TAIL=Disarmed, NSTL=As programmed",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        555.12,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "note-info",
+      "text": "BA = 1,500 ft.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        609.44,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        637.96,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "DIVE | place FPM 2000 ft. past target ... 20-30 DEG",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        666.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "BFL | align with target area ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        707.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "note-info",
+      "text": "Pipper climbs to target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        743.89,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "note-caution",
+      "text": "Monitor PUAC - do not descend FPM below it",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        772.4,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "step",
+      "text": "WEAPON RELEASE | pipper on target ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        803.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "CBU-87/97 - CCIP MODE",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        844.38,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "",
+      "kind": "section-header",
+      "text": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        902.77,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        944.04,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "RIGHT HDPT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        984.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "LASER switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1025.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1066.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1107,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1147.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "CBU-103 / CBU-105 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1188.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "POWER osb ... PWR OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1229.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "note-check",
+      "text": "System Status is RDY and PWR ON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1265.89,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "MODE osb ... PRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1294.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "CNTL page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1335.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "BA osb | 2,000 ft recommended ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1375.89,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "CNTL | return to SMS ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1416.63,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "RIP osb | Single / Pairs Long / Pairs Lat ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1457.37,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "SEPARATION (ft.) ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1498.11,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "CNI DED page | Dauber RTN ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1538.85,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1579.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "note-info",
+      "text": "Navigate towards STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1616.25,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "TGP | DMS DOWN to TGP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1644.77,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | TMS RIGHT or TMS UP on STPT ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1685.51,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "TGP | Cursor/Enable to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1753.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "SENSOR MODE | TV/BHOT/WHOT osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1794.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "FOV osb | NARO/WIDE ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1834.89,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "ZOOM LEVEL | MAN RNG knob ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1875.63,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "AREA / POINT TRACK on target | TMS RIGHT or TMS UP ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1916.37,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1984.27,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "CBU-103/105 WCMD - PRE-PLANNED (TGP)",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        110.53,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "",
+      "kind": "section-header",
+      "text": "CBU-103/105 WCMD - VIS",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        168.92,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        210.19,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        250.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        291.67,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        332.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "CBU-103 / CBU-105 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        373.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "POWER osb ... PWR OFF",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        413.89,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "note-check",
+      "text": "System Status is RDY and PWR ON",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        450.56,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "MODE osb ... VIS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        479.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "CNTL page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        519.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "BA osb | 2,000 ft recommended ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        560.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "CNTL | return to SMS ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        601.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "RIP osb | Single / Pairs Long / Pairs Lat ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        642.04,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "SEPARATION (ft.) ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        682.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "HUD TD BOX | Cursor/Enable to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        723.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "note-optional",
+      "text": "Recage with TMS DOWN",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        764.26,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "DESIGNATE TARGET | TMS UP ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        792.77,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        833.51,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        874.25,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "CBU-103/105 WCMD - VIS",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        914.99,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        946.23,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "CBU-87: Area denial, soft targets, troops, light vehicles.CBU-97: Anti-armor, skeets autonomously target vehicles with EFP warheads.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        990.22,
+        679,
+        77.41
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "BA/HOF: CBU-87/97 (unguided): 1,500 ft default.CBU-103/105 (WCMD): 2,000 ft / 500 RPM recommended.Higher altitude release = better WCMD accuracy (more wind correction time).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1073.05,
+        679,
+        103.21
+      ]
+    }
+  ]
+}

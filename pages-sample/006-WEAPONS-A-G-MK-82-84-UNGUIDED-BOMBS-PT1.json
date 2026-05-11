@@ -1,0 +1,1398 @@
+{
+  "schema_version": "0.1",
+  "page_index": 6,
+  "title": "WEAPONS A-G, MK-82/84 UNGUIDED BOMBS, PT.1",
+  "image": "006-WEAPONS-A-G-MK-82-84-UNGUIDED-BOMBS-PT1.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "MK-82/84 - CCIP MODE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        233.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "MK-82 / MK-84 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        274.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "PROF1 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        314.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "MODE osb | CCIP ... CCIP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        355.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "SGL / PAIR osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        396.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "RELEASE INTERVAL (ft.) ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        436.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "RELEASE PULSES | for multiple releases ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        477.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "FUZE osb | NOSE / TAIL / NSTL ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        518.46,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        555.12,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "DIVE | place FPM 2000 ft. past target ... 20-30 DEG",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        583.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "note-check",
+      "text": "CCIP pipper appears on HUD with Bomb Fall Line (BFL)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        620.31,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "note-caution",
+      "text": "Time Delay Cue visible = pipper NOT showing true impact. Wait for it to disappear.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        648.83,
+        679,
+        57.04
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "BFL | align with target ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        705.86,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "note-info",
+      "text": "Pipper climbs to target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        742.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "note-caution",
+      "text": "Monitor PUAC - do not let FPM descend below it",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        771.05,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "step",
+      "text": "WEAPON RELEASE | pipper on target ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        802.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        843.02,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "MK-82/84 - CCIP MODE",
+      "kind": "note-optional",
+      "text": "Optional: 1st trigger detent for laser ranging (more accurate pipper)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        874.25,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "",
+      "kind": "section-header",
+      "text": "MK-82/84 - CCRP (STEERPOINT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        955.73,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "CNI DED page | ICP ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        997.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1037.75,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1078.49,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1119.23,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1159.97,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1200.71,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "MK-82 / MK-84 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1241.45,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "PROF2 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1282.19,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "MODE osb | CCRP ... CCRP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1322.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "SGL / PAIR osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1363.67,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "RELEASE INTERVAL (ft.) ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1404.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "RELEASE PULSES | for multiple releases ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1445.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "FUZE osb | NOSE / TAIL / NSTL ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1485.89,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1522.55,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1551.07,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1591.81,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "MK-82/84 - CCRP (STEERPOINT)",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1632.55,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "",
+      "kind": "section-header",
+      "text": "MK-82/84 - CCRP (TGP)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1690.94,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1732.21,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "RDR ALT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1772.95,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "RIGHT HDPT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1813.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "LASER switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1854.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1895.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1935.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1976.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "MK-84 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "PROF2 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        110.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "MODE osb | CCRP ... CCRP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        151.27,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "SGL / PAIR osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        192.01,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "RELEASE INTERVAL (ft.) ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        232.75,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "RELEASE PULSES | for multiple releases ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        273.49,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "FUZE osb | NOSE / TAIL / NSTL ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        314.23,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        350.89,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "CNI DED page | Dauber RTN ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        379.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        420.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "note-check",
+      "text": "TGP slaved to STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        456.82,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "TGP | DMS DOWN to TGP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        485.34,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | TMS RIGHT or TMS UP on STPT ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        526.08,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "TGP | Cursor/Enable to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        593.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "SENSOR MODE | TV/BHOT/WHOT osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        634.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "FOV osb | NARO/WIDE ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        675.46,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "ZOOM LEVEL | MAN RNG knob ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        716.2,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | TMS RIGHT or TMS UP on target ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        756.94,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        824.84,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        865.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "MK-82/84 - CCRP (TGP)",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        906.32,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "",
+      "kind": "section-header",
+      "text": "MK-82 - DTOS (HMCS + TGP)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        964.71,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "note-info",
+      "text": "DTOS = Dive Toss. Designate in dive, release in recovery.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1005.98,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1034.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "RDR ALT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1075.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 73,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "RIGHT HDPT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1115.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 74,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1156.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 75,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1197.46,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 76,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1238.2,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 77,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "MK-84 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1278.94,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 78,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "PROF osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1319.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 79,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "MODE osb | DTOS ... DTOS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1360.42,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 80,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "SGL / PAIR osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1401.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 81,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "RELEASE INTERVAL (ft.) ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1441.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 82,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "RELEASE PULSES | for multiple releases ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1482.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 83,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "FUZE osb | NOSE / TAIL / NSTL ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1523.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 84,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1560.04,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 85,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "HMCS | set to INCL ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1588.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 86,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "HUD | DMS UP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1629.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 87,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "TD BOX ON HMD | TMS UP long press ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1670.04,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 88,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "SET SPI | TMS UP on target area ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1710.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 89,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "TGP | Cursor/Enable to refine ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1751.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 90,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "SENSOR MODE | TV/BHOT/WHOT ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1792.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 91,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "FOV osb | NARO/WIDE ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1833,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 92,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1873.74,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 93,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1914.48,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 94,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1955.22,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 95,
+      "group": "MK-82 - DTOS (HMCS + TGP)",
+      "kind": "note-optional",
+      "text": "Can switch to CCIP mid-attack via MSL STEP button",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1986.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 96,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        1358,
+        69.79,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 97,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Fuze: NSTL = Nose+Tail (most common). Nose = airburst. Tail = delayed.Retarded variants: MK-82SE / MK-82AIR: NSTL=High Drag, Nose=Low Drag. 300+ ft AGL for high-drag.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        1358,
+        113.77,
+        679,
+        103.21
+      ]
+    },
+    {
+      "idx": 98,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Delivery: CCIP: 20-30 deg dive, 450+ kts. CCRP: Level/shallow, pre-planned.DTOS: Designate in dive, release in recovery. Good for pop-up attacks.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        1358,
+        222.41,
+        679,
+        103.21
+      ]
+    }
+  ]
+}

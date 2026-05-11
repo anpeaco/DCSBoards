@@ -1,0 +1,642 @@
+{
+  "schema_version": "0.1",
+  "page_index": 13,
+  "title": "FENCE CHECKS",
+  "image": "013-FENCE-CHECKS.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "FENCE IN (COMBAT ENTRY)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "note-info",
+      "text": "F.E.N.C.E. = Fuel, Emitters, Navigation, Countermeasures, Expendables",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "BINGO FUEL | set minimum RTB fuel ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        165.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "note-check",
+      "text": "Verify fuel quantity is sufficient for mission + reserve",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        202.04,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        230.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "LASER switch | if LGB/TGP mission ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        271.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "FCR switch | verify ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        312.04,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "FCR MODE | CRM/ACM as briefed ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        352.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "RDR ALT ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        393.52,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "TGP | verify powered and tracking ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        434.26,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "RWR | verify operational, check threats ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        475,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "note-check",
+      "text": "Audio volume set. Priority threats identified.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        511.67,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "CMDS MODE | SEMI or AUTO ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        540.19,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "CMDS PRGM | select program ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        580.93,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "CHAFF / FLARE | verify quantities ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        621.67,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "note-check",
+      "text": "Check expendables remaining on CMDS page",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        658.33,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "ECM | JMR ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        686.85,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "IFF | verify squawk, modes correct ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        727.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "NAV | verify steerpoint, bullseye set ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        768.33,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "DATALINK | verify L16 active, contacts showing ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        809.07,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "LIGHTS | covert as briefed ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        849.81,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "note-info",
+      "text": "Typically: position FLASH or OFF, fuselage OFF for night/covert ops",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        886.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "HMCS | if equipped, verify aligned ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        914.99,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "step",
+      "text": "ALTIMETER | verify QNH or STD as briefed ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        955.73,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "FENCE IN (COMBAT ENTRY)",
+      "kind": "note-caution",
+      "text": "Review ROE, weapons plan, and target assignments before push",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        996.47,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "",
+      "kind": "section-header",
+      "text": "FENCE OUT (COMBAT EXIT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1054.87,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "note-info",
+      "text": "Reverse FENCE check on exiting combat area.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1096.14,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... SAFE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1124.66,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "LASER switch ... SAFE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1165.4,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "CMDS MODE ... MAN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1206.14,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "note-info",
+      "text": "Cease auto/semi expenditure to conserve remaining chaff/flare",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1242.8,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "ECM | JMR as required ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1271.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "FCR MODE | return to briefed transit mode ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1312.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "BINGO FUEL | verify remaining vs plan ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1352.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "IFF | verify correct for transit ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1393.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "LIGHTS | transit/formation as briefed ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1434.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "note-info",
+      "text": "Typically: position FLASH, wing/tail BRIGHT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1470.95,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "WEAPONS | safe, verify no hung stores ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1499.47,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "note-check",
+      "text": "Check SMS for hung ordnance. Note any weapon malfunctions.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1536.13,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "step",
+      "text": "DAMAGE | check flight controls, engine, fuel ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1564.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "FENCE OUT (COMBAT EXIT)",
+      "kind": "note-check",
+      "text": "Verify: no warning lights, oil pressure normal, hydraulics normal",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1601.32,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1629.83,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "FENCE In at the FLOT/push point before entering threat area.FENCE Out when clear of threats, before RTB/tanker.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1673.82,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Quick FENCE In mnemonic:F — Fuel (bingo set)E — Emitters (radar, ECM, RWR on)N — Navigation (steerpoints, bullseye)C — Countermeasures (CMDS mode, programs)E — Expendables (chaff/flare qty check)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1730.86,
+        679,
+        154.81
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "NOTES",
+      "kind": "note-caution",
+      "text": "Master Arm is the most critical step. Verify ARM before weapons employment.Verify SAFE when exiting — prevents accidental release on friendlies.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1891.1,
+        679,
+        108.64
+      ]
+    }
+  ]
+}

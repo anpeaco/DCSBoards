@@ -1,0 +1,1342 @@
+{
+  "schema_version": "0.1",
+  "page_index": 4,
+  "title": "WEAPONS A-G, GBU-38/31 JDAM / GBU-10/12",
+  "image": "004-WEAPONS-A-G-GBU-38-31-JDAM-GBU-10-12.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "GBU-38/31 - COMMON SETUP",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        111.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "RDR ALT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        151.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "RIGHT HDPT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        192.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "LASER switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        233.28,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        274.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        314.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        355.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "GBU-xx osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        396.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "POWER osb | wait for PWR ON then RDY ... PWR ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        436.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-caution",
+      "text": "Must show RDY before employment. GPS alignment takes ~90s.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        477.72,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "MSL STATION | NWS / MSL STEP short ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        508.95,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "PROF1 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        549.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "CNTL page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        590.43,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "AD osb | arming delay ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        631.17,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "FZE osb | AIR / GND / GND DLY ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        671.91,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "FD osb | only if GND DLY set ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        712.65,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "IMP ANG osb | impact angle ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        753.39,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "IMP AZ osb | impact azimuth ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        794.13,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "IMP VEL osb | impact velocity ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        834.87,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "CNTL page | return to SMS ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        875.61,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "branch-header",
+      "text": "PRE-PLANNED (TGP)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        919.07,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "MODE osb ... PRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        957.35,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "TGP page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        998.09,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "CNI DED page | Dauber RTN ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1038.83,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1079.57,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-info",
+      "text": "Navigate towards STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1116.23,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "TGP | DMS DOWN to TGP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1144.75,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-check",
+      "text": "TGP slaved to STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1181.42,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | TMS RIGHT or TMS UP ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1209.94,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "TGP | Cursor/Enable to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1250.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "SENSOR MODE | TV/BHOT/WHOT osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1291.42,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "FOV osb | NARO/WIDE ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1332.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "ZOOM LEVEL | MAN RNG knob ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1372.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | on target ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1413.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-info",
+      "text": "TMS RIGHT = Area Track (ground position).TMS UP = Point Track (specific object).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1450.3,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1504.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1545.36,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1586.1,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-info",
+      "text": "Fire-and-forget after release. Cannot be retargeted.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1617.34,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "branch-header",
+      "text": "PRE-PLANNED (STEERPOINT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1652.64,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "MODE osb ... PRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1690.92,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "CNI DED page | Dauber RTN ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1731.66,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1772.4,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-info",
+      "text": "Navigate towards STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1809.07,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1837.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1878.33,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1919.07,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "branch-header",
+      "text": "VIS MODE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-info",
+      "text": "Visual designation using HUD TD box. Good for targets of opportunity.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        108.07,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "MODE osb | Radar/Cursor Enable to cycle ... VIS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        162.39,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "HUD TD BOX | Cursor/Enable switch ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        203.13,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-info",
+      "text": "TD box moves to designated ground position",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        239.79,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-optional",
+      "text": "Recage with TMS DOWN",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        268.31,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "DESIGNATE TARGET | TMS UP ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        296.83,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-check",
+      "text": "HUD switches to CCRP-style delivery symbology",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        333.5,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-optional",
+      "text": "HMCS can also be used to designate target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        362.01,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        390.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        431.27,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "GBU-38/31 - COMMON SETUP",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        472.01,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "",
+      "kind": "section-header",
+      "text": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        530.41,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "LASER CODE | LIST > 0 > 5 LASR ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        571.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        612.42,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "RDR ALT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        653.16,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "RIGHT HDPT switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        693.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "LASER switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        734.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        775.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-G",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        816.12,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "SMS page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        856.86,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "GBU-xx osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        897.6,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "PROF2 osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        938.34,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "MODE osb | CCRP ... CCRP",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        979.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "SGL / PAIR osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1019.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 73,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "RELEASE INTERVAL (ft.) ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1060.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 74,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "RELEASE PULSES | for multiple releases ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1101.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 75,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "FUZE osb | NOSE / TAIL / NSTL ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1142.04,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 76,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "note-check",
+      "text": "System Status is RDY",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1178.7,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 77,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "CNI DED page | Dauber RTN ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1207.22,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 78,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "TARGET STPT | ICP to select ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1247.96,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 79,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "note-check",
+      "text": "TGP slaved to STPT",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1284.63,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 80,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "TGP | DMS DOWN to TGP ... SOI",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1313.14,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 81,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | on STPT ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1353.88,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 82,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "note-info",
+      "text": "TMS RIGHT = Area Track (ground position).TMS UP = Point Track (specific object).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1390.55,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 83,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "TGP | Cursor/Enable to target ... SLEW",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1444.87,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 84,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "SENSOR MODE | TV/BHOT/WHOT osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1485.61,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 85,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "FOV osb | NARO/WIDE ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1526.35,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 86,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "ZOOM LEVEL | MAN RNG knob ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1567.09,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 87,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "AREA / POINT TRACK | on target ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1607.83,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 88,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "note-info",
+      "text": "TMS RIGHT = Area Track (ground position).TMS UP = Point Track (specific object).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1644.5,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 89,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "ASL | steer to ASL ... ALIGN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1698.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 90,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | to prevent hung stores ... HOLD",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1739.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 91,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "note-radio",
+      "text": "\"Pickle\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1780.3,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 92,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "step",
+      "text": "ENGAGE LASER | 1st trigger detent, until impact ... LASE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1811.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 93,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "note-caution",
+      "text": "Begin lasing 8-12 seconds before impact.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1852.27,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 94,
+      "group": "GBU-10/12 PAVEWAY II - CCRP (TGP)",
+      "kind": "note-radio",
+      "text": "\"Lasing\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1883.5,
+        679,
+        31.23
+      ]
+    }
+  ]
+}

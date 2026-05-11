@@ -1,0 +1,1286 @@
+{
+  "schema_version": "0.1",
+  "page_index": 9,
+  "title": "WEAPONS A-A, AIM-9 SIDEWINDER, M61A1 GUN",
+  "image": "009-WEAPONS-A-A-AIM-9-SIDEWINDER-M61A1-GUN.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "AIM-9L/M - BORE (NO RADAR)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-info",
+      "text": "Short-range IR missile. Requires tone for lock.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        139.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        180.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "SMS page | or dogfight switch ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        221.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "9LM osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        261.8,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "SLAVE/BORE osb ... BORE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        302.54,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-info",
+      "text": "Seeker looks straight ahead. Reticle fixed on HUD.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        339.2,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "SPOT/SCAN osb ... AS REQ",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        367.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-info",
+      "text": "SPOT: narrow FOV (precise). SCAN: wider FOV (easier acquisition).",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        404.39,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "COOL osb | missile coolant ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        432.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-caution",
+      "text": "Coolant is limited. Activate when engagement imminent.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        473.64,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "FLY | place reticle over target ... MANEUVER",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        504.88,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "TONE | growl increases in pitch when locked ... ACQUIRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        545.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "UNCAGE SEEKER | TMS UP ... UNCAGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        586.36,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-check",
+      "text": "Seeker tracks independently. Diamond on HUD follows target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        623.02,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-check",
+      "text": "Confirm missile lock",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        651.54,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | diamond on target ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        680.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-radio",
+      "text": "\"Fox Two\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        720.8,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "AIM-9L/M - BORE (NO RADAR)",
+      "kind": "note-caution",
+      "text": "Minimum range: ~1500 ft. Missile needs time to arm and track.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        752.03,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "",
+      "kind": "section-header",
+      "text": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        810.43,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "note-info",
+      "text": "Seeker slaved to radar line-of-sight. Radar finds target, missile follows.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        851.7,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "MASTER MODE | or DGFT switch ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        906.02,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "9LM osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        946.76,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "SLAVE/BORE osb ... SLAVE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        987.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "note-info",
+      "text": "Missile seeker follows radar LOS. Reticle moves with radar track.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1024.17,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "ACM SUB-MODE | TMS UP ... BORE SCAN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1052.68,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "note-optional",
+      "text": "Or TMS RIGHT for 30x20 scan, TMS LEFT for slewable",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1093.42,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "note-check",
+      "text": "Radar locks target (STT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1121.94,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "note-check",
+      "text": "Missile seeker auto-slaves to radar target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1150.46,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "TONE | lock tone audible ... VERIFY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1178.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "UNCAGE SEEKER | TMS UP ... UNCAGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1219.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "note-check",
+      "text": "Seeker tracks independently. Diamond on HUD.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1256.38,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "DLZ | verify in range, Rmax to Rmin ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1284.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "step",
+      "text": "WEAPON RELEASE | diamond on target, in range ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1325.64,
+        665.42,
+        63.83
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "AIM-9L/M - SLAVE (RADAR AIDED)",
+      "kind": "note-radio",
+      "text": "\"Fox Two\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1393.54,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "",
+      "kind": "section-header",
+      "text": "AIM-9X - BORE (HMCS)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1451.94,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-info",
+      "text": "High off-boresight IR missile. 80 deg off-boresight with HMCS.Seeker tracks helmet LOS. No need to point nose at target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1493.21,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "HMCS | power on ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1547.53,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-caution",
+      "text": "Ensure HMCS aligned via HUD boresight cross before takeoff.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1588.27,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "MASTER MODE | or DGFT switch ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1619.5,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1660.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "9X osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1700.98,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "SLAVE/BORE osb ... BORE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1741.72,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-info",
+      "text": "In BORE: seeker slaved to HMCS helmet position",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1778.39,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "COOL osb ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1806.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "ACM BORESIGHT | TMS UP short ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1847.64,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "SLAVE RADAR TO HELMET | TMS UP long ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1888.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-info",
+      "text": "Radar scans where helmet looks. Auto-acquires within 10 nm.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1925.05,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "HELMET | look at target ... TRACK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        69.79,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-check",
+      "text": "Radar auto-locks target (STT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        106.45,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-info",
+      "text": "Seeker follows helmet. Engage targets up to 80 deg off nose.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        134.97,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "TONE | lock tone ... VERIFY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        163.49,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "UNCAGE SEEKER | TMS UP, optional ... UNCAGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        204.23,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-info",
+      "text": "9X can launch caged (fires in BORE direction of helmet)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        240.9,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "DLZ | verify in range ... CHECK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        269.41,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "step",
+      "text": "WEAPON RELEASE ... PRESS",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        310.15,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "AIM-9X - BORE (HMCS)",
+      "kind": "note-radio",
+      "text": "\"Fox Two\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        350.89,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "",
+      "kind": "section-header",
+      "text": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        409.29,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "note-info",
+      "text": "Level II provides funnel sight without radar lock.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        450.56,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        479.08,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        519.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "step",
+      "text": "RF switch | if no radar desired ... SILENT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        560.56,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "step",
+      "text": "SMS page | AAM osb to cycle to gun ... GUN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        601.3,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "note-check",
+      "text": "EEGS Level II symbology on HUD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        637.96,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "note-info",
+      "text": "Boresight Cross, EEGS Funnel, and MRGS Lines displayed.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        666.48,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "step",
+      "text": "MANEUVER | frame target in EEGS funnel ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        695,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "note-info",
+      "text": "Top of funnel = 600 ft. Bottom = 2500-3000 ft.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        731.66,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "note-info",
+      "text": "When target wingspan fills funnel width, range is correct.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        760.18,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "step",
+      "text": "GUN TRIGGER | second detent ... FIRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        788.7,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "M61A1 GUN - EEGS LEVEL II (NO RADAR)",
+      "kind": "note-radio",
+      "text": "\"Guns\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        829.44,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "",
+      "kind": "section-header",
+      "text": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        887.83,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-info",
+      "text": "Level V provides computed pipper with radar lock data.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        929.11,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 73,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "step",
+      "text": "FCR switch ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        957.62,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 74,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "step",
+      "text": "DOGFIGHT switch | outboard position ... DGFT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        998.36,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 75,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-check",
+      "text": "Gun auto-selected with EEGS mode",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1035.03,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 76,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-check",
+      "text": "ACM radar mode auto-selected (30x20 HUD scan)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1063.55,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 77,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "step",
+      "text": "MASTER ARM switch ... ARM",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1092.07,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 78,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "step",
+      "text": "ACM LOCK | TMS UP for boresight mode ... LOCK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1132.81,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 79,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-check",
+      "text": "STT lock acquired. EEGS Level V symbology on HUD.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1169.47,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 80,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-info",
+      "text": "Level V adds: T-Symbol, Slant Range, Closure Rate, Level V Pipper.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1197.99,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 81,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "step",
+      "text": "MANEUVER | stabilize Level V pipper on target ... FLY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1226.51,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 82,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-info",
+      "text": "+ symbol = 1G pipper (non-maneuvering target)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1263.17,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 83,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-info",
+      "text": "Bar below = 9G pipper (max sustained turn target)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1291.69,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 84,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "step",
+      "text": "GUN TRIGGER | second detent ... FIRE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1320.21,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 85,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-info",
+      "text": "BATR (Bullets at Target Range) symbol appears after firing.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1356.88,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 86,
+      "group": "M61A1 GUN - EEGS LEVEL V (RADAR LOCK)",
+      "kind": "note-radio",
+      "text": "\"Guns\" call",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1385.39,
+        679,
+        31.23
+      ]
+    },
+    {
+      "idx": 87,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1416.63,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 88,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "ACM Sub-Modes: TMS UP: Boresight (20 nm, narrow).TMS RIGHT: 30x20 scan (wider). TMS LEFT: Slewable (manual cursor).HMCS: Align before takeoff. Shows diamond, DLZ, seeker circle.TMS UP long: slave radar to helmet look direction.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1460.61,
+        679,
+        129.01
+      ]
+    },
+    {
+      "idx": 89,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Wingspan setting: ICP LIST > 5 (MAN) > enter wingspan in ft > ENTR. Default 33 ft.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1595.06,
+        679,
+        51.6
+      ]
+    },
+    {
+      "idx": 90,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "AircraftWingspan (ft)MiG-2124MiG-2337MiG-2546MiG-2936MiG-3146Su-2444Su-2551Su-2742",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        1660.24,
+        668.14,
+        368.02
+      ]
+    }
+  ]
+}

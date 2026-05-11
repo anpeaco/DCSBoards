@@ -1,0 +1,1048 @@
+{
+  "schema_version": "0.1",
+  "page_index": 16,
+  "title": "A-A RADAR MODES",
+  "image": "016-A-A-RADAR-MODES.png",
+  "image_size": [
+    1358,
+    2037
+  ],
+  "items": [
+    {
+      "idx": 0,
+      "group": "",
+      "kind": "section-header",
+      "text": "CRM (COMBINED RADAR MODE)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 1,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-info",
+      "text": "Primary BVR search mode. Scan volume + track up to 10 targets.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        111.06,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 2,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "MASTER MODE ... A-A",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        139.58,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 3,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "FCR switch | verify ... ON",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        180.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 4,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "FCR page | on MFD ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        221.06,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 5,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-info",
+      "text": "CRM is default A-A radar mode",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        257.72,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 6,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "RANGE | MFD osb rocker ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        286.24,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 7,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-info",
+      "text": "10, 20, 40, 80, 160 nm selectable",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        322.91,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 8,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "AZIMUTH | MFD osb ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        351.42,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 9,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-info",
+      "text": "60° (wide) or 30° (narrow) scan",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        388.09,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 10,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "BARS | MFD osb ... SET",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        416.61,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 11,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-info",
+      "text": "1, 2, 4, 6 bar scan. More bars = more altitude coverage, slower scan.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        453.27,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 12,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "TARGET | TMS UP to bug target ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        507.59,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 13,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-check",
+      "text": "Bugged target shown as priority. DLZ appears for bugged target.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        544.26,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 14,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "step",
+      "text": "TMS UP | again for STT lock ... LOCK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        572.78,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 15,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-check",
+      "text": "Single Target Track. Full guidance data available for AIM-120/AIM-9.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        609.44,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 16,
+      "group": "CRM (COMBINED RADAR MODE)",
+      "kind": "note-optional",
+      "text": "TMS DOWN to drop track and return to search",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        663.76,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 17,
+      "group": "",
+      "kind": "section-header",
+      "text": "ACM (AIR COMBAT MANEUVERING)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        719.44,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 18,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "Close-range automatic acquisition mode. No manual search required.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        760.71,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 19,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "step",
+      "text": "DOGFIGHT switch | or ACM osb ... ENGAGE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        815.03,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 20,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "ACM overrides current mode. Enters boresight scan by default.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        851.7,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 21,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "branch-header",
+      "text": "BORESIGHT (TMS UP)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        887.01,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 22,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "step",
+      "text": "TMS UP ... BORE SCAN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        925.29,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 23,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "3° cone, 20 nm range. Scans directly ahead of aircraft nose.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        961.95,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 24,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "First return auto-locks to STT.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        990.47,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 25,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "Best for: head-on merge, gun snapshot",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1018.99,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 26,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "branch-header",
+      "text": "30x20 VERTICAL (TMS RIGHT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1054.3,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 27,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "step",
+      "text": "TMS RIGHT ... 30x20 SCAN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1092.57,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 28,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "30° wide x 20° tall scan volume, 10 nm range.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1129.24,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 29,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "Auto-locks first target found.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1157.76,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 30,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "Best for: maneuvering fight, target above/below nose",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1186.28,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 31,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "branch-header",
+      "text": "SLEWABLE (TMS LEFT)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1221.58,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 32,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "step",
+      "text": "TMS LEFT ... SLEWABLE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1259.86,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 33,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "30° cone, slew with cursor. 20 nm range.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1296.53,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 34,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "Pilot-controlled search direction via Cursor/Enable.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1325.05,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 35,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "TMS UP to lock designated target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1353.57,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 36,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "Best for: off-boresight target, specific target selection",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1382.08,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 37,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "branch-header",
+      "text": "10x60 VERTICAL (TMS DOWN)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1417.39,
+        679,
+        31.49
+      ]
+    },
+    {
+      "idx": 38,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "step",
+      "text": "TMS DOWN ... 10x60 SCAN",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        0,
+        1455.67,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 39,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "10° wide x 60° tall scan volume. Scans high to low.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1492.34,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 40,
+      "group": "ACM (AIR COMBAT MANEUVERING)",
+      "kind": "note-info",
+      "text": "Auto-locks first target. Useful for targets at very different altitude.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        0,
+        1520.85,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 41,
+      "group": "",
+      "kind": "section-header",
+      "text": "TWS (TRACK WHILE SCAN)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        69.79,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 42,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-info",
+      "text": "Multi-target tracking with search. Supports AIM-120 launch on multiple targets.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        111.06,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 43,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "step",
+      "text": "FCR page | CRM active ... VERIFY",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        165.38,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 44,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "step",
+      "text": "TWS osb | on FCR page ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        206.12,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 45,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-check",
+      "text": "Radar continues scanning while tracking up to 10 targets",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        242.78,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 46,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-info",
+      "text": "Bugged targets get track file (bearing, range, altitude, speed)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        271.3,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 47,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "step",
+      "text": "TARGET | TMS UP to bug ... DESIGNATE",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        299.82,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 48,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-info",
+      "text": "AIM-120 launch-and-leave. Fire on one target, re-bug next, fire again.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        336.49,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 49,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-check",
+      "text": "DLZ shows range for bugged target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        390.81,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 50,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "step",
+      "text": "ADDITIONAL TARGETS | cursor + TMS UP ... BUG",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        419.32,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 51,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-info",
+      "text": "Multiple targets can be bugged for sequential AIM-120 launches",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        455.99,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 52,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-info",
+      "text": "TWS track quality is lower than STT. For AIM-9 or close range, use STT.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        484.51,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 53,
+      "group": "TWS (TRACK WHILE SCAN)",
+      "kind": "note-info",
+      "text": "TWS does not provide missile guidance updates — AIM-120 goes active on its own seeker.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        538.83,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 54,
+      "group": "",
+      "kind": "section-header",
+      "text": "SAM (SITUATION AWARENESS MODE)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        620.31,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 55,
+      "group": "SAM (SITUATION AWARENESS MODE)",
+      "kind": "note-info",
+      "text": "Search only. No lock, no emissions beyond normal scan. Background SA mode.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        661.58,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 56,
+      "group": "SAM (SITUATION AWARENESS MODE)",
+      "kind": "step",
+      "text": "FCR page | SAM osb ... SELECT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        715.9,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 57,
+      "group": "SAM (SITUATION AWARENESS MODE)",
+      "kind": "note-info",
+      "text": "Radar scans normally but does not attempt track",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        752.57,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 58,
+      "group": "SAM (SITUATION AWARENESS MODE)",
+      "kind": "note-info",
+      "text": "Targets shown as search returns only (no track data)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        781.08,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 59,
+      "group": "SAM (SITUATION AWARENESS MODE)",
+      "kind": "note-info",
+      "text": "Useful for: passive SA, avoiding radar emissions when not ready to engage",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        809.6,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 60,
+      "group": "",
+      "kind": "section-header",
+      "text": "STT (SINGLE TARGET TRACK)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        891.08,
+        679,
+        41.27
+      ]
+    },
+    {
+      "idx": 61,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "note-info",
+      "text": "Continuous full-quality track on single target. Required for AIM-9 SLAVE.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        932.35,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 62,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "step",
+      "text": "TARGET | TMS UP (from bugged) or ACM auto-lock ... STT",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        986.67,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 63,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "note-info",
+      "text": "Radar stops scanning, focuses on one target",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1023.34,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 64,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "note-check",
+      "text": "Full track data: range, closure, aspect, altitude",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1051.86,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 65,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "note-check",
+      "text": "DLZ, ASC (Allowable Steering Circle), ASEC (Attack Steering Error Circle) on HUD",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1080.37,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 66,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "step",
+      "text": "BREAK LOCK | TMS DOWN ... BREAK",
+      "spoken": null,
+      "navigable": true,
+      "bbox": [
+        679,
+        1134.69,
+        665.42,
+        36.67
+      ]
+    },
+    {
+      "idx": 67,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "note-check",
+      "text": "Returns to previous search mode (CRM or TWS)",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1171.36,
+        679,
+        28.52
+      ]
+    },
+    {
+      "idx": 68,
+      "group": "STT (SINGLE TARGET TRACK)",
+      "kind": "note-info",
+      "text": "STT concentrates radar emissions on target. Target's RWR will show spike/lock.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1199.88,
+        679,
+        54.32
+      ]
+    },
+    {
+      "idx": 69,
+      "group": "",
+      "kind": "notes-heading",
+      "text": "NOTES",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1254.2,
+        679,
+        43.99
+      ]
+    },
+    {
+      "idx": 70,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Mode Selection Guide:",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1298.18,
+        679,
+        25.8
+      ]
+    },
+    {
+      "idx": 71,
+      "group": "NOTES",
+      "kind": "table",
+      "text": "SituationModeWhyBVR searchCRMStandard scan + trackMulti-target BVRTWSTrack several, shoot sequentiallyDogfightACMAuto-acquire close targetsPassive searchSAMSearch without track emissionsMissile guidanceSTTFull data, AIM-9 SLAVE",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        684.43,
+        1337.57,
+        668.14,
+        245.8
+      ]
+    },
+    {
+      "idx": 72,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "Radar range vs detail: Smaller range = faster update, better track quality.40 nm / 4 bar is good general setting. 20 nm / 2 bar for faster updates.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1596.94,
+        679,
+        103.21
+      ]
+    },
+    {
+      "idx": 73,
+      "group": "NOTES",
+      "kind": "notes-block",
+      "text": "ACM exit: Press dogfight switch again or select A-A master mode to return to CRM.",
+      "spoken": null,
+      "navigable": false,
+      "bbox": [
+        679,
+        1705.58,
+        679,
+        51.6
+      ]
+    }
+  ]
+}

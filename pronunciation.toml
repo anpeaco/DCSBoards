@@ -1,0 +1,100 @@
+# DCS Kneeboard TTS pronunciation overrides.
+#
+# Each key is matched against the source text as a whole word (case-sensitive)
+# and replaced with the value before TTS synthesis. Use this to fix
+# mispronunciations of aviation abbreviations and acronyms.
+#
+# Tips:
+#   - "P W R" with spaces makes the synthesizer spell letters out.
+#   - Use natural-language phonetic spellings ("Flickus", "Eggy", "Rower").
+#   - You can edit this file and restart the app to apply changes.
+
+[abbreviations]
+# Power / electrical
+PWR = "POWER"
+EPU = "E P U"
+PMG = "P M G"
+GEN = "Gen"
+
+# FLCS / flight controls
+FLCS = "Flickus"
+JFS = "J F S"
+RLY = "Relay"
+
+# Avionics
+MMC = "M M C"
+MFD = "M F D"
+UFC = "U F C"
+GPS = "G P S"
+HUD = "Hud"
+HMCS = "Hemix"
+DED = "D E D"
+EGI = "Eggy"
+STA = "Station"
+STPT = "Steer Point"
+
+# Sensors / pods
+FCR = "F C R"
+TGP = "Targeting Pod"
+HTS = "H T S"
+HDPT = "Hard Point"
+RDR = "Radar"
+STBY = "Standby"
+RWR = "Rower"
+CMDS = "C M D S"
+
+# Comms / IFF
+COMM = "Comm"
+SQL = "Squelch"
+IFF = "I F F"
+LVT = "L V T"
+MIDS = "Mids"
+
+# Engine / instruments
+RPM = "R P M"
+FTIT = "F T I T"
+OBOGS = "O Bogs"
+
+# Navigation / HOTAS
+NWS = "Nose Wheel Steering"
+TMS = "T M S"
+DMS = "D M S"
+CMS = "C M S"
+HDG = "Heading"
+NAV = "Nav"
+ASL = "A S L"
+ALT = "Altitude"
+BARO = "Barometric"
+SPI = "SPEE"
+
+# Weapons / brevity
+AGM = "A G M"          # so "AGM-65D" reads "A G M 65 dee" rather than "Aim-Gee-Em…"
+AIM = "Aim"
+WPN = "Weapon"
+HARM = "Harm"
+JDAM = "J Dam"
+JSOW = "J Sow"
+GBU = "G B U"
+LGB = "L G B"
+WCMD = "Wickmid"
+CCRP = "C C R P"
+CCIP = "C C I P"
+DTOS = "D Toss"
+MIL = "Mil"
+AB = "Afterburner"
+MK = "Mark"
+
+# Sensor / cockpit terms
+SOI = "Soy"
+osb = "O S B"          # lowercase form used in source ("MODE osb")
+OSB = "O S B"          # uppercase form ("OSB-1")
+
+# Common states
+ARM = "Arm"
+NORM = "Norm"
+BATT = "Battery"
+TEST = "Test"
+PRE = "Pre"
+BORE = "Bore"
+VIS = "Vis"
+REQ = "Required"       # "AS REQ" reads "as required"
