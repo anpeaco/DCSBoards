@@ -15,6 +15,7 @@ PWR = "POWER"
 EPU = "E P U"
 PMG = "P M G"
 GEN = "Gen"
+PT. = "Part"
 
 # FLCS / flight controls
 FLCS = "Flickus"

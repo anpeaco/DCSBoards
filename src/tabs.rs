@@ -5,6 +5,7 @@
 
 use anyhow::{Context, Result};
 use serde::Deserialize;
+use std::cell::RefCell;
 use std::path::{Path, PathBuf};
 
 use crate::config::{
@@ -40,7 +41,37 @@ pub struct Item {
 
 pub struct LoadedPage {
     pub manifest: PageManifest,
-    pub image: slint::Image,
+    /// Disk path for the page PNG. Decoded on demand via `image()` so we
+    /// don't eat 11 MB per page × 30 pages of RGBA at startup.
+    pub image_path: PathBuf,
+    image_cache: RefCell<Option<slint::Image>>,
+}
+
+impl LoadedPage {
+    pub fn new(manifest: PageManifest, image_path: PathBuf) -> Self {
+        Self {
+            manifest,
+            image_path,
+            image_cache: RefCell::new(None),
+        }
+    }
+
+    /// Decode the PNG the first time it's asked for; hand out clones of the
+    /// reference-counted slint::Image afterwards. `Image::clone` is cheap.
+    pub fn image(&self) -> slint::Image {
+        if let Some(img) = self.image_cache.borrow().as_ref() {
+            return img.clone();
+        }
+        let img = slint::Image::load_from_path(&self.image_path).unwrap_or_default();
+        *self.image_cache.borrow_mut() = Some(img.clone());
+        img
+    }
+
+    /// Drop the decoded image so its RGBA buffer is freed. Called by the
+    /// page-eviction logic when the cursor leaves the page.
+    pub fn evict_image(&self) {
+        *self.image_cache.borrow_mut() = None;
+    }
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
@@ -163,9 +194,10 @@ fn load_generator_pages(dir: &Path) -> Result<Vec<LoadedPage>> {
         let manifest: PageManifest = serde_json::from_str(&text)
             .with_context(|| format!("parsing {}", json_path.display()))?;
         let png_path = dir.join(&manifest.image);
-        let image = slint::Image::load_from_path(&png_path)
-            .map_err(|_| anyhow::anyhow!("loading {}", png_path.display()))?;
-        pages.push(LoadedPage { manifest, image });
+        if !png_path.exists() {
+            anyhow::bail!("missing PNG {}", png_path.display());
+        }
+        pages.push(LoadedPage::new(manifest, png_path));
     }
     if pages.is_empty() {
         anyhow::bail!("no page JSONs in {}", dir.display());
@@ -187,10 +219,10 @@ fn load_image_folder(dir: &Path, recursive: bool) -> Result<Vec<LoadedPage>> {
     }
 
     let mut pages = Vec::with_capacity(image_paths.len());
-    for (idx, img_path) in image_paths.iter().enumerate() {
-        let image = slint::Image::load_from_path(img_path)
-            .map_err(|_| anyhow::anyhow!("loading {}", img_path.display()))?;
-        let (w, h) = (image.size().width, image.size().height);
+    for img_path in image_paths.iter() {
+        // Use the image crate's lightweight dimension reader so we don't
+        // decode every PNG up front just to fill in bbox metadata.
+        let (w, h) = image_dimensions(img_path).unwrap_or((1, 1));
         let title = img_path
             .file_stem()
             .and_then(|s| s.to_str())
@@ -213,10 +245,40 @@ fn load_image_folder(dir: &Path, recursive: bool) -> Result<Vec<LoadedPage>> {
                 bbox: [0.0, 0.0, w.max(1) as f32, h.max(1) as f32],
             }],
         };
-        pages.push(LoadedPage { manifest, image });
-        let _ = idx;
+        pages.push(LoadedPage::new(manifest, img_path.clone()));
     }
     Ok(pages)
+}
+
+/// Read just the dimensions of a PNG/JPEG without keeping the decoded
+/// pixels around. We fall back to a momentary decode-and-drop for non-PNG
+/// formats so a transient ~10 MB peak is the worst case per file.
+fn image_dimensions(path: &Path) -> Option<(u32, u32)> {
+    if let Some((w, h)) = read_png_dims(path) {
+        return Some((w, h));
+    }
+    let img = slint::Image::load_from_path(path).ok()?;
+    let sz = img.size();
+    Some((sz.width.max(1), sz.height.max(1)))
+}
+
+fn read_png_dims(path: &Path) -> Option<(u32, u32)> {
+    use std::io::Read;
+    if !matches!(
+        path.extension().and_then(|s| s.to_str()).map(|s| s.to_ascii_lowercase()).as_deref(),
+        Some("png")
+    ) {
+        return None;
+    }
+    let mut f = std::fs::File::open(path).ok()?;
+    let mut buf = [0u8; 24];
+    f.read_exact(&mut buf).ok()?;
+    if &buf[0..8] != b"\x89PNG\r\n\x1a\n" {
+        return None;
+    }
+    let w = u32::from_be_bytes(buf[16..20].try_into().ok()?);
+    let h = u32::from_be_bytes(buf[20..24].try_into().ok()?);
+    Some((w, h))
 }
 
 fn collect_images(dir: &Path, recursive: bool, out: &mut Vec<PathBuf>) -> Result<()> {
@@ -289,6 +351,58 @@ impl TabRegistry {
             let aircraft = self.aircraft.clone();
             self.tabs[idx].ensure_loaded(&aircraft);
         }
+    }
+
+    /// Force-reload the active tab from disk, preserving the cursor where
+    /// possible. Called by the watcher when files in the source dir change.
+    /// Returns true if the tab had a source to reload.
+    pub fn reload_active(&mut self) -> bool {
+        let aircraft = self.aircraft.clone();
+        let Some(tab) = self.tabs.get_mut(self.active) else {
+            return false;
+        };
+        // Snapshot the cursor identity before we drop the old pages so we
+        // can try to find the same item in the freshly-loaded set.
+        let prev_cursor = tab.cursor;
+        let prev_page_title = tab
+            .pages
+            .get(prev_cursor.page)
+            .map(|p| p.manifest.title.clone());
+        let prev_item_idx_in_manifest = tab
+            .pages
+            .get(prev_cursor.page)
+            .and_then(|p| p.manifest.items.get(prev_cursor.item).map(|i| i.idx));
+
+        tab.loaded = false;
+        tab.pages.clear();
+        tab.source_path = None;
+        tab.load_error = None;
+        tab.ensure_loaded(&aircraft);
+
+        // Try to restore cursor: same page title + same item.idx wins; else
+        // fall back to first navigable of page 0.
+        if let Some(title) = prev_page_title {
+            if let Some((page_idx, page)) = tab
+                .pages
+                .iter()
+                .enumerate()
+                .find(|(_, p)| p.manifest.title == title)
+            {
+                let item_idx = prev_item_idx_in_manifest
+                    .and_then(|target_idx| {
+                        page.manifest
+                            .items
+                            .iter()
+                            .position(|i| i.idx == target_idx)
+                    })
+                    .unwrap_or_else(|| first_navigable(&page.manifest.items));
+                tab.cursor = Cursor {
+                    page: page_idx,
+                    item: item_idx,
+                };
+            }
+        }
+        true
     }
 
     pub fn set_aircraft(&mut self, aircraft: String) {

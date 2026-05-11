@@ -4,12 +4,29 @@ version = "0.1.0"
 edition = "2021"
 rust-version = "1.80"
 
+[features]
+default = []
+# Enable whisper.cpp-based STT. Requires LLVM installed on the build host.
+whisper-stt = ["dep:whisper-rs"]
+
 [dependencies]
 slint = { version = "1.13", default-features = false, features = ["std", "compat-1-2", "backend-winit", "renderer-femtovg"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 toml = "0.8"
 anyhow = "1"
+bitflags = { version = "2", features = ["serde"] }
+gilrs = "0.10"
+notify = "6"
+notify-debouncer-mini = "0.4"
+cpal = "0.15"
+rubato = "0.16"
+# Whisper STT is gated behind a feature flag because whisper-rs-sys uses
+# bindgen, which needs libclang on the build host. Install LLVM first:
+#   winget install LLVM.LLVM
+# then build with `cargo run --features whisper-stt`. See models/README.md
+# for the ggml-base.en.bin download.
+whisper-rs = { version = "0.16", optional = true }
 
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.58", features = [
@@ -19,6 +36,8 @@ windows = { version = "0.58", features = [
     "Media_Playback",
     "Media_SpeechSynthesis",
     "Storage_Streams",
+    "Win32_Foundation",
+    "Win32_UI_WindowsAndMessaging",
 ] }
 
 [profile.dev]

@@ -75,7 +75,37 @@ fn normalise_step(text: &str) -> String {
     // Forward slash in source text ("CAT 1 / CAT 11", "AGM-65D/G", "TGP/LST")
     // reads naturally as a short pause — commas give the synthesiser a brief
     // beat rather than the "slash" being spoken literally.
-    stripped.replace('/', ", ")
+    let with_slashes = stripped.replace('/', ", ");
+    expand_page_refs(&with_slashes)
+}
+
+/// Generator convention: "PT.2", "Pt.3" etc. are page references; spoken as
+/// "Page 2", "Page 3". Whisper TTS naturally reads digits as words, so the
+/// listener hears "Page two" without further transformation. Only matches
+/// when the "PT" is a word-start (so we don't munge a stray "OPT.2").
+fn expand_page_refs(text: &str) -> String {
+    let chars: Vec<char> = text.chars().collect();
+    let mut out = String::with_capacity(text.len());
+    let mut i = 0;
+    while i < chars.len() {
+        let next_is_digit = chars
+            .get(i + 3)
+            .map_or(false, |c| c.is_ascii_digit());
+        if i + 3 < chars.len()
+            && (chars[i] == 'P' || chars[i] == 'p')
+            && (chars[i + 1] == 'T' || chars[i + 1] == 't')
+            && chars[i + 2] == '.'
+            && next_is_digit
+            && (i == 0 || !chars[i - 1].is_alphanumeric())
+        {
+            out.push_str("Page ");
+            i += 3;
+            continue;
+        }
+        out.push(chars[i]);
+        i += 1;
+    }
+    out
 }
 
 fn expand_abbreviations(text: &str, map: &HashMap<String, String>) -> String {
@@ -113,6 +143,16 @@ mod tests {
 
     fn map(pairs: &[(&str, &str)]) -> HashMap<String, String> {
         pairs.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect()
+    }
+
+    #[test]
+    fn expands_page_refs() {
+        assert_eq!(normalise_step("Go to PT.2 next"), "Go to Page 2 next");
+        assert_eq!(normalise_step("PT.10 reference"), "Page 10 reference");
+        // word-start guard: don't expand inside another word
+        assert_eq!(normalise_step("OPT.2 stuff"), "OPT.2 stuff");
+        // need at least one digit
+        assert_eq!(normalise_step("PT.abc"), "PT.abc");
     }
 
     #[test]

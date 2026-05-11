@@ -2,13 +2,25 @@
 // is visible. Re-enable the windows subsystem at M9 packaging:
 // #![cfg_attr(all(windows, not(debug_assertions)), windows_subsystem = "windows")]
 
+mod actions;
+mod audio;
 mod config;
+mod input;
+#[cfg(windows)]
+mod overlay;
 mod settings;
+#[cfg(feature = "whisper-stt")]
+mod stt;
 mod tabs;
 mod tts;
+mod voice_router;
+mod watcher;
 
+use actions::Action;
 use anyhow::Result;
+use audio::AudioCapture;
 use config::{config_path, AppConfig};
+use input::{key_event_to_trigger, InputEvent, Mods};
 use settings::{settings_path, Settings};
 use slint::{ComponentHandle, SharedString, VecModel};
 use std::cell::RefCell;
@@ -20,6 +32,16 @@ use tts::{spoken_for, PronunciationConfig, TtsEngine};
 
 // Win32 overlay flags (WS_EX_LAYERED for opacity, WS_EX_TRANSPARENT for click-through)
 // will be added in M7 polish via raw HWND access through the `windows` crate.
+
+/// Reject offscreen "hidden" positions so ToggleVisibility doesn't persist
+/// (-30000, -30000) into settings.toml and lose the user's real window spot.
+fn safe_position_filter(pos: slint::PhysicalPosition) -> Option<slint::PhysicalPosition> {
+    if pos.x < -20000 || pos.y < -20000 {
+        None
+    } else {
+        Some(pos)
+    }
+}
 
 fn is_step(item: &Item) -> bool {
     item.kind == "step"
@@ -67,6 +89,21 @@ slint::slint! {
     export struct AircraftInfo {
         id: string,
         label: string,
+    }
+
+    export struct BindingRow {
+        // Index into `Action::all()`. Round-trips back to Rust on click.
+        action-id: int,
+        label: string,
+        trigger-text: string,   // "Space", "Shift+H", "(unbound)"
+        capturing: bool,
+    }
+
+    // One row in the voice-commands help panel. `phrases` is a comma-joined
+    // list pre-rendered in Rust so Slint doesn't need to walk a [string].
+    export struct VoiceCommandRow {
+        action-label: string,
+        phrases: string,
     }
 
     // Hover aggregator for the tab strip. Each tab cell's TouchArea increments
@@ -199,10 +236,15 @@ slint::slint! {
 
         // Settings bound from Rust (in-out so the panel's widgets can mutate).
         in-out property <bool> settings-open: false;
+        in-out property <bool> voice-commands-open: false;
+        in property <[VoiceCommandRow]> voice-commands;
         in-out property <bool> auto-read: false;
         in-out property <bool> auto-advance: false;
         in-out property <float> advance-delay: 1.5;
         in-out property <bool> read-notes: false;
+        in-out property <bool> hot-reload: false;
+        in-out property <bool> mute-mic-during-speech: true;
+        in-out property <bool> click-through: false;
         in-out property <bool> is-playing: false;
 
         // Tabs + aircraft state pushed from Rust.
@@ -216,6 +258,36 @@ slint::slint! {
         callback tab-cycle-next-clicked();
         callback aircraft-clicked(string);
 
+        // Bindings table — pushed from Rust whenever it changes.
+        in property <[BindingRow]> bindings;
+        callback binding-edit-clicked(int);   // start capture for action-id
+        callback binding-clear-clicked(int);  // unbind action-id
+        // Test/probe mode: while on, presses flash the matched row instead
+        // of firing. `binding-flash-id` is the most-recent action; the
+        // background animation auto-fades it back to neutral.
+        in-out property <bool> binding-test-mode: false;
+        in-out property <int> binding-flash-id: -1;
+        callback binding-test-mode-toggled(bool);
+
+        // Audio device list + current selection. mic-hot drives the small
+        // top-right indicator the user sees while PTT is held.
+        in property <[string]> audio-inputs;
+        in property <string> audio-input-selected;
+        in property <bool> mic-hot: false;
+        in-out property <bool> mic-pulse: false;
+        callback audio-input-clicked(string);
+
+        // Last STT transcript shown in a pill next to the mic icon. Rust
+        // flips `transcript-visible` to true on a new transcript, then to
+        // false after `transcript_pill_seconds`; the opacity binding fades it.
+        in property <string> transcript-text;
+        in property <bool> transcript-visible: false;
+        in-out property <float> transcript-pill-seconds: 5.0;
+        // Optional lucide path drawn left of the transcript text. Empty
+        // string = no icon (used for "Transcribing..." / status messages).
+        in property <string> transcript-icon-d;
+        in property <brush> transcript-icon-tint: #ffcc33;
+
         callback next-clicked();
         callback prev-clicked();
         callback read-clicked();
@@ -226,7 +298,49 @@ slint::slint! {
         callback close-clicked();
         callback drag-by(length, length);
         callback settings-changed();
+        callback settings-opened();   // fired when the panel transitions to open
+        callback panels-changed();    // fired when settings/voice-commands open or close
         callback reload-pronunciation();
+        // Keyboard entry-points. Rust resolves the trigger via the Bindings
+        // table and returns true when it consumed the event so the FocusScope
+        // can accept/reject. Separate press/release so PushToTalk has edges.
+        callback handle-key(string, bool, bool, bool, bool) -> bool;
+        callback handle-key-up(string, bool, bool, bool, bool) -> bool;
+
+        // Translate Slint's KeyEvent payload into a stable name. Letters and
+        // digits arrive as themselves; named keys come through as Private-Use-
+        // Area chars (Key.Backspace = "\u{0008}", etc.) which round-trip
+        // poorly through TOML — emit a readable name instead.
+        pure function canon-key(t: string) -> string {
+            if (t == " ") { return "Space"; }
+            if (t == Key.Backspace) { return "Backspace"; }
+            if (t == Key.Escape) { return "Escape"; }
+            if (t == Key.PageDown) { return "PageDown"; }
+            if (t == Key.PageUp) { return "PageUp"; }
+            if (t == Key.Tab) { return "Tab"; }
+            if (t == Key.Return) { return "Return"; }
+            if (t == Key.F1) { return "F1"; }
+            if (t == Key.F2) { return "F2"; }
+            if (t == Key.F3) { return "F3"; }
+            if (t == Key.F4) { return "F4"; }
+            if (t == Key.F5) { return "F5"; }
+            if (t == Key.F6) { return "F6"; }
+            if (t == Key.F7) { return "F7"; }
+            if (t == Key.F8) { return "F8"; }
+            if (t == Key.F9) { return "F9"; }
+            if (t == Key.F10) { return "F10"; }
+            if (t == Key.F11) { return "F11"; }
+            if (t == Key.F12) { return "F12"; }
+            if (t == Key.UpArrow) { return "Up"; }
+            if (t == Key.DownArrow) { return "Down"; }
+            if (t == Key.LeftArrow) { return "Left"; }
+            if (t == Key.RightArrow) { return "Right"; }
+            if (t == Key.Home) { return "Home"; }
+            if (t == Key.End) { return "End"; }
+            if (t == Key.Insert) { return "Insert"; }
+            if (t == Key.Delete) { return "Delete"; }
+            return t;
+        }
 
         title: "DCS Kneeboard";
         width: 600px;
@@ -236,19 +350,50 @@ slint::slint! {
         always-on-top: true;
         forward-focus: focus;
 
+        // Side-effects driven by the panel's open/close transitions.
+        // Opening silences in-flight speech; closing clears probe/test mode
+        // so the next session starts in normal dispatch.
+        changed settings-open => {
+            if (root.settings-open) {
+                root.voice-commands-open = false;
+                root.settings-opened();
+            } else {
+                root.binding-test-mode = false;
+                root.binding-flash-id = -1;
+            }
+            root.panels-changed();
+        }
+        changed voice-commands-open => {
+            if (root.voice-commands-open) {
+                root.settings-open = false;
+                root.settings-opened();
+            }
+            root.panels-changed();
+        }
+
         focus := FocusScope {
             x: 0; y: 0; width: 0; height: 0;
             key-pressed(event) => {
-                if (event.text == " ") { root.next-clicked(); return accept; }
-                if (event.text == Key.Backspace) { root.prev-clicked(); return accept; }
-                if (event.text == "r" || event.text == "R") { root.read-clicked(); return accept; }
-                if (event.text == "h") { root.next-heading-clicked(); return accept; }
-                if (event.text == "H") { root.prev-heading-clicked(); return accept; }
-                if (event.text == Key.PageDown) { root.page-next-clicked(); return accept; }
-                if (event.text == Key.PageUp) { root.page-prev-clicked(); return accept; }
-                if (event.text == Key.F5) { root.reload-pronunciation(); return accept; }
-                if (event.text == Key.Escape) {
-                    if (root.settings-open) { root.settings-open = false; return accept; }
+                if (root.handle-key(
+                    canon-key(event.text),
+                    event.modifiers.control,
+                    event.modifiers.shift,
+                    event.modifiers.alt,
+                    event.modifiers.meta,
+                )) {
+                    return accept;
+                }
+                return reject;
+            }
+            key-released(event) => {
+                if (root.handle-key-up(
+                    canon-key(event.text),
+                    event.modifiers.control,
+                    event.modifiers.shift,
+                    event.modifiers.alt,
+                    event.modifiers.meta,
+                )) {
+                    return accept;
                 }
                 return reject;
             }
@@ -276,6 +421,97 @@ slint::slint! {
             border-radius: 2px;
         }
 
+        // Click-through indicator. Just a small 22×22 chip top-right (same
+        // height as the title bar) so it stays out of the way. Title bar
+        // can't appear while click-through is on (hovers don't reach us),
+        // so there's no overlap concern.
+        if root.click-through && !root.settings-open && !root.voice-commands-open: Rectangle {
+            x: parent.width - 24px;
+            y: 2px;
+            width: 22px;
+            height: 22px;
+            background: #ffcc33;
+            border-radius: 11px;
+
+            LucideIcon {
+                x: 4px; y: 4px;
+                width: 14px;
+                height: 14px;
+                // lucide "mouse-pointer-click"
+                path-d: "M 9 9 l 5 12 l 1.774 -5.226 L 21 14 L 9 9 z M 16.071 16.071 l 4.243 4.243 M 7.188 2.239 l .777 2.898 M 5.136 7.965 l -2.898 -.777 M 13.95 4.05 l -2.122 2.122 M 5.05 12.95 l -2.122 2.122";
+                tint: #1a1a1e;
+            }
+        }
+
+        // Last-transcript pill. Right edge aligns with the mic indicator so
+        // the mic chip sits at the right "cap" of one continuous two-tone
+        // pill (dark left half = transcript, yellow right half = mic).
+        // Same 14px radius + 28px height as the mic so the rounding matches.
+        transcript-pill := Rectangle {
+            x: root.width - 8px - self.width;
+            y: 32px;
+            width: 320px;
+            height: 28px;
+            background: rgba(26, 26, 30, 0.94);
+            border-radius: 14px;
+            opacity: root.transcript-visible ? 1.0 : 0.0;
+            animate opacity { duration: 400ms; easing: ease-in-out; }
+
+            // Optional state icon (lucide check / x) — left of the text.
+            if root.transcript-icon-d != "": LucideIcon {
+                x: 10px;
+                y: 6px;
+                width: 16px;
+                height: 16px;
+                path-d: root.transcript-icon-d;
+                tint: root.transcript-icon-tint;
+            }
+
+            Text {
+                x: root.transcript-icon-d != "" ? 32px : 14px;
+                y: 0px;
+                // Leave ~36px on the right so text doesn't slide under the mic.
+                width: parent.width - self.x - 36px;
+                height: parent.height;
+                text: root.transcript-text;
+                color: #f0f0f0;
+                font-size: 12px;
+                vertical-alignment: center;
+                overflow: elide;
+            }
+        }
+
+        // Mic-hot indicator. Visible only while PTT is held. Positioned below
+        // the top-trigger zone so it stays visible when the title bar is hidden.
+        // A 600 ms opacity pulse driven by a Timer reads as "live" without
+        // being distracting.
+        if root.mic-hot: Rectangle {
+            x: parent.width - 36px;
+            y: 32px;
+            width: 28px;
+            height: 28px;
+            background: #ffcc33;
+            border-radius: 14px;
+            opacity: root.mic-pulse ? 1.0 : 0.55;
+            animate opacity { duration: 600ms; easing: ease-in-out; }
+            drop-shadow-blur: 8px;
+            drop-shadow-color: #ffcc3380;
+
+            Timer {
+                interval: 600ms;
+                running: root.mic-hot;
+                triggered() => { root.mic-pulse = !root.mic-pulse; }
+            }
+
+            LucideIcon {
+                x: 5px; y: 5px;
+                width: 18px; height: 18px;
+                // lucide "mic"
+                path-d: "M 12 1 a 3 3 0 0 0 -3 3 v 8 a 3 3 0 0 0 6 0 V 4 a 3 3 0 0 0 -3 -3 z M 19 10 v 2 a 7 7 0 0 1 -14 0 v -2 M 12 19 v 4 M 8 23 h 8";
+                tint: #1a1a1e;
+            }
+        }
+
         // Left hover trigger — fades the tab strip in when cursor enters the left edge.
         left-trigger := TouchArea {
             x: 0px; y: 0px;
@@ -291,15 +527,9 @@ slint::slint! {
             background: rgba(18, 18, 18, 0.92);
             opacity: (left-trigger.has-hover || HoverState.tab-cell-hover > 0 || root.strip-pinned) ? 1.0 : 0.0;
             animate opacity { duration: 180ms; easing: ease; }
-
-            // Auto-unpins ~1.2s after a tab cycle so the strip flashes for context.
-            Timer {
-                interval: 1.2s;
-                running: root.strip-pinned;
-                triggered() => {
-                    root.strip-pinned = false;
-                }
-            }
+            // Note: the auto-unpin timer lives in Rust (AppState::flash_tab_strip)
+            // so consecutive cycle presses restart the countdown rather than
+            // letting the first one's timer fire mid-flash.
 
             VerticalLayout {
                 // Cells must start below the 60px top-trigger area; otherwise
@@ -369,6 +599,7 @@ slint::slint! {
             background: rgba(18, 18, 18, 0.9);
             opacity: top-trigger.has-hover
                 || drag-handle.hovered
+                || voice-cell.hovered
                 || gear-cell.hovered
                 || close-cell.hovered
                 ? 1.0 : 0.0;
@@ -400,6 +631,18 @@ slint::slint! {
                         }
                     }
                 }
+            }
+
+            voice-cell := IconCell {
+                x: parent.width - 66px;
+                y: 0px;
+                // lucide "mic" with line list-ish overlay — just use mic to keep
+                // the title bar tidy. Mic icon was already defined for the hot
+                // indicator; reuse the same path.
+                icon-d: "M 12 1 a 3 3 0 0 0 -3 3 v 8 a 3 3 0 0 0 6 0 V 4 a 3 3 0 0 0 -3 -3 z M 19 10 v 2 a 7 7 0 0 1 -14 0 v -2 M 12 19 v 4 M 8 23 h 8";
+                hover-bg: #333;
+                hover-tint: #ffcc33;
+                clicked => { root.voice-commands-open = !root.voice-commands-open; }
             }
 
             gear-cell := IconCell {
@@ -562,7 +805,9 @@ slint::slint! {
         }
 
         // Settings panel — bumped contrast (lighter bg, brighter text) so it
-        // reads cleanly over any kneeboard page.
+        // reads cleanly over any kneeboard page. Whole content is inside a
+        // Flickable so it scrolls when the bindings list grows past the
+        // viewport.
         if root.settings-open: Rectangle {
             x: 30px;
             y: 40px;
@@ -572,10 +817,17 @@ slint::slint! {
             border-color: #555;
             border-width: 1px;
             border-radius: 8px;
+            clip: true;
 
-            VerticalLayout {
-                padding: 20px;
-                spacing: 14px;
+            settings-scroll := Flickable {
+                x: 0px; y: 0px;
+                width: parent.width;
+                height: parent.height;
+                viewport-height: settings-content.preferred-height;
+
+                settings-content := VerticalLayout {
+                    padding: 20px;
+                    spacing: 14px;
 
                 Text {
                     text: "Settings";
@@ -645,6 +897,30 @@ slint::slint! {
                         root.settings-changed();
                     }
                 }
+                DarkCheckBox {
+                    text: "Hot-reload pages from disk when files change";
+                    checked: root.hot-reload;
+                    toggled => {
+                        root.hot-reload = self.checked;
+                        root.settings-changed();
+                    }
+                }
+                DarkCheckBox {
+                    text: "Mute hot mic during speech";
+                    checked: root.mute-mic-during-speech;
+                    toggled => {
+                        root.mute-mic-during-speech = self.checked;
+                        root.settings-changed();
+                    }
+                }
+                DarkCheckBox {
+                    text: "Click-through (pass clicks to apps behind — bind toggle to HOTAS!)";
+                    checked: root.click-through;
+                    toggled => {
+                        root.click-through = self.checked;
+                        root.settings-changed();
+                    }
+                }
                 HorizontalLayout {
                     spacing: 10px;
                     Text {
@@ -672,36 +948,325 @@ slint::slint! {
                         width: 56px;
                     }
                 }
+                HorizontalLayout {
+                    spacing: 10px;
+                    Text {
+                        text: "Transcript pill duration:";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        font-size: 14px;
+                    }
+                    pill-slider := Slider {
+                        minimum: 0.0;
+                        maximum: 20.0;
+                        value: root.transcript-pill-seconds;
+                        changed value => {
+                            root.transcript-pill-seconds = self.value;
+                            root.settings-changed();
+                        }
+                    }
+                    Text {
+                        text: round(root.transcript-pill-seconds * 10) / 10 + " s";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        horizontal-alignment: right;
+                        font-size: 14px;
+                        font-weight: 500;
+                        width: 56px;
+                    }
+                }
 
                 Rectangle { height: 8px; }
                 Rectangle { height: 1px; background: #444; }
 
-                Text { text: "KEYBOARD BINDINGS"; color: #c0c0c0; font-size: 12px; font-weight: 500; }
+                Text { text: "AUDIO INPUT"; color: #c0c0c0; font-size: 12px; font-weight: 500; }
                 Text {
-                    text: "Space      Next item\nBackspace  Previous item\nR          Read / Stop\nH          Next heading\nShift + H  Previous heading\nPage Down  Next page\nPage Up    Previous page\nF5         Reload pronunciation.toml\nEsc        Close this panel";
-                    color: #f0f0f0;
-                    font-size: 13px;
-                }
-                Text {
-                    text: "HOTAS bindings land in M4. Rebindable keys come with capture-mode UI.";
+                    text: "Microphone used for push-to-talk. The mic icon pulses while capturing.";
                     color: #a0a0a0;
-                    font-size: 12px;
+                    font-size: 11px;
                     wrap: word-wrap;
                 }
+                VerticalLayout {
+                    spacing: 2px;
+                    for name[idx] in root.audio-inputs: Rectangle {
+                        height: 26px;
+                        background: name == root.audio-input-selected
+                            ? #4a3a16
+                            : (audio-touch.has-hover ? #1f1f23 : #1a1a1e);
+                        border-color: name == root.audio-input-selected ? #ffcc33 : #333;
+                        border-width: 1px;
+                        border-radius: 3px;
 
-                Rectangle { vertical-stretch: 1; }
+                        HorizontalLayout {
+                            padding-left: 8px;
+                            padding-right: 8px;
+                            spacing: 6px;
+                            alignment: stretch;
 
-                HorizontalLayout {
-                    alignment: end;
-                    Button {
-                        text: "Close";
-                        clicked => { root.settings-open = false; }
+                            // Small mic dot on the active row so the choice
+                            // is recognisable at a glance.
+                            Rectangle {
+                                width: 8px;
+                                background: name == root.audio-input-selected ? #ffcc33 : transparent;
+                                border-radius: 4px;
+                            }
+                            Text {
+                                text: name;
+                                color: #f0f0f0;
+                                font-size: 12px;
+                                font-weight: name == root.audio-input-selected ? 600 : 400;
+                                vertical-alignment: center;
+                                horizontal-stretch: 1;
+                                overflow: elide;
+                            }
+                        }
+
+                        audio-touch := TouchArea {
+                            clicked => { root.audio-input-clicked(name); }
+                        }
+                    }
+                }
+
+                Rectangle { height: 8px; }
+                Rectangle { height: 1px; background: #444; }
+
+                Text { text: "BINDINGS"; color: #c0c0c0; font-size: 12px; font-weight: 500; }
+                Text {
+                    text: "Click a row to bind a new key. Press Esc to cancel. Clear removes the binding.";
+                    color: #a0a0a0;
+                    font-size: 11px;
+                    wrap: word-wrap;
+                }
+                DarkCheckBox {
+                    text: "Test mode — flash matched row, don't fire actions";
+                    checked: root.binding-test-mode;
+                    toggled => {
+                        root.binding-test-mode = self.checked;
+                        root.binding-test-mode-toggled(self.checked);
+                    }
+                }
+
+                // List of every action + its current binding. Outer panel
+                // Flickable handles scrolling, so this is a plain layout.
+                VerticalLayout {
+                    spacing: 2px;
+                    for row[idx] in root.bindings: Rectangle {
+                            property <bool> flashing: root.binding-flash-id == row.action-id;
+                            height: 26px;
+                            background: row.capturing
+                                ? #4a3a16
+                                : (flashing
+                                    ? #6e5a1a
+                                    : (row-touch.has-hover ? #1f1f23 : #1a1a1e));
+                            border-color: row.capturing
+                                ? #ffcc33
+                                : (flashing ? #ffcc33 : #333);
+                            border-width: 1px;
+                            border-radius: 3px;
+                            animate background { duration: 500ms; easing: ease-out; }
+                            animate border-color { duration: 500ms; easing: ease-out; }
+
+                            // Row-wide TouchArea declared FIRST so the icon
+                            // TouchAreas below sit on top and consume their
+                            // own clicks. The whole row remains clickable
+                            // for convenience.
+                            row-touch := TouchArea {
+                                clicked => { root.binding-edit-clicked(row.action-id); }
+                            }
+
+                            HorizontalLayout {
+                                padding-left: 8px;
+                                padding-right: 4px;
+                                spacing: 6px;
+                                alignment: stretch;
+
+                                Text {
+                                    text: row.label;
+                                    color: #f0f0f0;
+                                    font-size: 12px;
+                                    vertical-alignment: center;
+                                    horizontal-stretch: 1;
+                                    overflow: elide;
+                                }
+
+                                Text {
+                                    text: row.capturing ? "Press a key…" : row.trigger-text;
+                                    color: row.capturing
+                                        ? #ffcc33
+                                        : (row.trigger-text == "(unbound)" ? #777 : #d0d0d0);
+                                    font-size: 12px;
+                                    font-weight: row.capturing ? 600 : 400;
+                                    vertical-alignment: center;
+                                    horizontal-alignment: right;
+                                    width: 140px;
+                                }
+
+                                edit-cell := IconCell {
+                                    cell-w: 22px;
+                                    cell-h: 22px;
+                                    icon-pad: 5px;
+                                    visible: !row.capturing;
+                                    // lucide "pencil"
+                                    icon-d: "M 12 20 h 9 M 16.5 3.5 a 2.121 2.121 0 0 1 3 3 L 7 19 L 3 20 L 4 16 L 16.5 3.5 z";
+                                    hover-bg: #2a2a2a;
+                                    hover-tint: #ffcc33;
+                                    clicked => { root.binding-edit-clicked(row.action-id); }
+                                }
+                                clear-cell := IconCell {
+                                    cell-w: 22px;
+                                    cell-h: 22px;
+                                    icon-pad: 5px;
+                                    visible: row.trigger-text != "(unbound)" && !row.capturing;
+                                    // lucide "x" — removes all triggers for this action
+                                    icon-d: "M 18 6 L 6 18 M 6 6 L 18 18";
+                                    hover-bg: #553333;
+                                    hover-tint: #ff7777;
+                                    clicked => { root.binding-clear-clicked(row.action-id); }
+                                }
+                            }
+                        }
+                    }
+
+                    HorizontalLayout {
+                        alignment: end;
+                        Button {
+                            text: "Close";
+                            clicked => { root.settings-open = false; }
+                        }
+                    }
+                }       // settings-content VerticalLayout
+            }           // outer Flickable
+
+            // Custom scrollbar overlay so users see there's more below the
+            // fold. Hidden when content fits. Track is the right edge of the
+            // panel; thumb is a translucent yellow chip sized proportionally
+            // to the visible fraction and positioned by viewport-y.
+            if settings-scroll.viewport-height > settings-scroll.height: Rectangle {
+                x: parent.width - 8px;
+                y: 6px;
+                width: 4px;
+                height: parent.height - 12px;
+                background: rgba(255, 255, 255, 0.06);
+                border-radius: 2px;
+
+                Rectangle {
+                    x: 0px;
+                    // viewport-y is negative as content scrolls up.
+                    y: -settings-scroll.viewport-y
+                        / (settings-scroll.viewport-height - settings-scroll.height)
+                        * (parent.height - self.height);
+                    width: parent.width;
+                    height: max(
+                        24px,
+                        parent.height * settings-scroll.height / settings-scroll.viewport-height
+                    );
+                    background: rgba(255, 204, 51, 0.55);
+                    border-radius: 2px;
+                }
+            }
+        }               // settings-panel Rectangle
+
+        // Voice-commands help panel — same style as Settings, read-only.
+        if root.voice-commands-open: Rectangle {
+            x: 30px;
+            y: 40px;
+            width: 540px;
+            height: 800px;
+            background: #2a2a32;
+            border-color: #555;
+            border-width: 1px;
+            border-radius: 8px;
+            clip: true;
+
+            voice-scroll := Flickable {
+                x: 0px; y: 0px;
+                width: parent.width;
+                height: parent.height;
+                viewport-height: voice-content.preferred-height;
+
+                voice-content := VerticalLayout {
+                    padding: 20px;
+                    spacing: 10px;
+
+                    Text {
+                        text: "Voice commands";
+                        color: #ffffff;
+                        font-size: 22px;
+                        font-weight: 600;
+                    }
+                    Rectangle { height: 1px; background: #444; }
+                    Text {
+                        text: "Hold push-to-talk (or use hot mic) and say any of these. The match is case-insensitive and tolerates trailing punctuation.";
+                        color: #a0a0a0;
+                        font-size: 11px;
+                        wrap: word-wrap;
+                    }
+                    Rectangle { height: 4px; }
+
+                    for row[idx] in root.voice-commands: Rectangle {
+                        height: 44px;
+                        background: #1a1a1e;
+                        border-color: #333;
+                        border-width: 1px;
+                        border-radius: 3px;
+
+                        VerticalLayout {
+                            padding-left: 10px;
+                            padding-right: 10px;
+                            padding-top: 4px;
+                            padding-bottom: 4px;
+                            spacing: 2px;
+                            Text {
+                                text: row.action-label;
+                                color: #ffcc33;
+                                font-size: 12px;
+                                font-weight: 600;
+                            }
+                            Text {
+                                text: row.phrases;
+                                color: #d0d0d0;
+                                font-size: 11px;
+                                overflow: elide;
+                            }
+                        }
+                    }
+
+                    Rectangle { height: 8px; }
+                    HorizontalLayout {
+                        alignment: end;
+                        Button {
+                            text: "Close";
+                            clicked => { root.voice-commands-open = false; }
+                        }
                     }
                 }
             }
+
+            if voice-scroll.viewport-height > voice-scroll.height: Rectangle {
+                x: parent.width - 8px;
+                y: 6px;
+                width: 4px;
+                height: parent.height - 12px;
+                background: rgba(255, 255, 255, 0.06);
+                border-radius: 2px;
+
+                Rectangle {
+                    x: 0px;
+                    y: -voice-scroll.viewport-y
+                        / (voice-scroll.viewport-height - voice-scroll.height)
+                        * (parent.height - self.height);
+                    width: parent.width;
+                    height: max(
+                        24px,
+                        parent.height * voice-scroll.height / voice-scroll.viewport-height
+                    );
+                    background: rgba(255, 204, 51, 0.55);
+                    border-radius: 2px;
+                }
+            }
         }
-    }
-}
+    }                   // MainWindow
+}                       // slint! macro
 
 const DISPLAY_W: f32 = 600.0;
 const DISPLAY_H: f32 = 900.0;
@@ -834,7 +1399,16 @@ fn apply_cursor(win: &MainWindow, tab: &tabs::Tab) {
     let item_idx = cur.item.min(page.manifest.items.len().saturating_sub(1));
     let item = page.manifest.items.get(item_idx);
 
-    win.set_page_image(page.image.clone());
+    win.set_page_image(page.image());
+
+    // Evict every other decoded page so dormant pixel buffers don't pile up.
+    // The next nav decodes its target on demand; load time is single-digit ms
+    // for typical 1358×2037 PNGs which is fine.
+    for (i, p) in tab.pages.iter().enumerate() {
+        if i != page_idx {
+            p.evict_image();
+        }
+    }
     win.set_page_title(SharedString::from(format!(
         "{} · P{}/{}",
         page.manifest.title,
@@ -888,6 +1462,38 @@ struct AppState {
     settings: Rc<RefCell<Settings>>,
     win: slint::Weak<MainWindow>,
     advance_timer: Rc<slint::Timer>,
+    /// `Some(action)` while the user is in capture mode for that action.
+    /// Set by `binding-edit-clicked`, consumed (or cleared on Esc) by the
+    /// next handle-key invocation.
+    capture: Rc<RefCell<Option<Action>>>,
+    /// Long-lived cpal input stream. `None` if no mic was available at boot.
+    /// `RefCell` so it can be torn down + rebuilt when the user picks a
+    /// different input device in settings.
+    audio: Rc<RefCell<Option<AudioCapture>>>,
+    /// Single-shot timer that flips `transcript-visible` back to false after
+    /// `transcript_pill_seconds` so the pill fades out.
+    transcript_timer: Rc<slint::Timer>,
+    /// PCM sender into the whisper worker thread. `None` if no model loaded.
+    stt_tx: Rc<Option<std::sync::mpsc::Sender<Vec<f32>>>>,
+    /// Single-shot timer that clears the bindings test-mode flash highlight.
+    binding_flash_timer: Rc<slint::Timer>,
+    /// True when the window has been moved offscreen by ToggleVisibility.
+    /// `saved_pos` holds the position to restore on the next toggle.
+    window_hidden: Rc<std::cell::Cell<bool>>,
+    saved_pos: Rc<RefCell<Option<slint::PhysicalPosition>>>,
+    /// Auto-unpin timer for the left tab strip flash. Restarted on every
+    /// cycle so rapid presses keep the strip visible for the full window.
+    strip_pin_timer: Rc<slint::Timer>,
+    /// Filesystem watcher for hot-reload. Active only when `settings.hot_reload`
+    /// is true; target follows the active tab's source path.
+    watcher: Rc<RefCell<watcher::Watcher>>,
+    watcher_tx: std::sync::mpsc::Sender<PathBuf>,
+    /// True while a HotMicToggle press has started capture and is waiting
+    /// for a second press to stop. Distinct from PushToTalk's edge model.
+    mic_locked: Rc<std::cell::Cell<bool>>,
+    /// Polls the audio buffer every 200 ms while hot mic is latched,
+    /// shipping detected utterances to STT as they complete.
+    hotmic_timer: Rc<slint::Timer>,
 }
 
 impl AppState {
@@ -1065,6 +1671,9 @@ impl AppState {
             ((cur + dir).rem_euclid(n as i32)) as usize
         };
         self.switch_tab(target);
+        // Reveal the strip briefly so the user can see which tab they're on
+        // — matches the chevron-button affordance.
+        self.flash_tab_strip();
     }
 
     fn switch_tab(&self, idx: usize) {
@@ -1079,6 +1688,7 @@ impl AppState {
             id
         };
         self.apply();
+        self.refresh_watcher();
         if let Some(id) = last_tab_id {
             let mut s = self.settings.borrow_mut();
             s.last_tab = Some(id);
@@ -1096,9 +1706,12 @@ impl AppState {
             }
         }
         self.apply();
-        let mut s = self.settings.borrow_mut();
-        s.current_aircraft = Some(aircraft);
-        let _ = s.save(&settings_path());
+        self.refresh_watcher();
+        {
+            let mut s = self.settings.borrow_mut();
+            s.current_aircraft = Some(aircraft);
+            let _ = s.save(&settings_path());
+        }
     }
 
     fn next(&self) { self.nav(|p, c| step_cursor(p, c, 1)); }
@@ -1114,6 +1727,623 @@ impl AppState {
             self.stop_speaking();
         } else {
             self.start_speaking();
+        }
+    }
+
+    /// Sync the filesystem watcher with the current settings + active tab.
+    /// Off → no watcher. On → watch the active tab's source path. Called on
+    /// startup, tab switch, aircraft change, and toggle flip.
+    fn refresh_watcher(&self) {
+        let want_path: Option<PathBuf> = if self.settings.borrow().hot_reload {
+            self.tabs
+                .borrow()
+                .active_tab()
+                .and_then(|t| t.source_path.clone())
+        } else {
+            None
+        };
+        if let Err(e) = self
+            .watcher
+            .borrow_mut()
+            .watch(want_path, self.watcher_tx.clone())
+        {
+            eprintln!("[watch] setup failed: {e:?}");
+        }
+    }
+
+    /// Reload the active tab from disk + refresh the UI. Cursor is preserved
+    /// when the same item still exists in the new manifest.
+    fn reload_active_tab(&self) {
+        let had_source = self.tabs.borrow_mut().reload_active();
+        if had_source {
+            self.apply();
+        }
+    }
+
+    fn reload_pronunciation(&self) {
+        let fresh = PronunciationConfig::load_or_default(&PathBuf::from("pronunciation.toml"));
+        *self.pronunciation.borrow_mut() = fresh;
+    }
+
+    /// Move the cursor to the first navigable item right after the nearest
+    /// preceding heading on the current page, then start reading with header
+    /// context so the section name gets announced first. If no heading
+    /// precedes the cursor, restarts the page from item 0.
+    fn restart_section(&self) {
+        self.stop_speaking();
+        {
+            let mut tabs = self.tabs.borrow_mut();
+            let Some(tab) = tabs.active_tab_mut() else { return };
+            if tab.pages.is_empty() { return; }
+            let page_idx = tab.cursor.page.min(tab.pages.len() - 1);
+            let page = &tab.pages[page_idx];
+            if page.manifest.items.is_empty() { return; }
+            let item_idx = tab.cursor.item.min(page.manifest.items.len() - 1);
+
+            let heading_idx = page.manifest.items[..=item_idx]
+                .iter()
+                .rposition(|i| is_heading(i));
+
+            let new_item = match heading_idx {
+                Some(h) => page
+                    .manifest
+                    .items
+                    .iter()
+                    .enumerate()
+                    .skip(h + 1)
+                    .find(|(_, i)| i.navigable)
+                    .map(|(idx, _)| idx)
+                    .unwrap_or(h),
+                None => first_navigable(&page.manifest.items),
+            };
+            tab.cursor = Cursor { page: page_idx, item: new_item };
+        }
+        self.apply();
+        // include_page_header=true so the section name is re-announced.
+        self.start_speaking_with_header(true);
+    }
+
+    /// Speak the nearest preceding heading so the user can hear which
+    /// section they're currently in. Falls back to the page title if no
+    /// heading precedes the current item.
+    fn speak_section(&self) {
+        let (to_say, est) = {
+            let tabs = self.tabs.borrow();
+            let Some(tab) = tabs.active_tab() else { return };
+            if tab.pages.is_empty() { return; }
+            let cur = tab.cursor;
+            let page_idx = cur.page.min(tab.pages.len() - 1);
+            let page = &tab.pages[page_idx];
+            if page.manifest.items.is_empty() { return; }
+            let item_idx = cur.item.min(page.manifest.items.len() - 1);
+
+            let pron = self.pronunciation.borrow();
+            let heading = page.manifest.items[..=item_idx]
+                .iter()
+                .rev()
+                .find(|i| is_heading(i));
+            let text = match heading {
+                Some(h) => spoken_for(&h.text, h.spoken.as_deref(), &pron),
+                None => spoken_for(&page.manifest.title, None, &pron),
+            };
+            let est = estimate_speech_ms(&text);
+            (text, est)
+        };
+        if to_say.is_empty() { return; }
+
+        self.stop_speaking();
+        eprintln!("[tts] section: {to_say}");
+        if let Some(engine) = self.tts.borrow_mut().as_mut() {
+            if let Err(e) = engine.speak(&to_say, true) {
+                eprintln!("TTS speak failed: {e:?}");
+            }
+        }
+        self.set_playing(true);
+        self.schedule_post_speech(est);
+    }
+
+    /// Push the current bindings table into the Slint model. Call after any
+    /// edit (capture commit, clear, or capture-start so the row highlights).
+    fn refresh_bindings_ui(&self) {
+        let Some(win) = self.win.upgrade() else { return };
+        let s = self.settings.borrow();
+        let capturing = *self.capture.borrow();
+        let rows: Vec<BindingRow> = Action::all()
+            .iter()
+            .enumerate()
+            .map(|(i, &action)| {
+                let triggers = s.bindings.triggers_for(action);
+                let trigger_text = match triggers.as_slice() {
+                    [] => "(unbound)".to_string(),
+                    [t] => t.display(),
+                    many => format!("{} (+{})", many[0].display(), many.len() - 1),
+                };
+                BindingRow {
+                    action_id: i as i32,
+                    label: SharedString::from(action.label()),
+                    trigger_text: SharedString::from(trigger_text),
+                    capturing: capturing == Some(action),
+                }
+            })
+            .collect();
+        win.set_bindings(slint::ModelRc::new(VecModel::from(rows)));
+    }
+
+    /// Begin capturing a key for `action`. The next keypress (other than Esc)
+    /// is recorded as the action's sole trigger.
+    fn start_binding_capture(&self, action: Action) {
+        *self.capture.borrow_mut() = Some(action);
+        self.refresh_bindings_ui();
+    }
+
+    fn cancel_binding_capture(&self) {
+        *self.capture.borrow_mut() = None;
+        self.refresh_bindings_ui();
+    }
+
+    fn clear_binding(&self, action: Action) {
+        {
+            let mut s = self.settings.borrow_mut();
+            s.bindings.set_triggers(action, vec![]);
+            let _ = s.save(&settings_path());
+        }
+        self.refresh_bindings_ui();
+    }
+
+    /// Commit a captured trigger to the bindings table. Replaces any prior
+    /// triggers for that action, and removes any other action that previously
+    /// owned this trigger (last-writer-wins per SPEC §7.5).
+    fn commit_capture(&self, action: Action, trigger: input::Trigger) {
+        {
+            let mut s = self.settings.borrow_mut();
+            s.bindings.unbind_trigger(&trigger);
+            s.bindings.set_triggers(action, vec![trigger]);
+            let _ = s.save(&settings_path());
+        }
+        *self.capture.borrow_mut() = None;
+        self.refresh_bindings_ui();
+    }
+
+    /// Single entry point for keyboard + gamepad input. Press edges go
+    /// through capture-or-dispatch; release edges only act for PushToTalk.
+    fn handle_event(&self, event: InputEvent) -> bool {
+        match event {
+            InputEvent::Press(t) => self.handle_press(t),
+            InputEvent::Release(t) => self.handle_release(t),
+        }
+    }
+
+    fn handle_press(&self, trigger: input::Trigger) -> bool {
+        // Copy the captured action out so the Ref drops before we re-borrow
+        // capture/settings inside commit_capture or cancel_binding_capture
+        // (Rust extends scrutinee temporaries across the entire `if let` body).
+        let capturing = *self.capture.borrow();
+        if let Some(action) = capturing {
+            // Esc on the keyboard cancels capture instead of binding to Esc.
+            if matches!(&trigger, input::Trigger::Keyboard { key, .. } if key == "Escape") {
+                self.cancel_binding_capture();
+            } else {
+                self.commit_capture(action, trigger);
+            }
+            return true;
+        }
+        let action = self.settings.borrow().bindings.action_for(&trigger);
+        match action {
+            Some(action) => {
+                // In probe/test mode, flash the row instead of firing so the
+                // user can verify what a button is bound to without leaving
+                // the settings panel.
+                if self
+                    .win
+                    .upgrade()
+                    .map(|w| w.get_binding_test_mode())
+                    .unwrap_or(false)
+                {
+                    eprintln!("[probe] {} → {}", trigger.display(), action.label());
+                    self.flash_binding(action);
+                } else {
+                    self.dispatch(action);
+                }
+                true
+            }
+            None => {
+                if self
+                    .win
+                    .upgrade()
+                    .map(|w| w.get_binding_test_mode())
+                    .unwrap_or(false)
+                {
+                    eprintln!("[probe] {} → (unbound)", trigger.display());
+                }
+                false
+            }
+        }
+    }
+
+    /// Only PushToTalk acts on release. The release handler stops audio
+    /// capture and (M4.3) hands the buffer to STT. Right now it logs the
+    /// duration and sample count so we can verify capture is alive.
+    fn handle_release(&self, trigger: input::Trigger) -> bool {
+        if self.capture.borrow().is_some() {
+            return false; // ignore releases during binding capture
+        }
+        let action = self.settings.borrow().bindings.action_for(&trigger);
+        if action != Some(Action::PushToTalk) {
+            return false;
+        }
+        // Ignore PTT release if hot mic is latched — that mode is press-to-
+        // toggle and should not be cut short by a transient PTT release.
+        if self.mic_locked.get() {
+            return false;
+        }
+        self.submit_captured_audio();
+        true
+    }
+
+    /// Send a chunk of captured PCM to STT (or log if no STT loaded).
+    /// Shared by PTT release, HotMicToggle stop, and the VAD chunker.
+    fn submit_pcm(&self, pcm: Vec<f32>) {
+        if pcm.is_empty() {
+            return;
+        }
+        let secs = pcm.len() as f32 / audio::TARGET_RATE as f32;
+        eprintln!("[mic] submit {} samples ({:.2} s)", pcm.len(), secs);
+        match self.stt_tx.as_ref() {
+            Some(tx) => {
+                self.show_transcript(format!("Transcribing {:.1}s...", secs));
+                if let Err(e) = tx.send(pcm) {
+                    eprintln!("[stt] submit failed: {e:?}");
+                }
+            }
+            None => {
+                self.show_transcript(format!("Captured {:.1}s — no STT model loaded", secs));
+            }
+        }
+    }
+
+    /// Begin polling the audio buffer for complete utterances while hot mic
+    /// is on. The 200 ms cadence is a balance between detection latency and
+    /// CPU cost; the actual chunking decision happens inside the audio
+    /// module's VAD.
+    fn start_hotmic_polling(&self) {
+        let me = self.clone();
+        self.hotmic_timer.start(
+            slint::TimerMode::Repeated,
+            Duration::from_millis(200),
+            move || {
+                if !me.mic_locked.get() {
+                    return;
+                }
+                // While TTS is playing, optionally drop any audio that came
+                // in — without that, speaker bleed from the synth would land
+                // in the buffer and get transcribed when we resume polling.
+                // Headphone users can disable this so speech captured during
+                // TTS still gets processed when the readout ends.
+                if me.is_playing() && me.settings.borrow().mute_mic_during_speech {
+                    if let Some(audio) = me.audio.borrow().as_ref() {
+                        audio.discard_pending();
+                    }
+                    return;
+                }
+                let chunk = me
+                    .audio
+                    .borrow()
+                    .as_ref()
+                    .and_then(|a| a.try_take_utterance().ok().flatten());
+                if let Some(pcm) = chunk {
+                    me.submit_pcm(pcm);
+                }
+            },
+        );
+    }
+
+    /// Stop capture and ship the (whole) recorded PCM to STT. Shared by
+    /// PTT release and the HotMicToggle stop path — the latter relies on
+    /// this to flush whatever the VAD chunker hasn't already drained.
+    fn submit_captured_audio(&self) {
+        let pcm = match self.audio.borrow().as_ref() {
+            Some(audio) => match audio.stop() {
+                Ok(p) => p,
+                Err(e) => {
+                    eprintln!("[mic] stop error: {e:?}");
+                    Vec::new()
+                }
+            },
+            None => Vec::new(),
+        };
+        self.submit_pcm(pcm);
+        self.set_mic_hot(false);
+    }
+
+    fn set_mic_hot(&self, hot: bool) {
+        if let Some(win) = self.win.upgrade() {
+            win.set_mic_hot(hot);
+        }
+    }
+
+    /// Pop a transcript into the pill (no icon) and schedule its fade.
+    /// 0 s pill duration disables it entirely.
+    fn show_transcript(&self, text: String) {
+        self.show_transcript_with(text, "", slint::Color::from_rgb_u8(0xff, 0xcc, 0x33));
+    }
+
+    /// Variant that draws a lucide check icon (yellow) before the text —
+    /// signals "voice command recognised + dispatched".
+    fn show_transcript_match(&self, text: String) {
+        // lucide "check"
+        let check = "M 20 6 L 9 17 L 4 12";
+        self.show_transcript_with(
+            text,
+            check,
+            slint::Color::from_rgb_u8(0xff, 0xcc, 0x33),
+        );
+    }
+
+    /// Variant that draws a lucide x icon (red) — signals "transcript came
+    /// back but didn't match any rule".
+    fn show_transcript_unmatched(&self, text: String) {
+        // lucide "x"
+        let x = "M 18 6 L 6 18 M 6 6 L 18 18";
+        self.show_transcript_with(
+            text,
+            x,
+            slint::Color::from_rgb_u8(0xff, 0x77, 0x77),
+        );
+    }
+
+    fn show_transcript_with(&self, text: String, icon_d: &'static str, tint: slint::Color) {
+        let dur = self.settings.borrow().transcript_pill_seconds;
+        if dur <= 0.0 || text.is_empty() {
+            return;
+        }
+        if let Some(win) = self.win.upgrade() {
+            win.set_transcript_text(SharedString::from(text.as_str()));
+            win.set_transcript_icon_d(SharedString::from(icon_d));
+            win.set_transcript_icon_tint(slint::Brush::SolidColor(tint));
+            win.set_transcript_visible(true);
+        }
+        let me = self.clone();
+        self.transcript_timer.start(
+            slint::TimerMode::SingleShot,
+            Duration::from_secs_f32(dur),
+            move || {
+                if let Some(win) = me.win.upgrade() {
+                    win.set_transcript_visible(false);
+                }
+            },
+        );
+    }
+
+    /// Briefly pin the left tab strip so a button-driven tab change is
+    /// visible. Re-arms the unpin timer on every call so consecutive cycles
+    /// extend the visible window rather than firing back-to-back.
+    fn flash_tab_strip(&self) {
+        if let Some(win) = self.win.upgrade() {
+            win.set_strip_pinned(true);
+        }
+        let me = self.clone();
+        self.strip_pin_timer.start(
+            slint::TimerMode::SingleShot,
+            Duration::from_millis(1200),
+            move || {
+                if let Some(win) = me.win.upgrade() {
+                    win.set_strip_pinned(false);
+                }
+            },
+        );
+    }
+
+    /// Pop the binding row corresponding to `action` into the yellow flash
+    /// state, then schedule it to fade back. The Slint `animate background`
+    /// on the row does the visual blend.
+    fn flash_binding(&self, action: Action) {
+        let id = Action::all()
+            .iter()
+            .position(|&a| a == action)
+            .map(|i| i as i32)
+            .unwrap_or(-1);
+        if let Some(win) = self.win.upgrade() {
+            win.set_binding_flash_id(id);
+        }
+        let me = self.clone();
+        self.binding_flash_timer.start(
+            slint::TimerMode::SingleShot,
+            Duration::from_millis(700),
+            move || {
+                if let Some(win) = me.win.upgrade() {
+                    win.set_binding_flash_id(-1);
+                }
+            },
+        );
+    }
+
+    /// Tear down the current capture stream and open a new one on `name`
+    /// (None = system default). Persists the choice to settings.toml.
+    fn set_audio_input(&self, name: Option<String>) {
+        // Drop the old stream before opening the new one so cpal can release
+        // the device handle on platforms that exclusive-lock.
+        *self.audio.borrow_mut() = None;
+        let opened = match name.as_deref() {
+            Some(n) => audio::open_named(n),
+            None => audio::open_default(),
+        };
+        match opened {
+            Ok(cap) => {
+                eprintln!("[audio] switched to \"{}\"", cap.input_name());
+                *self.audio.borrow_mut() = Some(cap);
+            }
+            Err(e) => eprintln!("[audio] switch failed: {e:?}"),
+        }
+        {
+            let mut s = self.settings.borrow_mut();
+            s.audio_input = name;
+            let _ = s.save(&settings_path());
+        }
+        self.refresh_audio_ui();
+    }
+
+    /// Push the current device list + selection into the Slint model.
+    fn refresh_audio_ui(&self) {
+        let Some(win) = self.win.upgrade() else { return };
+        let devices = audio::enumerate_inputs();
+        let selected = self
+            .settings
+            .borrow()
+            .audio_input
+            .clone()
+            .or_else(|| self.audio.borrow().as_ref().map(|a| a.input_name().to_string()))
+            .unwrap_or_default();
+        let model: Vec<SharedString> = devices
+            .iter()
+            .map(|n| SharedString::from(n.as_str()))
+            .collect();
+        win.set_audio_inputs(slint::ModelRc::new(VecModel::from(model)));
+        win.set_audio_input_selected(SharedString::from(selected.as_str()));
+    }
+
+    fn toggle_settings(&self) {
+        if let Some(win) = self.win.upgrade() {
+            win.set_settings_open(!win.get_settings_open());
+        }
+    }
+
+    fn toggle_voice_commands(&self) {
+        if let Some(win) = self.win.upgrade() {
+            win.set_voice_commands_open(!win.get_voice_commands_open());
+        }
+    }
+
+    /// Apply click-through: flip Win32 WS_EX_TRANSPARENT, update the UI
+    /// badge, persist, and toast the result. Called from the Action, the
+    /// settings checkbox, and at startup when the persisted state is true.
+    fn set_click_through(&self, enabled: bool) {
+        if let Some(win) = self.win.upgrade() {
+            win.set_click_through(enabled);
+        }
+        #[cfg(windows)]
+        {
+            overlay::set_click_through(enabled);
+        }
+        {
+            let mut s = self.settings.borrow_mut();
+            if s.click_through != enabled {
+                s.click_through = enabled;
+                let _ = s.save(&settings_path());
+            }
+        }
+        self.show_transcript(
+            if enabled { "Click-through ON".to_string() } else { "Click-through OFF".to_string() },
+        );
+    }
+
+    /// Dispatch a resolved action. The Cancel action is context-sensitive:
+    /// closes the settings panel if open, otherwise stops in-flight speech.
+    fn dispatch(&self, action: Action) {
+        match action {
+            Action::Next => self.next(),
+            Action::Previous => self.prev(),
+            Action::TogglePlay => self.read(),
+            Action::ReadCurrent => self.start_speaking(),
+            Action::ReadSection => self.speak_section(),
+            Action::RestartSection => self.restart_section(),
+            Action::NextHeading => self.next_heading(),
+            Action::PrevHeading => self.prev_heading(),
+            Action::PageNext => self.page_next(),
+            Action::PagePrev => self.page_prev(),
+            Action::CycleTabPrev => self.cycle_tab(-1),
+            Action::CycleTabNext => self.cycle_tab(1),
+            Action::OpenSettings => self.toggle_settings(),
+            Action::OpenVoiceCommands => self.toggle_voice_commands(),
+            Action::ReloadPronunciation => self.reload_pronunciation(),
+            Action::Cancel => {
+                if let Some(win) = self.win.upgrade() {
+                    if win.get_voice_commands_open() {
+                        win.set_voice_commands_open(false);
+                        return;
+                    }
+                    if win.get_settings_open() {
+                        win.set_settings_open(false);
+                        return;
+                    }
+                }
+                self.stop_speaking();
+            }
+            Action::PushToTalk => {
+                if self.mic_locked.get() {
+                    eprintln!("[ptt] ignored — hot mic toggle is active");
+                } else if let Some(audio) = self.audio.borrow().as_ref() {
+                    audio.start();
+                    eprintln!("[ptt] capturing… (release to submit)");
+                    self.set_mic_hot(true);
+                } else {
+                    eprintln!("[ptt] no audio device — cannot capture");
+                }
+            }
+            Action::HotMicToggle => {
+                if self.mic_locked.get() {
+                    // Second press → stop polling, flush any tail audio.
+                    self.mic_locked.set(false);
+                    self.hotmic_timer.stop();
+                    eprintln!("[hotmic] stopping");
+                    self.submit_captured_audio();
+                } else if let Some(audio) = self.audio.borrow().as_ref() {
+                    // First press → start capture, latch, and begin polling
+                    // the audio buffer for complete utterances.
+                    audio.start();
+                    self.mic_locked.set(true);
+                    eprintln!("[hotmic] hot mic ON — speak commands, press again to stop");
+                    self.set_mic_hot(true);
+                    self.start_hotmic_polling();
+                } else {
+                    eprintln!("[hotmic] no audio device — cannot capture");
+                }
+            }
+            Action::ToggleReadNotes => {
+                let new_val = {
+                    let mut s = self.settings.borrow_mut();
+                    s.read_notes = !s.read_notes;
+                    let _ = s.save(&settings_path());
+                    s.read_notes
+                };
+                if let Some(win) = self.win.upgrade() {
+                    win.set_read_notes(new_val);
+                }
+                eprintln!("[ui] read_notes = {new_val}");
+                self.show_transcript(
+                    if new_val { "More info ON".to_string() } else { "More info OFF".to_string() },
+                );
+            }
+            Action::ToggleVisibility => {
+                // Move the window offscreen instead of slint::Window::hide()
+                // so the event loop, timers, and gamepad polling stay alive —
+                // which means a HOTAS-bound ToggleVisibility press can also
+                // bring it back.
+                if let Some(win) = self.win.upgrade() {
+                    if self.window_hidden.get() {
+                        let pos = self.saved_pos.borrow().clone().unwrap_or_else(|| {
+                            slint::PhysicalPosition::new(100, 100)
+                        });
+                        win.window().set_position(pos);
+                        self.window_hidden.set(false);
+                        eprintln!("[ui] show at {:?}", (pos.x, pos.y));
+                    } else {
+                        let cur = win.window().position();
+                        *self.saved_pos.borrow_mut() = Some(cur);
+                        // Offscreen far enough that no display reaches it.
+                        win.window().set_position(slint::PhysicalPosition::new(-30000, -30000));
+                        self.window_hidden.set(true);
+                        eprintln!("[ui] hide (offscreen) — press your bound button again to restore");
+                    }
+                }
+            }
+            Action::ToggleClickThrough => {
+                let now = self
+                    .win
+                    .upgrade()
+                    .map(|w| w.get_click_through())
+                    .unwrap_or(false);
+                self.set_click_through(!now);
+            }
         }
     }
 }
@@ -1161,6 +2391,10 @@ fn main() -> Result<()> {
         win.set_auto_advance(s.auto_advance);
         win.set_advance_delay(s.advance_delay_sec);
         win.set_read_notes(s.read_notes);
+        win.set_transcript_pill_seconds(s.transcript_pill_seconds);
+        win.set_hot_reload(s.hot_reload);
+        win.set_mute_mic_during_speech(s.mute_mic_during_speech);
+        win.set_click_through(s.click_through);
         if let (Some(x), Some(y)) = (s.window_x, s.window_y) {
             win.window().set_position(slint::PhysicalPosition::new(x, y));
         }
@@ -1193,6 +2427,79 @@ fn main() -> Result<()> {
         win.set_current_aircraft(SharedString::from(reg.aircraft.as_str()));
     }
 
+    let audio = {
+        let preferred = settings.borrow().audio_input.clone();
+        let opened = match preferred.as_deref() {
+            Some(name) => audio::open_named(name),
+            None => audio::open_default(),
+        };
+        match opened {
+            Ok(cap) => {
+                eprintln!("[audio] capture ready on \"{}\"", cap.input_name());
+                Some(cap)
+            }
+            Err(e) => {
+                eprintln!("[audio] disabled: {e:?}");
+                None
+            }
+        }
+    };
+
+    // STT worker thread: model + inference live on a dedicated thread so a
+    // 700 ms whisper run doesn't stall the UI. `stt_tx` is None when no model
+    // is on disk (or the whisper-stt feature is off) so the rest of the app
+    // keeps working — PTT still captures audio and the pill reports the
+    // duration.
+    let (stt_tx, stt_rx_main): (
+        Option<std::sync::mpsc::Sender<Vec<f32>>>,
+        Option<std::sync::mpsc::Receiver<String>>,
+    );
+    #[cfg(feature = "whisper-stt")]
+    {
+        match stt::find_default_model() {
+            Some(path) => {
+                eprintln!("[stt] model: {}", path.display());
+                let (req_tx, req_rx) = std::sync::mpsc::channel::<Vec<f32>>();
+                let (res_tx, res_rx) = std::sync::mpsc::channel::<String>();
+                std::thread::Builder::new()
+                    .name("whisper".into())
+                    .spawn(move || {
+                        use stt::SttEngine;
+                        let engine = match stt::WhisperStt::new(&path) {
+                            Ok(e) => { eprintln!("[stt] loaded: {}", e.name()); e }
+                            Err(e) => { eprintln!("[stt] init failed: {e:?}"); return; }
+                        };
+                        while let Ok(pcm) = req_rx.recv() {
+                            let start = std::time::Instant::now();
+                            match stt::SttEngine::transcribe(&engine, &pcm) {
+                                Ok(text) => {
+                                    eprintln!("[stt] {:.0} ms: \"{}\"", start.elapsed().as_millis(), text);
+                                    let _ = res_tx.send(text);
+                                }
+                                Err(e) => {
+                                    eprintln!("[stt] transcribe failed: {e:?}");
+                                    let _ = res_tx.send(format!("(STT error: {e})"));
+                                }
+                            }
+                        }
+                    })?;
+                stt_tx = Some(req_tx);
+                stt_rx_main = Some(res_rx);
+            }
+            None => {
+                eprintln!("[stt] no model found — disabled");
+                stt_tx = None;
+                stt_rx_main = None;
+            }
+        }
+    }
+    #[cfg(not(feature = "whisper-stt"))]
+    {
+        eprintln!("[stt] whisper-stt feature not enabled — build with --features whisper-stt after installing LLVM");
+        stt_tx = None;
+        stt_rx_main = None;
+    }
+
     let state = AppState {
         tabs: tabs_rc.clone(),
         tts: tts.clone(),
@@ -1200,7 +2507,30 @@ fn main() -> Result<()> {
         settings: settings.clone(),
         win: win.as_weak(),
         advance_timer: Rc::new(slint::Timer::default()),
+        capture: Rc::new(RefCell::new(None)),
+        audio: Rc::new(RefCell::new(audio)),
+        transcript_timer: Rc::new(slint::Timer::default()),
+        stt_tx: Rc::new(stt_tx),
+        binding_flash_timer: Rc::new(slint::Timer::default()),
+        window_hidden: Rc::new(std::cell::Cell::new(false)),
+        saved_pos: Rc::new(RefCell::new(None)),
+        strip_pin_timer: Rc::new(slint::Timer::default()),
+        watcher: Rc::new(RefCell::new(watcher::Watcher::new())),
+        watcher_tx: {
+            let (tx, _rx) = std::sync::mpsc::channel::<PathBuf>();
+            tx
+        },
+        mic_locked: Rc::new(std::cell::Cell::new(false)),
+        hotmic_timer: Rc::new(slint::Timer::default()),
     };
+
+    // Real watcher channel: tx goes into the watcher callback, rx is drained
+    // on the UI thread to call reload_active_tab.
+    let (watch_tx, watch_rx) = std::sync::mpsc::channel::<PathBuf>();
+    // Replace the placeholder tx that was needed to satisfy struct init order.
+    let mut state = state;
+    state.watcher_tx = watch_tx;
+    let state = state;
     state.apply();
 
     {
@@ -1248,20 +2578,38 @@ fn main() -> Result<()> {
         win.on_aircraft_clicked(move |id| s.set_aircraft(id.to_string()));
     }
 
-    // Persist settings whenever the panel widgets change them.
+    // Persist settings whenever the panel widgets change them. Also resyncs
+    // the filesystem watcher in case the hot-reload toggle flipped.
     {
         let win_weak = win.as_weak();
+        let s = state.clone();
         let settings = settings.clone();
         win.on_settings_changed(move || {
             let Some(win) = win_weak.upgrade() else { return };
-            let mut s = settings.borrow_mut();
-            s.auto_read_on_next = win.get_auto_read();
-            s.auto_advance = win.get_auto_advance();
-            s.advance_delay_sec = win.get_advance_delay();
-            s.read_notes = win.get_read_notes();
-            if let Err(e) = s.save(&settings_path()) {
-                eprintln!("[settings] save failed: {e:?}");
+            {
+                let mut sett = settings.borrow_mut();
+                sett.auto_read_on_next = win.get_auto_read();
+                sett.auto_advance = win.get_auto_advance();
+                sett.advance_delay_sec = win.get_advance_delay();
+                sett.read_notes = win.get_read_notes();
+                sett.transcript_pill_seconds = win.get_transcript_pill_seconds();
+                sett.hot_reload = win.get_hot_reload();
+                sett.mute_mic_during_speech = win.get_mute_mic_during_speech();
+                // Only update the click-through field; the Win32 apply
+                // happens unconditionally below so the new state takes effect.
+                sett.click_through = win.get_click_through();
+                if let Err(e) = sett.save(&settings_path()) {
+                    eprintln!("[settings] save failed: {e:?}");
+                }
             }
+            // Apply Win32 click-through outside the borrow so set_click_through's
+            // own settings.save doesn't double-fire.
+            #[cfg(windows)]
+            {
+                let want = s.settings.borrow().click_through;
+                overlay::set_click_through(want);
+            }
+            s.refresh_watcher();
         });
     }
 
@@ -1273,20 +2621,225 @@ fn main() -> Result<()> {
         win.on_close_clicked(move || {
             if let Some(win) = win_weak.upgrade() {
                 let pos = win.window().position();
-                let mut s = settings.borrow_mut();
-                s.window_x = Some(pos.x);
-                s.window_y = Some(pos.y);
-                let _ = s.save(&settings_path());
+                if let Some(pos) = safe_position_filter(pos) {
+                    let mut s = settings.borrow_mut();
+                    s.window_x = Some(pos.x);
+                    s.window_y = Some(pos.y);
+                    let _ = s.save(&settings_path());
+                }
             }
             let _ = slint::quit_event_loop();
         });
     }
 
     {
-        let pronunciation = pronunciation.clone();
-        win.on_reload_pronunciation(move || {
-            let fresh = PronunciationConfig::load_or_default(&PathBuf::from("pronunciation.toml"));
-            *pronunciation.borrow_mut() = fresh;
+        let s = state.clone();
+        win.on_reload_pronunciation(move || s.reload_pronunciation());
+    }
+
+    // Keyboard FocusScope routes here. handle_event does the capture-vs-
+    // dispatch decision so these stubs just pack the modifiers.
+    fn pack_mods(ctrl: bool, shift: bool, alt: bool, meta: bool) -> Mods {
+        let mut m = Mods::empty();
+        if ctrl { m |= Mods::CTRL; }
+        if shift { m |= Mods::SHIFT; }
+        if alt { m |= Mods::ALT; }
+        if meta { m |= Mods::META; }
+        m
+    }
+    {
+        let s = state.clone();
+        win.on_handle_key(move |text, ctrl, shift, alt, meta| -> bool {
+            let Some(trigger) = key_event_to_trigger(text.as_str(), pack_mods(ctrl, shift, alt, meta)) else {
+                return false;
+            };
+            s.handle_event(InputEvent::Press(trigger))
+        });
+    }
+    {
+        let s = state.clone();
+        win.on_handle_key_up(move |text, ctrl, shift, alt, meta| -> bool {
+            let Some(trigger) = key_event_to_trigger(text.as_str(), pack_mods(ctrl, shift, alt, meta)) else {
+                return false;
+            };
+            s.handle_event(InputEvent::Release(trigger))
+        });
+    }
+
+    // Gamepad / HOTAS listener — gilrs runs on a worker thread, events arrive
+    // on `gamepad_rx`, and a UI-thread Timer drains the channel into
+    // handle_event so the capture-or-dispatch path is identical to keyboard.
+    let (gamepad_tx, gamepad_rx) = std::sync::mpsc::channel::<InputEvent>();
+    if let Err(e) = input::gamepad::spawn(gamepad_tx) {
+        eprintln!("[gamepad] disabled: {e:?}");
+    }
+    let gamepad_poll_timer: Rc<slint::Timer> = Rc::new(slint::Timer::default());
+    {
+        let s = state.clone();
+        let gamepad_poll_timer = gamepad_poll_timer.clone();
+        gamepad_poll_timer.start(
+            slint::TimerMode::Repeated,
+            Duration::from_millis(16),
+            move || {
+                while let Ok(event) = gamepad_rx.try_recv() {
+                    s.handle_event(event);
+                }
+            },
+        );
+    }
+
+    {
+        let s = state.clone();
+        win.on_binding_edit_clicked(move |id| {
+            if let Some(&action) = Action::all().get(id.max(0) as usize) {
+                s.start_binding_capture(action);
+            }
+        });
+    }
+    {
+        let s = state.clone();
+        win.on_binding_clear_clicked(move |id| {
+            if let Some(&action) = Action::all().get(id.max(0) as usize) {
+                s.clear_binding(action);
+            }
+        });
+    }
+    {
+        let s = state.clone();
+        win.on_settings_opened(move || {
+            s.stop_speaking();
+        });
+    }
+    // Panel open/close: temporarily disable click-through so the user can
+    // interact with the settings or voice-commands list, without changing
+    // the persisted setting. Re-applies the saved state on close.
+    {
+        let s = state.clone();
+        let win_weak = win.as_weak();
+        win.on_panels_changed(move || {
+            let any_open = win_weak
+                .upgrade()
+                .map(|w| w.get_settings_open() || w.get_voice_commands_open())
+                .unwrap_or(false);
+            #[cfg(windows)]
+            {
+                let target = if any_open {
+                    false
+                } else {
+                    s.settings.borrow().click_through
+                };
+                overlay::set_click_through(target);
+            }
+            let _ = (any_open, &s);
+        });
+    }
+    {
+        let s = state.clone();
+        win.on_binding_test_mode_toggled(move |on| {
+            eprintln!("[probe] test mode: {}", if on { "ON" } else { "off" });
+            // Clear any current flash highlight when toggling so a leftover
+            // flash from a previous press doesn't linger.
+            if !on {
+                if let Some(win) = s.win.upgrade() {
+                    win.set_binding_flash_id(-1);
+                }
+            }
+        });
+    }
+
+    // Drain whisper transcripts on the UI thread, dispatch the matched
+    // Action (if any), and surface the result in the pill. We show the
+    // transcript with the matched action so the user can see why the app
+    // moved — invaluable when STT mishears.
+    let stt_poll_timer: Rc<slint::Timer> = Rc::new(slint::Timer::default());
+    if let Some(rx) = stt_rx_main {
+        let s = state.clone();
+        let stt_poll_timer = stt_poll_timer.clone();
+        stt_poll_timer.start(
+            slint::TimerMode::Repeated,
+            Duration::from_millis(50),
+            move || {
+                while let Ok(text) = rx.try_recv() {
+                    let trimmed = text.trim();
+                    if trimmed.is_empty() {
+                        s.show_transcript("(no speech)".into());
+                        continue;
+                    }
+                    match voice_router::route(trimmed) {
+                        Some(action) => {
+                            eprintln!("[voice] \"{trimmed}\" → {action:?}");
+                            s.show_transcript_match(format!(
+                                "{} ({})",
+                                action.label(),
+                                trimmed
+                            ));
+                            s.dispatch(action);
+                        }
+                        None => {
+                            eprintln!("[voice] \"{trimmed}\" → (no match)");
+                            s.show_transcript_unmatched(trimmed.to_string());
+                        }
+                    }
+                }
+            },
+        );
+    }
+
+    // Hot-reload drain: surface watcher events on the UI thread.
+    let watcher_poll_timer: Rc<slint::Timer> = Rc::new(slint::Timer::default());
+    {
+        let s = state.clone();
+        let watcher_poll_timer = watcher_poll_timer.clone();
+        watcher_poll_timer.start(
+            slint::TimerMode::Repeated,
+            Duration::from_millis(120),
+            move || {
+                let mut any = false;
+                while let Ok(_path) = watch_rx.try_recv() {
+                    any = true;
+                }
+                if any {
+                    eprintln!("[watch] reloading active tab");
+                    s.reload_active_tab();
+                }
+            },
+        );
+    }
+
+    // Boot the watcher in sync with current settings + active tab.
+    state.refresh_watcher();
+
+    // Populate the bindings list once at startup so the settings panel opens
+    // with the current state.
+    state.refresh_bindings_ui();
+    state.refresh_audio_ui();
+
+    // Build the voice-commands help model once — RULES is static so this
+    // never changes during a session.
+    {
+        let rows: Vec<VoiceCommandRow> = voice_router::all_rules()
+            .iter()
+            .map(|(phrases, action)| VoiceCommandRow {
+                action_label: SharedString::from(action.label()),
+                phrases: SharedString::from(phrases.join(", ").as_str()),
+            })
+            .collect();
+        win.set_voice_commands(slint::ModelRc::new(VecModel::from(rows)));
+    }
+
+    {
+        let s = state.clone();
+        win.on_audio_input_clicked(move |name| {
+            // Clicking the already-selected device unselects → falls back to
+            // system default. (Matches "click the active tab to deselect"
+            // affordance some users expect.)
+            let current = s.settings.borrow().audio_input.clone();
+            let target = if current.as_deref() == Some(name.as_str()) {
+                None
+            } else {
+                Some(name.to_string())
+            };
+            s.set_audio_input(target);
         });
     }
 
@@ -1317,15 +2870,32 @@ fn main() -> Result<()> {
                 move || {
                     let Some(win) = win_weak.upgrade() else { return };
                     let pos = win.window().position();
-                    let mut s = settings.borrow_mut();
-                    s.window_x = Some(pos.x);
-                    s.window_y = Some(pos.y);
-                    if let Err(e) = s.save(&settings_path()) {
-                        eprintln!("[settings] position save failed: {e:?}");
+                    if let Some(pos) = safe_position_filter(pos) {
+                        let mut s = settings.borrow_mut();
+                        s.window_x = Some(pos.x);
+                        s.window_y = Some(pos.y);
+                        if let Err(e) = s.save(&settings_path()) {
+                            eprintln!("[settings] position save failed: {e:?}");
+                        }
                     }
                 },
             );
         });
+    }
+
+    // Apply persisted click-through on a short delay so the window has
+    // actually been shown — FindWindowW needs the HWND to exist.
+    #[cfg(windows)]
+    if settings.borrow().click_through {
+        let timer = Box::new(slint::Timer::default());
+        let timer_ref: &slint::Timer = Box::leak(timer);
+        timer_ref.start(
+            slint::TimerMode::SingleShot,
+            Duration::from_millis(400),
+            move || {
+                overlay::set_click_through(true);
+            },
+        );
     }
 
     win.run()?;

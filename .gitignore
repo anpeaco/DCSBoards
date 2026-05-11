@@ -26,6 +26,8 @@ settings.toml
 # Build artifacts
 *.exe
 *.pdb
+# Portable distribution bundles produced by scripts/release packaging.
+/release/
 
 # OS
 Thumbs.db

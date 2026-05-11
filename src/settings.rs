@@ -1,8 +1,9 @@
 //! User-tunable runtime settings persisted to `settings.toml`.
 //!
-//! M3.5 surface: read/advance behavior toggles. The bindings table in SPEC §7.5
-//! will land here too once the action→trigger system is built out in M4.
+//! Surface so far: read/advance behavior toggles, window position, tab/aircraft
+//! state, and (M4) a bindings table mapping triggers → actions.
 
+use crate::input::Bindings;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
@@ -41,6 +42,42 @@ pub struct Settings {
     /// Last-active tab id so reopening the app picks up where you left off.
     #[serde(default)]
     pub last_tab: Option<String>,
+
+    /// Trigger → action bindings. Empty on first run; populated from
+    /// `Bindings::defaults()` after load so existing settings.toml files
+    /// keep working without manual migration.
+    #[serde(default)]
+    pub bindings: Bindings,
+
+    /// Preferred cpal input device name. None → use the system default.
+    /// Stored by name (rather than index) so headphone reconnects keep the
+    /// right mic selected even if the device list reorders.
+    #[serde(default)]
+    pub audio_input: Option<String>,
+
+    /// How long the last-transcript pill stays fully visible before fading,
+    /// in seconds. 0 disables the pill entirely.
+    #[serde(default = "Settings::default_transcript_pill")]
+    pub transcript_pill_seconds: f32,
+
+    /// Watch the active tab's source directory and reload pages when files
+    /// on disk change. Off by default — useful when iterating in the
+    /// generator's `node build.js preview` loop, but unnecessary otherwise.
+    #[serde(default)]
+    pub hot_reload: bool,
+
+    /// Discard hot-mic audio while TTS is reading, so the synthesiser's
+    /// voice doesn't bleed back through the mic and get transcribed.
+    /// Headphone users may want to turn this off.
+    #[serde(default = "Settings::default_mute_mic_during_speech")]
+    pub mute_mic_during_speech: bool,
+
+    /// Apply WS_EX_TRANSPARENT so mouse clicks pass through to whatever's
+    /// behind. Useful while flying DCS — but ALL UI clicks (gear, nav,
+    /// drag) stop working too, so bind ToggleClickThrough to a HOTAS button
+    /// before you turn this on.
+    #[serde(default)]
+    pub click_through: bool,
 }
 
 impl Settings {
@@ -48,9 +85,11 @@ impl Settings {
     fn default_auto_advance() -> bool { false }
     fn default_delay() -> f32 { 1.5 }
     fn default_read_notes() -> bool { false }
+    fn default_transcript_pill() -> f32 { 5.0 }
+    fn default_mute_mic_during_speech() -> bool { true }
 
     pub fn load_or_default(path: &Path) -> Self {
-        match std::fs::read_to_string(path) {
+        let mut s = match std::fs::read_to_string(path) {
             Ok(text) => match toml::from_str::<Self>(&text) {
                 Ok(s) => {
                     eprintln!("[settings] loaded from {}", path.display());
@@ -65,7 +104,18 @@ impl Settings {
                 eprintln!("[settings] no {} — using defaults", path.display());
                 Self::default()
             }
+        };
+        // A first-run load (or one from a pre-M4 file) has no bindings yet —
+        // seed with defaults and write them straight back so the table shows
+        // up in settings.toml for manual inspection / editing. Users with a
+        // customised table keep what they have.
+        if s.bindings.0.is_empty() {
+            s.bindings = Bindings::defaults();
+            if let Err(e) = s.save(path) {
+                eprintln!("[settings] seed-save failed: {e:?}");
+            }
         }
+        s
     }
 
     pub fn save(&self, path: &Path) -> Result<()> {
@@ -86,6 +136,12 @@ impl Default for Settings {
             window_y: None,
             current_aircraft: None,
             last_tab: None,
+            bindings: Bindings::default(),
+            audio_input: None,
+            transcript_pill_seconds: Self::default_transcript_pill(),
+            hot_reload: false,
+            mute_mic_during_speech: Self::default_mute_mic_during_speech(),
+            click_through: false,
         }
     }
 }
