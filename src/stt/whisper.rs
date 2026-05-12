@@ -12,6 +12,7 @@ pub struct WhisperStt {
 
 impl WhisperStt {
     pub fn new(model_path: &Path) -> Result<Self> {
+        check_cpu_features()?;
         let model_str = model_path
             .to_str()
             .context("model path is not valid UTF-8")?;
@@ -23,6 +24,56 @@ impl WhisperStt {
             .unwrap_or("whisper")
             .to_string();
         Ok(Self { ctx, name })
+    }
+}
+
+// Portable builds target x86-64-v3 (AVX2 + FMA + F16C). A CPU that lacks any
+// of those would hit EXCEPTION_ILLEGAL_INSTRUCTION inside whisper_full() and
+// the OS would kill the process with no Rust panic — a silent crash that's
+// nearly impossible to triage in the field. Fail early with a clear message.
+#[cfg(target_arch = "x86_64")]
+fn check_cpu_features() -> Result<()> {
+    let avx2 = std::is_x86_feature_detected!("avx2");
+    let fma = std::is_x86_feature_detected!("fma");
+    let f16c = std::is_x86_feature_detected!("f16c");
+    let avx512f = std::is_x86_feature_detected!("avx512f");
+    eprintln!(
+        "[stt] cpu features: avx2={} fma={} f16c={} avx512f={}",
+        yn(avx2),
+        yn(fma),
+        yn(f16c),
+        yn(avx512f)
+    );
+    let mut missing: Vec<&str> = Vec::new();
+    if !avx2 {
+        missing.push("AVX2");
+    }
+    if !fma {
+        missing.push("FMA");
+    }
+    if !f16c {
+        missing.push("F16C");
+    }
+    if !missing.is_empty() {
+        anyhow::bail!(
+            "STT requires AVX2 + FMA + F16C; this CPU lacks {}. \
+             Use a CPU from 2014 (Haswell) or newer.",
+            missing.join(" + ")
+        );
+    }
+    Ok(())
+}
+
+#[cfg(not(target_arch = "x86_64"))]
+fn check_cpu_features() -> Result<()> {
+    Ok(())
+}
+
+fn yn(b: bool) -> &'static str {
+    if b {
+        "yes"
+    } else {
+        "no"
     }
 }
 
