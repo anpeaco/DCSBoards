@@ -1,0 +1,122 @@
+# Build + portability regression guard.
+#
+# `windows-latest` runs on an Intel Xeon without AVX-512. Building the
+# portable whisper.cpp here, then disassembling the result and asserting
+# no AVX-512 opcodes leaked in, gives us the same signal as running on a
+# 12700F — without needing the actual hardware. Every push gets it.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  # NOTE: `RUSTFLAGS: -D warnings` is intentionally not set yet — same reason
+  # the fmt/clippy gates below are deferred. Re-enable after the pre-existing
+  # dead-code warnings (input_sample_rate, PageManifest.schema_version,
+  # Tab.kind, Watcher::current) are either consumed or annotated.
+
+jobs:
+  build-and-portability-check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      # whisper-rs-sys needs libclang at build time (bindgen) and the
+      # portability check needs llvm-objdump. Chocolatey is preinstalled
+      # on windows-latest and gives us a known-good LLVM in one step.
+      - name: Install LLVM via chocolatey
+        shell: pwsh
+        run: |
+          choco install llvm -y --no-progress
+          # choco's PATH refresh is for the next step; export the bin dir
+          # and LIBCLANG_PATH for bindgen explicitly.
+          $llvmBin = 'C:\Program Files\LLVM\bin'
+          if (-not (Test-Path (Join-Path $llvmBin 'llvm-objdump.exe'))) {
+            throw "llvm-objdump.exe not found at $llvmBin after install"
+          }
+          Add-Content -Path $env:GITHUB_PATH -Value $llvmBin
+          Add-Content -Path $env:GITHUB_ENV  -Value "LIBCLANG_PATH=$llvmBin"
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: portable-whisper
+
+      # NOTE: `cargo fmt --check` and `cargo clippy -D warnings` are
+      # intentionally not enforced yet — the repo has pre-existing drift
+      # (fmt diffs in voice_router.rs / watcher.rs; ~13 clippy warnings).
+      # Run `cargo fmt --all` once across the codebase and clear the clippy
+      # backlog, then re-enable both as failing gates.
+
+      - name: cargo test
+        run: cargo test --features whisper-stt
+
+      # Build with the portable x86-64-v3 baseline (AVX2 + FMA + F16C), no
+      # AVX-512. Matches scripts/package-portable.ps1 — kept in sync by
+      # convention; if you change one, change the other.
+      - name: Build release with portable flags
+        env:
+          GGML_NATIVE: "OFF"
+          GGML_AVX: "ON"
+          GGML_AVX2: "ON"
+          GGML_FMA: "ON"
+          GGML_F16C: "ON"
+          GGML_AVX512: "OFF"
+          GGML_AVX512_VBMI: "OFF"
+          GGML_AVX512_VNNI: "OFF"
+        run: cargo build --release --features whisper-stt
+
+      # AVX-512 in the shipping binary is the bug from issue #1. Grep the
+      # disassembly for the unmistakable signals: ZMM register references,
+      # opmask register operands, and a few EVEX-only mnemonics. Any hit
+      # fails the build before it ever reaches a user's machine.
+      - name: Assert no AVX-512 opcodes in built exe
+        shell: pwsh
+        run: |
+          $objdump = (Get-Command llvm-objdump.exe -ErrorAction SilentlyContinue).Source
+          if (-not $objdump) { throw "llvm-objdump.exe not on PATH" }
+          $exe = "target\release\dcs-kneeboard.exe"
+          if (-not (Test-Path $exe)) { throw "missing $exe" }
+          $pattern = '\bzmm\d|\bvpermt2|\bvpternlog|\bkmov[bwdq]\b|%k[0-7]\b'
+          $hits = & $objdump --disassemble $exe 2>$null | Select-String -Pattern $pattern
+          if ($hits) {
+            Write-Host "::error::AVX-512 opcodes found in $exe — portable build is broken (regression of #1)"
+            $hits | Select-Object -First 20 | ForEach-Object { Write-Host $_.Line }
+            exit 1
+          }
+          Write-Host "No AVX-512 opcodes in $exe — portable baseline holds."
+
+      # Confirm the CMake cache really did pick up the portable flags. If a
+      # future refactor changes how env vars are passed to whisper-rs-sys
+      # (or whisper-rs-sys's build.rs stops forwarding them), this catches
+      # it even if the host CPU happened to disagree.
+      - name: Assert CMake cache shows portable flags
+        shell: pwsh
+        run: |
+          $cache = Get-ChildItem 'target\release\build' -Filter 'whisper-rs-sys-*' -Directory |
+                   ForEach-Object { Join-Path $_.FullName 'out\build\CMakeCache.txt' } |
+                   Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $cache) { throw "no whisper-rs-sys CMakeCache.txt found" }
+          $required = @{
+            'GGML_NATIVE:BOOL=OFF'   = $false
+            'GGML_AVX2:BOOL=ON'      = $false
+            'GGML_AVX512:BOOL=OFF'   = $false
+          }
+          foreach ($line in Get-Content $cache) {
+            foreach ($k in @($required.Keys)) {
+              if ($line -eq $k) { $required[$k] = $true }
+            }
+          }
+          $missing = $required.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object { $_.Key }
+          if ($missing) {
+            Write-Host "::error::CMakeCache missing expected flags: $($missing -join ', ')"
+            exit 1
+          }
+          Write-Host "CMake cache shows portable flags."
