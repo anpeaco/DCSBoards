@@ -93,9 +93,15 @@ New-Item -ItemType Directory -Force -Path (Join-Path $bundle "models") | Out-Nul
 
 # --- 3. App files ---
 Write-Host "Copying app + configs..."
-Copy-Item $exeSrc                                  (Join-Path $bundle "dcs-kneeboard.exe")
+Copy-Item $exeSrc                                    (Join-Path $bundle "dcs-kneeboard.exe")
 Copy-Item (Join-Path $repoRoot "config.toml")        $bundle
 Copy-Item (Join-Path $repoRoot "pronunciation.toml") $bundle
+$aliasesSrc = Join-Path $repoRoot "query_aliases.toml"
+if (Test-Path $aliasesSrc) {
+    Copy-Item $aliasesSrc $bundle
+} else {
+    Write-Warning "query_aliases.toml missing from repo root -- voice-query aliases will be unavailable in the bundle."
+}
 
 # --- 4. Sample pages ---
 $pagesSrc = Join-Path $repoRoot "pages-sample"
@@ -172,6 +178,24 @@ in BINDINGS, then:
   detected and run as you speak.
 
 The transcript pill near the top-right shows what was heard.
+
+Three layers of voice control:
+
+- COMMANDS - literal phrases like "next", "previous heading", "what
+  was that". Full list: open the voice-commands dialog (mic icon on
+  the bottom edge, "Voice commands").
+- VOICE QUERIES - free-form intents:
+    "go to page 3"        -- jump to a specific page
+    "go to AGM-65"        -- find a section by name (fuzzy match)
+    "go to the JDAM tab"  -- switch tab
+    "list sections"       -- TTS reads the section headers
+- PHONETIC ALIASES - rewrite spoken aliases to canonical designators
+  before fuzzy matching. Defaults: "Maverick" -> "AGM-65",
+  "Sidewinder" -> "AIM-9", "Slammer" -> "AIM-120", "HARM" -> "AGM-88",
+  "Mark 82" -> "MK-82". Edit query_aliases.toml + press F5 to add your
+  own.
+
+F5 reloads pronunciation.toml AND query_aliases.toml without restart.
 
 Text-to-speech
 --------------
