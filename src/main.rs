@@ -1957,6 +1957,44 @@ impl AppState {
     fn next_heading(&self) { self.nav(|p, c| step_to_heading(p, c, 1)); }
     fn prev_heading(&self) { self.nav(|p, c| step_to_heading(p, c, -1)); }
 
+    /// Jump to an absolute page index. `n` is 1-based as spoken by the user
+    /// ("page three" → 3); we clamp to the available range so out-of-bounds
+    /// utterances land on the nearest valid page rather than refusing.
+    fn goto_page(&self, n: u32) {
+        self.nav(|pages, _cur| {
+            if pages.is_empty() {
+                return Cursor { page: 0, item: 0 };
+            }
+            let target = (n as usize).saturating_sub(1).min(pages.len() - 1);
+            Cursor {
+                page: target,
+                item: tabs::first_navigable(&pages[target].manifest.items),
+            }
+        });
+    }
+
+    /// Route a structured query to the right handler. Phase 2 only the
+    /// NavigateToPage arm is live; later phases (section / tab / list /
+    /// pick) plug into the same dispatcher.
+    fn handle_query(&self, q: voice_router::QueryIntent) {
+        use voice_router::QueryIntent;
+        match q {
+            QueryIntent::NavigateToPage(n) => self.goto_page(n),
+            QueryIntent::NavigateToSection(target) => {
+                eprintln!("[voice] section query \"{target}\" — not implemented yet");
+            }
+            QueryIntent::NavigateToTab(target) => {
+                eprintln!("[voice] tab query \"{target}\" — not implemented yet");
+            }
+            QueryIntent::ListSections => {
+                eprintln!("[voice] list sections — not implemented yet");
+            }
+            QueryIntent::PickResult(_) => {
+                eprintln!("[voice] pick result — no results panel open, ignoring");
+            }
+        }
+    }
+
     /// Read button: toggle. Stop if currently playing; otherwise start.
     fn read(&self) {
         if self.is_playing() {
@@ -3137,11 +3175,26 @@ fn main() -> Result<()> {
                             s.dispatch(action);
                         }
                         voice_router::RoutedIntent::Query(query) => {
-                            // Phase 1: classifier is a stub (returns None),
-                            // so this arm is unreachable today. Wired up now
-                            // so phase 2 onwards is one-line plumbing.
-                            eprintln!("[voice] \"{trimmed}\" → query {query:?} (no handler yet)");
-                            s.show_transcript_unmatched(trimmed.to_string());
+                            let label = match &query {
+                                voice_router::QueryIntent::NavigateToPage(n) => {
+                                    format!("Go to page {n}")
+                                }
+                                voice_router::QueryIntent::NavigateToSection(t) => {
+                                    format!("Find section \"{t}\"")
+                                }
+                                voice_router::QueryIntent::NavigateToTab(t) => {
+                                    format!("Switch to tab \"{t}\"")
+                                }
+                                voice_router::QueryIntent::ListSections => {
+                                    "List sections".to_string()
+                                }
+                                voice_router::QueryIntent::PickResult(n) => {
+                                    format!("Pick result {n}")
+                                }
+                            };
+                            eprintln!("[voice] \"{trimmed}\" → {label}");
+                            s.show_transcript_match(format!("{label} ({trimmed})"));
+                            s.handle_query(query);
                         }
                         voice_router::RoutedIntent::Unmatched => {
                             eprintln!("[voice] \"{trimmed}\" → (no match)");

@@ -64,11 +64,61 @@ pub fn route(transcript: &str) -> RoutedIntent {
     RoutedIntent::Unmatched
 }
 
-/// Phase-1 placeholder. Subsequent phases fill in page / section / tab /
-/// list / pick recognisers. Leaving the function in place now keeps the
-/// dispatch wiring honest from day one.
-fn classify_query(_cleaned: &str) -> Option<QueryIntent> {
+/// Try the query recognisers in order of specificity. Add more recognisers
+/// here as later phases land; each should return early on a confident match.
+fn classify_query(cleaned: &str) -> Option<QueryIntent> {
+    if let Some(n) = match_page_query(cleaned) {
+        return Some(QueryIntent::NavigateToPage(n));
+    }
     None
+}
+
+/// Recognise `"page N"`, `"go to page N"`, `"page number N"`, with N as a
+/// digit string or a number word ("one"…"twelve"). Returns the 1-based page
+/// number; resolver clamps. Returns None if "page" isn't followed by a valid
+/// number, so utterances like `"page next"` (handled by the Action fast
+/// path) and `"page that section"` fall through to Unmatched cleanly.
+fn match_page_query(cleaned: &str) -> Option<u32> {
+    let tokens: Vec<&str> = cleaned.split_whitespace().collect();
+    for i in 0..tokens.len() {
+        if tokens[i] != "page" {
+            continue;
+        }
+        let mut j = i + 1;
+        if tokens.get(j) == Some(&"number") {
+            j += 1;
+        }
+        if let Some(tok) = tokens.get(j) {
+            if let Some(n) = parse_small_number(tok) {
+                return Some(n);
+            }
+        }
+    }
+    None
+}
+
+/// Parse a small positive integer from either a digit string ("3") or a
+/// number word ("three"). Stops at twelve — anything larger is expected in
+/// digit form. Zero is rejected because page numbers are 1-based in voice.
+fn parse_small_number(s: &str) -> Option<u32> {
+    if let Ok(n) = s.parse::<u32>() {
+        return if n > 0 { Some(n) } else { None };
+    }
+    match s {
+        "one" => Some(1),
+        "two" => Some(2),
+        "three" => Some(3),
+        "four" => Some(4),
+        "five" => Some(5),
+        "six" => Some(6),
+        "seven" => Some(7),
+        "eight" => Some(8),
+        "nine" => Some(9),
+        "ten" => Some(10),
+        "eleven" => Some(11),
+        "twelve" => Some(12),
+        _ => None,
+    }
 }
 
 /// Pre-process the transcript for matching: lowercase, strip ASCII punctuation,
@@ -350,5 +400,43 @@ mod tests {
         assert_eq!(route(""), RoutedIntent::Unmatched);
         assert_eq!(route("   "), RoutedIntent::Unmatched);
         assert_eq!(route("hmmmm"), RoutedIntent::Unmatched);
+    }
+
+    // --- Phase 2: page query --------------------------------------------
+
+    fn page_query(s: &str) -> Option<u32> {
+        match route(s) {
+            RoutedIntent::Query(QueryIntent::NavigateToPage(n)) => Some(n),
+            _ => None,
+        }
+    }
+
+    #[test]
+    fn page_query_digit() {
+        assert_eq!(page_query("page 3"), Some(3));
+        assert_eq!(page_query("go to page 5"), Some(5));
+        assert_eq!(page_query("page number 2"), Some(2));
+        assert_eq!(page_query("Take me to page 7, please."), Some(7));
+    }
+
+    #[test]
+    fn page_query_word_form() {
+        assert_eq!(page_query("page three"), Some(3));
+        assert_eq!(page_query("go to page nine"), Some(9));
+        assert_eq!(page_query("page number twelve"), Some(12));
+    }
+
+    #[test]
+    fn page_query_not_a_match() {
+        // "page next" / "page back" are Action fast-path matches, not queries.
+        // Confirm they still route to actions, not NavigateToPage.
+        assert_eq!(route("page next"), RoutedIntent::Action(Action::PageNext));
+        assert_eq!(route("page back"), RoutedIntent::Action(Action::PagePrev));
+        // Bare "page" with no number is Unmatched, not NavigateToPage(0).
+        assert_eq!(route("page"), RoutedIntent::Unmatched);
+        // Zero is rejected — voice page numbers are 1-based.
+        assert_eq!(page_query("page 0"), None);
+        // A non-number token after "page" doesn't trigger a query.
+        assert_eq!(page_query("page that section"), None);
     }
 }
