@@ -11,6 +11,7 @@ mod overlay;
 mod settings;
 #[cfg(feature = "whisper-stt")]
 mod stt;
+mod query_aliases;
 mod tabs;
 mod tts;
 mod voice_router;
@@ -27,6 +28,7 @@ use std::cell::RefCell;
 use std::path::PathBuf;
 use std::rc::Rc;
 use std::time::Duration;
+use query_aliases::QueryAliases;
 use tabs::{first_navigable, Cursor, Item, LoadedPage, TabRegistry};
 use tts::{spoken_for, PronunciationConfig, TtsEngine};
 
@@ -1695,6 +1697,10 @@ struct AppState {
     tabs: Rc<RefCell<TabRegistry>>,
     tts: Rc<RefCell<Option<Box<dyn TtsEngine>>>>,
     pronunciation: Rc<RefCell<PronunciationConfig>>,
+    /// Voice-query rewrites (e.g. "mark" → "mk"). Applied before fuzzy
+    /// matching in section/tab resolvers. Hot-reloaded by F5 alongside
+    /// pronunciation.toml.
+    aliases: Rc<RefCell<QueryAliases>>,
     settings: Rc<RefCell<Settings>>,
     win: slint::Weak<MainWindow>,
     advance_timer: Rc<slint::Timer>,
@@ -2004,14 +2010,18 @@ impl AppState {
         match q {
             QueryIntent::NavigateToPage(n) => self.goto_page(n),
             QueryIntent::NavigateToSection(target) => {
-                // Phase 3: resolve against the active tab only. Phases 4+
-                // extend to cross-tab search and disambiguation panel.
-                let nm = self.tabs.borrow().resolve_section_query(&target);
+                // Apply phonetic alias rewrites ("mark" → "mk", "agem" →
+                // "agm") so the fuzzy matcher sees canonical terminology.
+                let rewritten = self.aliases.borrow().rewrite(&target);
+                if rewritten != target {
+                    eprintln!("[voice] section alias: \"{target}\" → \"{rewritten}\"");
+                }
+                let nm = self.tabs.borrow().resolve_section_query(&rewritten);
                 match nm {
                     Some(nm) => {
                         eprintln!(
                             "[voice] section \"{}\" → \"{}\" (score {:.2}, {} alternates)",
-                            target,
+                            rewritten,
                             nm.label,
                             nm.score,
                             nm.alternates.len()
@@ -2019,22 +2029,26 @@ impl AppState {
                         self.goto_target(nm.target);
                     }
                     None => {
-                        eprintln!("[voice] section query \"{target}\" — no match");
+                        eprintln!("[voice] section query \"{rewritten}\" — no match");
                     }
                 }
             }
             QueryIntent::NavigateToTab(target) => {
-                let nm = self.tabs.borrow().resolve_tab_query(&target);
+                let rewritten = self.aliases.borrow().rewrite(&target);
+                if rewritten != target {
+                    eprintln!("[voice] tab alias: \"{target}\" → \"{rewritten}\"");
+                }
+                let nm = self.tabs.borrow().resolve_tab_query(&rewritten);
                 match nm {
                     Some(nm) => {
                         eprintln!(
                             "[voice] tab \"{}\" → \"{}\" (score {:.2})",
-                            target, nm.label, nm.score
+                            rewritten, nm.label, nm.score
                         );
                         self.switch_tab(nm.target.tab_idx);
                     }
                     None => {
-                        eprintln!("[voice] tab query \"{target}\" — no match");
+                        eprintln!("[voice] tab query \"{rewritten}\" — no match");
                     }
                 }
             }
@@ -2087,6 +2101,10 @@ impl AppState {
     fn reload_pronunciation(&self) {
         let fresh = PronunciationConfig::load_or_default(&PathBuf::from("pronunciation.toml"));
         *self.pronunciation.borrow_mut() = fresh;
+        // F5 reloads all the text-config files so the user can iterate on
+        // both TTS pronunciation and voice-query aliases in one keystroke.
+        let fresh_aliases = QueryAliases::load_or_default(&PathBuf::from("query_aliases.toml"));
+        *self.aliases.borrow_mut() = fresh_aliases;
     }
 
     /// Move the cursor to the first navigable item right after the nearest
@@ -2854,6 +2872,9 @@ fn main() -> Result<()> {
     let pronunciation = Rc::new(RefCell::new(PronunciationConfig::load_or_default(
         &PathBuf::from("pronunciation.toml"),
     )));
+    let aliases = Rc::new(RefCell::new(QueryAliases::load_or_default(
+        &PathBuf::from("query_aliases.toml"),
+    )));
 
     let tts: Rc<RefCell<Option<Box<dyn TtsEngine>>>> = Rc::new(RefCell::new(
         init_tts(&settings.borrow()).map_err(|e| eprintln!("TTS init failed: {e:?}")).ok(),
@@ -2989,6 +3010,7 @@ fn main() -> Result<()> {
         tabs: tabs_rc.clone(),
         tts: tts.clone(),
         pronunciation: pronunciation.clone(),
+        aliases: aliases.clone(),
         settings: settings.clone(),
         win: win.as_weak(),
         advance_timer: Rc::new(slint::Timer::default()),

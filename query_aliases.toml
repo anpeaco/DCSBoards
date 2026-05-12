@@ -1,0 +1,36 @@
+# Phonetic-spelling → canonical-token rewrites applied to voice query
+# transcripts before fuzzy section/tab matching. One-way: voice queries only,
+# never TTS output. The inverse direction (canonical → spoken) lives in
+# pronunciation.toml.
+#
+# Keys and values are matched lowercase, with word-boundary substitution —
+# "mark" rewrites the standalone word "mark" but does NOT touch "remark" or
+# "markup".
+#
+# Longest-key wins when keys overlap (e.g. both "mark" and "mark 82" defined).
+#
+# Edit, then press F5 in-app (or your bound ReloadPronunciation key) to apply
+# without restarting.
+
+[rewrites]
+# STT mis-spellings of common aviation designators
+"agem" = "agm"
+"a g m" = "agm"
+"a i m" = "aim"
+"jay damn" = "jdam"
+"jay dam" = "jdam"
+"jay dams" = "jdams"
+
+# Spoken-form weapon designators → canonical
+"mark" = "mk"
+
+# Common aliases (familiar name → canonical designator)
+"maverick" = "agm 65"
+"mavericks" = "agm 65"
+"sidewinder" = "aim 9"
+"sidewinders" = "aim 9"
+"slammer" = "aim 120"
+"slammers" = "aim 120"
+"harm" = "agm 88"
+"harms" = "agm 88"
+"rockeye" = "mk 20"
