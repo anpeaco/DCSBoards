@@ -1,7 +1,7 @@
 # DCS Kneeboard
 
 A Windows always-on-top overlay for DCS World that turns a pile of static
-checklist PNGs into a voice-controlled, HUD-style kneeboard. Push a HOTAS
+checklist PNGs into a voice-controlled, kneeboard overlay. Push a HOTAS
 button, say *"next page"* or *"what section"*, and the overlay reads the
 matching checklist item aloud — entirely offline.
 
