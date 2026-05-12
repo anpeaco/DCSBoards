@@ -2038,9 +2038,7 @@ impl AppState {
                     }
                 }
             }
-            QueryIntent::ListSections => {
-                eprintln!("[voice] list sections — not implemented yet");
-            }
+            QueryIntent::ListSections => self.speak_section_list(),
             QueryIntent::PickResult(_) => {
                 eprintln!("[voice] pick result — no results panel open, ignoring");
             }
@@ -2132,6 +2130,55 @@ impl AppState {
     /// Speak the nearest preceding heading so the user can hear which
     /// section they're currently in. Falls back to the page title if no
     /// heading precedes the current item.
+    /// Read the active tab's distinct section headers aloud, in document
+    /// order. Triggered by voice "what sections are in this tab". Skips
+    /// duplicates (same header text on multiple pages) so the list stays
+    /// short. Applies pronunciation overrides through the standard
+    /// spoken_for path.
+    fn speak_section_list(&self) {
+        let (to_say, est) = {
+            let tabs = self.tabs.borrow();
+            let Some(tab) = tabs.active_tab() else { return };
+            if tab.pages.is_empty() {
+                return;
+            }
+            let pron = self.pronunciation.borrow();
+            let mut seen: std::collections::HashSet<String> = std::collections::HashSet::new();
+            let mut parts: Vec<String> = Vec::new();
+            for page in &tab.pages {
+                for item in &page.manifest.items {
+                    if item.kind != "section-header" {
+                        continue;
+                    }
+                    let key = item.text.to_lowercase();
+                    if !seen.insert(key) {
+                        continue;
+                    }
+                    parts.push(spoken_for(&item.text, item.spoken.as_deref(), &pron));
+                }
+            }
+            if parts.is_empty() {
+                return;
+            }
+            // Semicolons buy us a natural pause from most TTS engines.
+            let text = format!("Sections: {}.", parts.join("; "));
+            let est = estimate_speech_ms(&text);
+            (text, est)
+        };
+        if to_say.is_empty() {
+            return;
+        }
+        self.stop_speaking();
+        eprintln!("[tts] section list: {to_say}");
+        if let Some(engine) = self.tts.borrow_mut().as_mut() {
+            if let Err(e) = engine.speak(&to_say, true) {
+                eprintln!("TTS speak failed: {e:?}");
+            }
+        }
+        self.set_playing(true);
+        self.schedule_post_speech(est);
+    }
+
     fn speak_section(&self) {
         let (to_say, est) = {
             let tabs = self.tabs.borrow();

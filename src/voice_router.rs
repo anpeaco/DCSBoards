@@ -67,8 +67,13 @@ pub fn route(transcript: &str) -> RoutedIntent {
 /// Try the query recognisers in order of specificity. Add more recognisers
 /// here as later phases land; each should return early on a confident match.
 fn classify_query(cleaned: &str) -> Option<QueryIntent> {
-    // Page query first — it's strictly more specific than the section-query
-    // "go to <X>" prefix, so "go to page 3" stays a page query.
+    // List-sections runs first — "what sections are in this tab" contains
+    // the literal word "this" which is harmless but the recogniser is
+    // self-contained and the cheapest check.
+    if matches_list_sections(cleaned) {
+        return Some(QueryIntent::ListSections);
+    }
+    // Page query before section query — "go to page 3" stays a page query.
     if let Some(n) = match_page_query(cleaned) {
         return Some(QueryIntent::NavigateToPage(n));
     }
@@ -83,6 +88,21 @@ fn classify_query(cleaned: &str) -> Option<QueryIntent> {
         return Some(QueryIntent::NavigateToSection(target));
     }
     None
+}
+
+/// Recognise "what sections are in this tab" and the obvious variants.
+/// Matched as substrings so trailing politeness doesn't ruin the match.
+fn matches_list_sections(cleaned: &str) -> bool {
+    // Apostrophes are stripped by normalise, so "what's" → "whats".
+    const PHRASES: &[&str] = &[
+        "what sections",
+        "list sections",
+        "list the sections",
+        "sections in this tab",
+        "whats in this tab",
+        "what is in this tab",
+    ];
+    PHRASES.iter().any(|p| contains_phrase(cleaned, p))
 }
 
 /// Recognise "<X> tab" / "<X> checklist" as an explicit tab-navigation
@@ -627,6 +647,28 @@ mod tests {
         assert_eq!(
             section_query("go to landing"),
             Some("landing".to_string())
+        );
+    }
+
+    // --- Phase 5a: list-sections query ----------------------------------
+
+    #[test]
+    fn list_sections_phrases() {
+        assert_eq!(
+            route("what sections are in this tab"),
+            RoutedIntent::Query(QueryIntent::ListSections)
+        );
+        assert_eq!(
+            route("list sections"),
+            RoutedIntent::Query(QueryIntent::ListSections)
+        );
+        assert_eq!(
+            route("what's in this tab?"),
+            RoutedIntent::Query(QueryIntent::ListSections)
+        );
+        assert_eq!(
+            route("sections in this tab"),
+            RoutedIntent::Query(QueryIntent::ListSections)
         );
     }
 
