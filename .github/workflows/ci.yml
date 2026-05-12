@@ -26,10 +26,21 @@ jobs:
         with:
           components: clippy, rustfmt
 
-      - name: Install LLVM (for whisper-rs-sys bindgen + llvm-objdump)
-        uses: KyleMayes/install-llvm-action@v2
-        with:
-          version: "18.0"
+      # whisper-rs-sys needs libclang at build time (bindgen) and the
+      # portability check needs llvm-objdump. Chocolatey is preinstalled
+      # on windows-latest and gives us a known-good LLVM in one step.
+      - name: Install LLVM via chocolatey
+        shell: pwsh
+        run: |
+          choco install llvm -y --no-progress
+          # choco's PATH refresh is for the next step; export the bin dir
+          # and LIBCLANG_PATH for bindgen explicitly.
+          $llvmBin = 'C:\Program Files\LLVM\bin'
+          if (-not (Test-Path (Join-Path $llvmBin 'llvm-objdump.exe'))) {
+            throw "llvm-objdump.exe not found at $llvmBin after install"
+          }
+          Add-Content -Path $env:GITHUB_PATH -Value $llvmBin
+          Add-Content -Path $env:GITHUB_ENV  -Value "LIBCLANG_PATH=$llvmBin"
 
       - uses: Swatinem/rust-cache@v2
         with:
