@@ -392,6 +392,47 @@ mod resolver_tests {
         assert!(m.alternates.is_empty()); // no duplicates promoted
     }
 
+    /// End-to-end: an alias rewrite turns a voice query the user actually
+    /// says into the canonical form the section header uses, unlocking a
+    /// match that wouldn't otherwise clear the 0.7 threshold.
+    ///
+    /// "maverick" vs "agm 65" scores ~0.44 in Jaro-Winkler (different
+    /// first letter, almost no character overlap) — well below threshold.
+    /// The alias "maverick" → "agm 65" rewrites the query, after which it
+    /// exact-matches the section group at score 1.0.
+    #[test]
+    fn alias_rewrite_unlocks_canonical_section_match() {
+        use crate::query_aliases::QueryAliases;
+        let items = [
+            header(0, "AGM-65 EMPLOYMENT"),
+            step(1, "AGM-65 EMPLOYMENT", "Master arm switch ... ARM"),
+            step(2, "AGM-65 EMPLOYMENT", "Pickle ... AS REQUIRED"),
+        ];
+        let pages: [&[Item]; 1] = [&items];
+
+        // Without aliases: "maverick" can't reach the canonical section.
+        assert!(
+            resolve_section_in_pages("maverick", &pages, 0).is_none(),
+            "raw \"maverick\" should not match \"AGM-65\" without alias rewrite"
+        );
+
+        // With aliases: same query rewrites to canonical, then matches.
+        let aliases = QueryAliases {
+            rewrites: [("maverick".to_string(), "agm 65".to_string())]
+                .into_iter()
+                .collect(),
+        };
+        let rewritten = aliases.rewrite("maverick");
+        assert_eq!(rewritten, "agm 65");
+        let m = resolve_section_in_pages(&rewritten, &pages, 0)
+            .expect("rewritten query should match the canonical section");
+        assert!(
+            m.label.starts_with("AGM-65"),
+            "expected an AGM-65 section, got {}",
+            m.label
+        );
+    }
+
     /// Nothing similar enough → None, so the caller can fall through to
     /// "no match" UX instead of dispatching to a garbage target.
     #[test]
