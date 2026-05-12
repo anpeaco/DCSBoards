@@ -1391,7 +1391,7 @@ slint::slint! {
                     }
                     Rectangle { height: 1px; background: #444; }
                     Text {
-                        text: "Hold push-to-talk (or use hot mic) and say any of these. The match is case-insensitive and tolerates trailing punctuation.";
+                        text: "Hold push-to-talk (or use hot mic) and say any of these. Commands match case-insensitively and tolerate trailing punctuation. Below the commands, free-form queries (\"go to ...\") accept fuzzy targets — section names, weapon designators, tab labels — and rewrite phonetic spellings via query_aliases.toml.";
                         color: #a0a0a0;
                         font-size: 11px;
                         wrap: word-wrap;
@@ -3357,16 +3357,37 @@ fn main() -> Result<()> {
     state.refresh_audio_ui();
     state.refresh_tts_ui();
 
-    // Build the voice-commands help model once — RULES is static so this
-    // never changes during a session.
+    // Build the voice-commands help model once — RULES and query_examples
+    // are both static so this never changes during a session.
     {
-        let rows: Vec<VoiceCommandRow> = voice_router::all_rules()
+        let mut rows: Vec<VoiceCommandRow> = voice_router::all_rules()
             .iter()
             .map(|(phrases, action)| VoiceCommandRow {
                 action_label: SharedString::from(action.label()),
                 phrases: SharedString::from(phrases.join(", ").as_str()),
             })
             .collect();
+        // Queries are the free-form layer (NavigateToPage, NavigateToSection,
+        // NavigateToTab, ListSections) — they match by intent classifier
+        // rather than literal phrase, so they live in a separate examples
+        // table. Appending after the Action rules so the most-used commands
+        // appear first in the help list.
+        rows.extend(
+            voice_router::query_examples()
+                .iter()
+                .map(|(label, examples)| VoiceCommandRow {
+                    action_label: SharedString::from(*label),
+                    phrases: SharedString::from(examples.join(", ").as_str()),
+                }),
+        );
+        // One trailing hint so the alias rewrite system isn't invisible.
+        // Concrete aliases live in query_aliases.toml and vary per user.
+        rows.push(VoiceCommandRow {
+            action_label: SharedString::from("Aliases (query_aliases.toml)"),
+            phrases: SharedString::from(
+                "Common: Maverick → AGM-65, Sidewinder → AIM-9, Slammer → AIM-120, HARM → AGM-88, Mark 82 → MK-82. Edit query_aliases.toml + press F5.",
+            ),
+        });
         win.set_voice_commands(slint::ModelRc::new(VecModel::from(rows)));
     }
 

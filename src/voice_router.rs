@@ -286,6 +286,49 @@ pub fn all_rules() -> &'static [(&'static [&'static str], Action)] {
     RULES
 }
 
+/// Example phrasings for the query-intent recognisers. Kept here rather
+/// than alongside `classify_query` so the help panel can render both the
+/// static Action rules and the free-form query layer in one list. Edit when
+/// you add a recogniser — these are the source of truth users see.
+pub fn query_examples() -> &'static [(&'static str, &'static [&'static str])] {
+    &[
+        (
+            "Go to page",
+            &[
+                "go to page 3",
+                "page 5",
+                "page number 2",
+                "page three",
+            ],
+        ),
+        (
+            "Go to section",
+            &[
+                "go to AGM-65",
+                "take me to the maverick section",
+                "find the JDAM section",
+                "how do I employ the AGM-65",
+                "search for AGM-65 employment",
+            ],
+        ),
+        (
+            "Go to tab",
+            &[
+                "go to the takeoff tab",
+                "switch to the JDAM checklist",
+            ],
+        ),
+        (
+            "List sections",
+            &[
+                "what sections are in this tab",
+                "list sections",
+                "what's in this tab",
+            ],
+        ),
+    ]
+}
+
 /// Phrase → action table. Order matters: longer/more-specific phrases first
 /// so "next page" beats the bare "next" rule. Each entry lists every variant
 /// we've seen in the wild; add more freely.
