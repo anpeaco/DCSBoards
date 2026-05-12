@@ -1957,6 +1957,94 @@ impl AppState {
     fn next_heading(&self) { self.nav(|p, c| step_to_heading(p, c, 1)); }
     fn prev_heading(&self) { self.nav(|p, c| step_to_heading(p, c, -1)); }
 
+    /// Jump to an absolute page index. `n` is 1-based as spoken by the user
+    /// ("page three" → 3); we clamp to the available range so out-of-bounds
+    /// utterances land on the nearest valid page rather than refusing.
+    fn goto_page(&self, n: u32) {
+        self.nav(|pages, _cur| {
+            if pages.is_empty() {
+                return Cursor { page: 0, item: 0 };
+            }
+            let target = (n as usize).saturating_sub(1).min(pages.len() - 1);
+            Cursor {
+                page: target,
+                item: tabs::first_navigable(&pages[target].manifest.items),
+            }
+        });
+    }
+
+    /// Jump to an exact (tab, page, item) coordinate produced by a query
+    /// resolver. Switches tab first if needed, then sets the cursor; the
+    /// existing nav() handles auto-read and UI refresh.
+    fn goto_target(&self, target: tabs::NavTarget) {
+        let active = self.tabs.borrow().active;
+        if target.tab_idx != active {
+            self.switch_tab(target.tab_idx);
+        }
+        self.nav(|pages, _cur| {
+            if pages.is_empty() {
+                return Cursor { page: 0, item: 0 };
+            }
+            let page = target.page_idx.min(pages.len() - 1);
+            let items = &pages[page].manifest.items;
+            let item = if items.is_empty() {
+                0
+            } else {
+                target.item_idx.min(items.len() - 1)
+            };
+            Cursor { page, item }
+        });
+    }
+
+    /// Route a structured query to the right handler. Phase 2 only the
+    /// NavigateToPage arm is live; later phases (section / tab / list /
+    /// pick) plug into the same dispatcher.
+    fn handle_query(&self, q: voice_router::QueryIntent) {
+        use voice_router::QueryIntent;
+        match q {
+            QueryIntent::NavigateToPage(n) => self.goto_page(n),
+            QueryIntent::NavigateToSection(target) => {
+                // Phase 3: resolve against the active tab only. Phases 4+
+                // extend to cross-tab search and disambiguation panel.
+                let nm = self.tabs.borrow().resolve_section_query(&target);
+                match nm {
+                    Some(nm) => {
+                        eprintln!(
+                            "[voice] section \"{}\" → \"{}\" (score {:.2}, {} alternates)",
+                            target,
+                            nm.label,
+                            nm.score,
+                            nm.alternates.len()
+                        );
+                        self.goto_target(nm.target);
+                    }
+                    None => {
+                        eprintln!("[voice] section query \"{target}\" — no match");
+                    }
+                }
+            }
+            QueryIntent::NavigateToTab(target) => {
+                let nm = self.tabs.borrow().resolve_tab_query(&target);
+                match nm {
+                    Some(nm) => {
+                        eprintln!(
+                            "[voice] tab \"{}\" → \"{}\" (score {:.2})",
+                            target, nm.label, nm.score
+                        );
+                        self.switch_tab(nm.target.tab_idx);
+                    }
+                    None => {
+                        eprintln!("[voice] tab query \"{target}\" — no match");
+                    }
+                }
+            }
+            QueryIntent::ListSections => self.speak_section_list(),
+            QueryIntent::PickResult(_) => {
+                eprintln!("[voice] pick result — no results panel open, ignoring");
+            }
+        }
+    }
+
     /// Read button: toggle. Stop if currently playing; otherwise start.
     fn read(&self) {
         if self.is_playing() {
@@ -2042,6 +2130,55 @@ impl AppState {
     /// Speak the nearest preceding heading so the user can hear which
     /// section they're currently in. Falls back to the page title if no
     /// heading precedes the current item.
+    /// Read the active tab's distinct section headers aloud, in document
+    /// order. Triggered by voice "what sections are in this tab". Skips
+    /// duplicates (same header text on multiple pages) so the list stays
+    /// short. Applies pronunciation overrides through the standard
+    /// spoken_for path.
+    fn speak_section_list(&self) {
+        let (to_say, est) = {
+            let tabs = self.tabs.borrow();
+            let Some(tab) = tabs.active_tab() else { return };
+            if tab.pages.is_empty() {
+                return;
+            }
+            let pron = self.pronunciation.borrow();
+            let mut seen: std::collections::HashSet<String> = std::collections::HashSet::new();
+            let mut parts: Vec<String> = Vec::new();
+            for page in &tab.pages {
+                for item in &page.manifest.items {
+                    if item.kind != "section-header" {
+                        continue;
+                    }
+                    let key = item.text.to_lowercase();
+                    if !seen.insert(key) {
+                        continue;
+                    }
+                    parts.push(spoken_for(&item.text, item.spoken.as_deref(), &pron));
+                }
+            }
+            if parts.is_empty() {
+                return;
+            }
+            // Semicolons buy us a natural pause from most TTS engines.
+            let text = format!("Sections: {}.", parts.join("; "));
+            let est = estimate_speech_ms(&text);
+            (text, est)
+        };
+        if to_say.is_empty() {
+            return;
+        }
+        self.stop_speaking();
+        eprintln!("[tts] section list: {to_say}");
+        if let Some(engine) = self.tts.borrow_mut().as_mut() {
+            if let Err(e) = engine.speak(&to_say, true) {
+                eprintln!("TTS speak failed: {e:?}");
+            }
+        }
+        self.set_playing(true);
+        self.schedule_post_speech(est);
+    }
+
     fn speak_section(&self) {
         let (to_say, est) = {
             let tabs = self.tabs.borrow();
@@ -3127,7 +3264,7 @@ fn main() -> Result<()> {
                         continue;
                     }
                     match voice_router::route(trimmed) {
-                        Some(action) => {
+                        voice_router::RoutedIntent::Action(action) => {
                             eprintln!("[voice] \"{trimmed}\" → {action:?}");
                             s.show_transcript_match(format!(
                                 "{} ({})",
@@ -3136,7 +3273,29 @@ fn main() -> Result<()> {
                             ));
                             s.dispatch(action);
                         }
-                        None => {
+                        voice_router::RoutedIntent::Query(query) => {
+                            let label = match &query {
+                                voice_router::QueryIntent::NavigateToPage(n) => {
+                                    format!("Go to page {n}")
+                                }
+                                voice_router::QueryIntent::NavigateToSection(t) => {
+                                    format!("Find section \"{t}\"")
+                                }
+                                voice_router::QueryIntent::NavigateToTab(t) => {
+                                    format!("Switch to tab \"{t}\"")
+                                }
+                                voice_router::QueryIntent::ListSections => {
+                                    "List sections".to_string()
+                                }
+                                voice_router::QueryIntent::PickResult(n) => {
+                                    format!("Pick result {n}")
+                                }
+                            };
+                            eprintln!("[voice] \"{trimmed}\" → {label}");
+                            s.show_transcript_match(format!("{label} ({trimmed})"));
+                            s.handle_query(query);
+                        }
+                        voice_router::RoutedIntent::Unmatched => {
                             eprintln!("[voice] \"{trimmed}\" → (no match)");
                             s.show_transcript_unmatched(trimmed.to_string());
                         }

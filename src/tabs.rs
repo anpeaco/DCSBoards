@@ -178,6 +178,237 @@ pub fn first_navigable(items: &[Item]) -> usize {
     items.iter().position(|i| i.navigable).unwrap_or(0)
 }
 
+// --- Voice query resolution (issue #2) --------------------------------------
+
+/// Destination produced by a voice query — addresses a specific item in a
+/// specific page in a specific tab. The dispatcher uses it to switch tab +
+/// page + cursor in one shot.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct NavTarget {
+    pub tab_idx: usize,
+    pub page_idx: usize,
+    pub item_idx: usize,
+}
+
+/// One result from a voice query lookup. `label` is the matched group or
+/// item text — shown in the results panel and (later) read by TTS. `score`
+/// is Jaro-Winkler similarity ∈ [0.0, 1.0] post-weighting. `alternates` is
+/// populated only on the top result, and lists the next-best hits so the
+/// caller can disambiguate.
+#[derive(Debug, Clone)]
+pub struct NavMatch {
+    pub target: NavTarget,
+    pub label: String,
+    pub score: f32,
+    pub alternates: Vec<NavMatch>,
+}
+
+/// Minimum similarity for an item to be considered a candidate. Started at
+/// 0.6 per the issue plan; bumped to 0.7 after `kangaroo` vs `landing`
+/// Jaro-Winkler'd to 0.60 in unit tests — too loose for short groups. STT
+/// noise on real multi-token queries still scores 0.8+, so 0.7 keeps real
+/// usage intact while filtering coincidental letter overlap.
+const MATCH_THRESHOLD: f32 = 0.7;
+
+/// Direct-navigate threshold: a single hit above this, with no close
+/// alternates, dispatches without the results panel.
+pub const CONFIDENT_THRESHOLD: f32 = 0.8;
+
+/// Pure function over a tab's pages. Each `pages[i]` is the item slice for
+/// one page. Returns the best match (with up to 4 alternates) if any item
+/// scores ≥ MATCH_THRESHOLD; None otherwise.
+///
+/// Scoring strategy:
+/// - Navigable items only — section headers (`navigable=false`) score, but
+///   we land on the first navigable item in their group instead.
+/// - First-occurrence-per-group-per-page is what gets scored; subsequent
+///   items in the same group on the same page are dropped, so a section
+///   with 8 steps doesn't crowd the alternates list.
+/// - Score = jaro_winkler(query, item.group) when group is non-empty;
+///   otherwise jaro_winkler(query, item.text) with a 0.85x weight to
+///   demote unsourced fallbacks.
+pub fn resolve_section_in_pages(
+    query: &str,
+    pages: &[&[Item]],
+    tab_idx: usize,
+) -> Option<NavMatch> {
+    let q = query.trim().to_lowercase();
+    if q.is_empty() {
+        return None;
+    }
+
+    let mut candidates: Vec<(f32, NavTarget, String)> = Vec::new();
+    for (page_idx, items) in pages.iter().enumerate() {
+        let mut seen_groups: std::collections::HashSet<String> = std::collections::HashSet::new();
+        for (item_idx, item) in items.iter().enumerate() {
+            if !item.navigable {
+                continue;
+            }
+            let (text_for_match, weight, label) = if !item.group.is_empty() {
+                if !seen_groups.insert(item.group.to_lowercase()) {
+                    continue;
+                }
+                (item.group.as_str(), 1.0_f32, item.group.clone())
+            } else {
+                (item.text.as_str(), 0.85_f32, item.text.clone())
+            };
+            let score =
+                strsim::jaro_winkler(&q, &text_for_match.to_lowercase()) as f32 * weight;
+            if score >= MATCH_THRESHOLD {
+                candidates.push((
+                    score,
+                    NavTarget {
+                        tab_idx,
+                        page_idx,
+                        item_idx,
+                    },
+                    label,
+                ));
+            }
+        }
+    }
+
+    if candidates.is_empty() {
+        return None;
+    }
+    // Highest score first.
+    candidates.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal));
+    let mut iter = candidates.into_iter();
+    let (top_score, top_target, top_label) = iter.next()?;
+    let alternates: Vec<NavMatch> = iter
+        .take(4)
+        .map(|(s, t, l)| NavMatch {
+            target: t,
+            label: l,
+            score: s,
+            alternates: Vec::new(),
+        })
+        .collect();
+    Some(NavMatch {
+        target: top_target,
+        label: top_label,
+        score: top_score,
+        alternates,
+    })
+}
+
+#[cfg(test)]
+mod resolver_tests {
+    use super::*;
+
+    fn step(idx: u32, group: &str, text: &str) -> Item {
+        Item {
+            idx,
+            group: group.to_string(),
+            kind: "step".to_string(),
+            text: text.to_string(),
+            spoken: None,
+            navigable: true,
+            bbox: [0.0, 0.0, 1.0, 1.0],
+        }
+    }
+
+    fn header(idx: u32, text: &str) -> Item {
+        Item {
+            idx,
+            group: String::new(),
+            kind: "section-header".to_string(),
+            text: text.to_string(),
+            spoken: None,
+            navigable: false,
+            bbox: [0.0, 0.0, 1.0, 1.0],
+        }
+    }
+
+    fn agm_fixture() -> Vec<Item> {
+        vec![
+            header(0, "AGM-65D/G IR PRE"),
+            step(1, "AGM-65D/G IR PRE", "FCR switch | provides ranging ... ON"),
+            step(2, "AGM-65D/G IR PRE", "MFD page ... WPN"),
+            header(3, "AGM-65 EMPLOYMENT"),
+            step(4, "AGM-65 EMPLOYMENT", "Master arm switch ... ARM"),
+            step(5, "AGM-65 EMPLOYMENT", "Pickle ... AS REQUIRED"),
+            header(6, "AGM-65 BORESIGHT"),
+            step(7, "AGM-65 BORESIGHT", "TGP page ... BORE"),
+        ]
+    }
+
+    /// Specific query → the right section wins, exact-match score, lands on
+    /// the first navigable item in that section's group.
+    #[test]
+    fn picks_best_section_among_alternatives() {
+        let items = agm_fixture();
+        let pages: [&[Item]; 1] = [&items];
+
+        let m = resolve_section_in_pages("agm 65 employment", &pages, 0)
+            .expect("should match a section");
+        assert_eq!(m.label, "AGM-65 EMPLOYMENT");
+        // First navigable item in the matched group — idx 4 (Master arm).
+        assert_eq!(m.target.item_idx, 4);
+        // Case-insensitive exact match ⇒ score effectively 1.0.
+        assert!(
+            m.score > 0.95,
+            "exact-match score should be near 1.0, got {}",
+            m.score
+        );
+    }
+
+    /// Broad query that hits the common prefix of all three sections — the
+    /// alternates list should surface the other two so the panel (phase 5)
+    /// can disambiguate.
+    #[test]
+    fn broad_query_returns_multiple_alternates() {
+        let items = agm_fixture();
+        let pages: [&[Item]; 1] = [&items];
+
+        let m = resolve_section_in_pages("agm 65", &pages, 0)
+            .expect("should match");
+        // At least one alternate — the broad query is intentionally ambiguous.
+        // We don't pin the exact top-hit label because all three sections
+        // share the "agm 65" prefix and any tie-break is fine.
+        assert!(
+            !m.alternates.is_empty(),
+            "broad query should produce alternates, got top-only: {:?}",
+            m.label
+        );
+    }
+
+    /// Same group on multiple pages should still resolve cleanly — first
+    /// occurrence wins (it's where the section "starts").
+    #[test]
+    fn dedupes_repeated_group_within_page() {
+        // 5 steps in the same group; only the first should be scored, so
+        // alternates aren't crowded with duplicates.
+        let page = [
+            header(0, "TAKEOFF"),
+            step(1, "TAKEOFF", "step 1"),
+            step(2, "TAKEOFF", "step 2"),
+            step(3, "TAKEOFF", "step 3"),
+            step(4, "TAKEOFF", "step 4"),
+        ];
+        let pages: [&[Item]; 1] = [&page];
+        let m = resolve_section_in_pages("takeoff", &pages, 0).expect("should match");
+        assert_eq!(m.target.item_idx, 1); // first navigable in group
+        assert!(m.alternates.is_empty()); // no duplicates promoted
+    }
+
+    /// Nothing similar enough → None, so the caller can fall through to
+    /// "no match" UX instead of dispatching to a garbage target.
+    #[test]
+    fn rejects_unrelated_query() {
+        let page = [
+            header(0, "TAKEOFF"),
+            step(1, "TAKEOFF", "throttle ... MIL"),
+            header(2, "LANDING"),
+            step(3, "LANDING", "gear ... DOWN"),
+        ];
+        let pages: [&[Item]; 1] = [&page];
+        assert!(resolve_section_in_pages("kangaroo", &pages, 0).is_none());
+        assert!(resolve_section_in_pages("", &pages, 0).is_none());
+        assert!(resolve_section_in_pages("   ", &pages, 0).is_none());
+    }
+}
+
 fn load_generator_pages(dir: &Path) -> Result<Vec<LoadedPage>> {
     let mut json_paths: Vec<PathBuf> = std::fs::read_dir(dir)
         .with_context(|| format!("reading dir {}", dir.display()))?
@@ -403,6 +634,66 @@ impl TabRegistry {
             }
         }
         true
+    }
+
+    /// Search the active tab for items whose group (or text, as a fallback)
+    /// fuzzy-matches `query`. Returns the top hit with up to 4 alternates,
+    /// or None if no item scored above the threshold.
+    pub fn resolve_section_query(&self, query: &str) -> Option<NavMatch> {
+        let tab = self.active_tab()?;
+        let pages: Vec<&[Item]> = tab
+            .pages
+            .iter()
+            .map(|p| p.manifest.items.as_slice())
+            .collect();
+        resolve_section_in_pages(query, &pages, self.active)
+    }
+
+    /// Fuzzy-match a query against every tab's label + id. No page data
+    /// needed, so this works even for tabs that haven't lazy-loaded yet.
+    /// Returns a NavTarget pointing at the matched tab's (page 0, item 0);
+    /// the caller's switch_tab handles the load.
+    pub fn resolve_tab_query(&self, query: &str) -> Option<NavMatch> {
+        let q = query.trim().to_lowercase();
+        if q.is_empty() {
+            return None;
+        }
+        let mut candidates: Vec<(f32, NavTarget, String)> = Vec::new();
+        for (tab_idx, tab) in self.tabs.iter().enumerate() {
+            // Score against the label, then the id; keep whichever's higher.
+            let s_label = strsim::jaro_winkler(&q, &tab.label.to_lowercase()) as f32;
+            let s_id = strsim::jaro_winkler(&q, &tab.id.to_lowercase()) as f32;
+            let score = s_label.max(s_id);
+            if score >= MATCH_THRESHOLD {
+                candidates.push((
+                    score,
+                    NavTarget {
+                        tab_idx,
+                        page_idx: 0,
+                        item_idx: 0,
+                    },
+                    tab.label.clone(),
+                ));
+            }
+        }
+        candidates.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal));
+        let mut iter = candidates.into_iter();
+        let (top_score, top_target, top_label) = iter.next()?;
+        let alternates: Vec<NavMatch> = iter
+            .take(4)
+            .map(|(s, t, l)| NavMatch {
+                target: t,
+                label: l,
+                score: s,
+                alternates: Vec::new(),
+            })
+            .collect();
+        Some(NavMatch {
+            target: top_target,
+            label: top_label,
+            score: top_score,
+            alternates,
+        })
     }
 
     pub fn set_aircraft(&mut self, aircraft: String) {
