@@ -67,8 +67,13 @@ pub fn route(transcript: &str) -> RoutedIntent {
 /// Try the query recognisers in order of specificity. Add more recognisers
 /// here as later phases land; each should return early on a confident match.
 fn classify_query(cleaned: &str) -> Option<QueryIntent> {
+    // Page query first — it's strictly more specific than the section-query
+    // "go to <X>" prefix, so "go to page 3" stays a page query.
     if let Some(n) = match_page_query(cleaned) {
         return Some(QueryIntent::NavigateToPage(n));
+    }
+    if let Some(target) = match_section_query(cleaned) {
+        return Some(QueryIntent::NavigateToSection(target));
     }
     None
 }
@@ -95,6 +100,73 @@ fn match_page_query(cleaned: &str) -> Option<u32> {
         }
     }
     None
+}
+
+/// Recognise free-text section navigation prefixes and return the target
+/// string. Trailing chatter ("the agm 65 section", "please") is left in
+/// place — the resolver does fuzzy matching, so a little noise is fine.
+fn match_section_query(cleaned: &str) -> Option<String> {
+    // Direct prefixes — listed longest-first to avoid "go to" stealing
+    // matches that "go to the" would also accept (we strip "the " later).
+    const PREFIXES: &[&str] = &[
+        "take me to ",
+        "navigate to ",
+        "search for ",
+        "show me ",
+        "jump to ",
+        "go to ",
+        "get to ",
+        "find ",
+    ];
+    for p in PREFIXES {
+        if let Some(rest) = cleaned.strip_prefix(p) {
+            let rest = rest.trim();
+            if !rest.is_empty() {
+                return Some(strip_leading_article(rest));
+            }
+        }
+    }
+    // "how do I [verb] X" / "how to [verb] X" — verbs are aviation-flavoured
+    // and listed longest-first so "set up" beats the prefix-shorter "set".
+    if let Some(rest) = strip_how_prefix(cleaned) {
+        let rest = rest.trim();
+        if !rest.is_empty() {
+            return Some(strip_leading_article(rest));
+        }
+    }
+    None
+}
+
+fn strip_how_prefix(s: &str) -> Option<&str> {
+    const HOW: &[&str] = &["how do i ", "how to "];
+    const VERBS: &[&str] = &[
+        // longest-first: "set up" before "set", "prepare" before "prep"
+        "set up ",
+        "prepare ",
+        "configure ",
+        "employ ",
+        "prep ",
+        "fire ",
+        "set ",
+        "use ",
+        "do ",
+    ];
+    for hp in HOW {
+        if let Some(after_how) = s.strip_prefix(hp) {
+            for verb in VERBS {
+                if let Some(target) = after_how.strip_prefix(verb) {
+                    return Some(target);
+                }
+            }
+        }
+    }
+    None
+}
+
+/// Drop a leading "the " so "find the JDAM section" matches "JDAM section"
+/// instead of fuzzy-scoring the literal "the" prefix down.
+fn strip_leading_article(s: &str) -> String {
+    s.strip_prefix("the ").unwrap_or(s).trim().to_string()
 }
 
 /// Parse a small positive integer from either a digit string ("3") or a
@@ -436,7 +508,85 @@ mod tests {
         assert_eq!(route("page"), RoutedIntent::Unmatched);
         // Zero is rejected — voice page numbers are 1-based.
         assert_eq!(page_query("page 0"), None);
-        // A non-number token after "page" doesn't trigger a query.
+        // A non-number token after "page" doesn't trigger a page query,
+        // but the section recogniser does pick it up.
         assert_eq!(page_query("page that section"), None);
+    }
+
+    // --- Phase 3: section query -----------------------------------------
+
+    fn section_query(s: &str) -> Option<String> {
+        match route(s) {
+            RoutedIntent::Query(QueryIntent::NavigateToSection(t)) => Some(t),
+            _ => None,
+        }
+    }
+
+    #[test]
+    fn section_query_simple_prefixes() {
+        assert_eq!(section_query("go to AGM-65"), Some("agm 65".to_string()));
+        assert_eq!(
+            section_query("take me to the maverick section"),
+            Some("maverick section".to_string()) // "the " stripped
+        );
+        assert_eq!(
+            section_query("search for AGM-65 employment"),
+            Some("agm 65 employment".to_string())
+        );
+        assert_eq!(
+            section_query("find the JDAM section"),
+            Some("jdam section".to_string())
+        );
+        assert_eq!(
+            section_query("navigate to landing"),
+            Some("landing".to_string())
+        );
+    }
+
+    #[test]
+    fn section_query_how_do_i_form() {
+        assert_eq!(
+            section_query("how do I employ the AGM-65"),
+            Some("agm 65".to_string())
+        );
+        assert_eq!(
+            section_query("how to fire the maverick"),
+            Some("maverick".to_string())
+        );
+        // "set up" must beat "set" so we don't get "up the ..."
+        assert_eq!(
+            section_query("how do I set up the JDAM"),
+            Some("jdam".to_string())
+        );
+    }
+
+    #[test]
+    fn section_query_not_a_match() {
+        // Prefix alone with no target is not a query.
+        assert_eq!(route("go to"), RoutedIntent::Unmatched);
+        assert_eq!(route("find"), RoutedIntent::Unmatched);
+        // "go back" is the Previous action — not a section query.
+        assert_eq!(route("go back"), RoutedIntent::Action(Action::Previous));
+        // "find the switch" is going to be Action::WhereIs (issue #3, other
+        // session); today it just routes as a section query for "switch".
+        // Regression check that the Action::WhereIs phrase list overrides
+        // this when issue #3 lands.
+    }
+
+    /// Critical regression: existing Action phrases must keep beating any
+    /// new section-query prefix. "what was that" → ReadCurrent. "where am
+    /// I" → ReadSection. "next page" → PageNext.
+    #[test]
+    fn existing_actions_still_win() {
+        assert_eq!(
+            route("what was that"),
+            RoutedIntent::Action(Action::ReadCurrent)
+        );
+        assert_eq!(route("where am I"), RoutedIntent::Action(Action::ReadSection));
+        assert_eq!(route("next page"), RoutedIntent::Action(Action::PageNext));
+        assert_eq!(
+            route("previous heading"),
+            RoutedIntent::Action(Action::PrevHeading)
+        );
     }
 }

@@ -21,6 +21,9 @@ notify = "6"
 notify-debouncer-mini = "0.4"
 cpal = "0.15"
 rubato = "0.16"
+# Jaro-Winkler fuzzy matching for voice query → section header resolution.
+# Tiny dep (MIT), no transitive cost.
+strsim = "0.11"
 # Whisper STT is gated behind a feature flag because whisper-rs-sys uses
 # bindgen, which needs libclang on the build host. Install LLVM first:
 #   winget install LLVM.LLVM

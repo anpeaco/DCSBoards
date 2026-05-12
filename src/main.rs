@@ -1973,6 +1973,29 @@ impl AppState {
         });
     }
 
+    /// Jump to an exact (tab, page, item) coordinate produced by a query
+    /// resolver. Switches tab first if needed, then sets the cursor; the
+    /// existing nav() handles auto-read and UI refresh.
+    fn goto_target(&self, target: tabs::NavTarget) {
+        let active = self.tabs.borrow().active;
+        if target.tab_idx != active {
+            self.switch_tab(target.tab_idx);
+        }
+        self.nav(|pages, _cur| {
+            if pages.is_empty() {
+                return Cursor { page: 0, item: 0 };
+            }
+            let page = target.page_idx.min(pages.len() - 1);
+            let items = &pages[page].manifest.items;
+            let item = if items.is_empty() {
+                0
+            } else {
+                target.item_idx.min(items.len() - 1)
+            };
+            Cursor { page, item }
+        });
+    }
+
     /// Route a structured query to the right handler. Phase 2 only the
     /// NavigateToPage arm is live; later phases (section / tab / list /
     /// pick) plug into the same dispatcher.
@@ -1981,7 +2004,24 @@ impl AppState {
         match q {
             QueryIntent::NavigateToPage(n) => self.goto_page(n),
             QueryIntent::NavigateToSection(target) => {
-                eprintln!("[voice] section query \"{target}\" — not implemented yet");
+                // Phase 3: resolve against the active tab only. Phases 4+
+                // extend to cross-tab search and disambiguation panel.
+                let nm = self.tabs.borrow().resolve_section_query(&target);
+                match nm {
+                    Some(nm) => {
+                        eprintln!(
+                            "[voice] section \"{}\" → \"{}\" (score {:.2}, {} alternates)",
+                            target,
+                            nm.label,
+                            nm.score,
+                            nm.alternates.len()
+                        );
+                        self.goto_target(nm.target);
+                    }
+                    None => {
+                        eprintln!("[voice] section query \"{target}\" — no match");
+                    }
+                }
             }
             QueryIntent::NavigateToTab(target) => {
                 eprintln!("[voice] tab query \"{target}\" — not implemented yet");
