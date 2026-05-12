@@ -2024,7 +2024,19 @@ impl AppState {
                 }
             }
             QueryIntent::NavigateToTab(target) => {
-                eprintln!("[voice] tab query \"{target}\" — not implemented yet");
+                let nm = self.tabs.borrow().resolve_tab_query(&target);
+                match nm {
+                    Some(nm) => {
+                        eprintln!(
+                            "[voice] tab \"{}\" → \"{}\" (score {:.2})",
+                            target, nm.label, nm.score
+                        );
+                        self.switch_tab(nm.target.tab_idx);
+                    }
+                    None => {
+                        eprintln!("[voice] tab query \"{target}\" — no match");
+                    }
+                }
             }
             QueryIntent::ListSections => {
                 eprintln!("[voice] list sections — not implemented yet");

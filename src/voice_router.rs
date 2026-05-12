@@ -72,8 +72,31 @@ fn classify_query(cleaned: &str) -> Option<QueryIntent> {
     if let Some(n) = match_page_query(cleaned) {
         return Some(QueryIntent::NavigateToPage(n));
     }
+    // The section-query prefix recogniser produces a raw target string. We
+    // then decide whether the target names a tab ("takeoff tab", "JDAM
+    // checklist") or a section (default). The suffix marker — "tab" or
+    // "checklist" — is the disambiguator and gets stripped from the target.
     if let Some(target) = match_section_query(cleaned) {
+        if let Some(tab_target) = strip_tab_suffix(&target) {
+            return Some(QueryIntent::NavigateToTab(tab_target));
+        }
         return Some(QueryIntent::NavigateToSection(target));
+    }
+    None
+}
+
+/// Recognise "<X> tab" / "<X> checklist" as an explicit tab-navigation
+/// intent. Returns the target with the suffix stripped, or None if the
+/// query is just a plain section target.
+fn strip_tab_suffix(s: &str) -> Option<String> {
+    const SUFFIXES: &[&str] = &[" tab", " checklist"];
+    for suf in SUFFIXES {
+        if let Some(prefix) = s.strip_suffix(suf) {
+            let prefix = prefix.trim();
+            if !prefix.is_empty() {
+                return Some(prefix.to_string());
+            }
+        }
     }
     None
 }
@@ -571,6 +594,40 @@ mod tests {
         // session); today it just routes as a section query for "switch".
         // Regression check that the Action::WhereIs phrase list overrides
         // this when issue #3 lands.
+    }
+
+    // --- Phase 4: tab query ---------------------------------------------
+
+    fn tab_query(s: &str) -> Option<String> {
+        match route(s) {
+            RoutedIntent::Query(QueryIntent::NavigateToTab(t)) => Some(t),
+            _ => None,
+        }
+    }
+
+    #[test]
+    fn tab_query_suffix_disambiguates() {
+        // "X tab" / "X checklist" suffix → NavigateToTab; otherwise it
+        // stays NavigateToSection.
+        assert_eq!(tab_query("go to the takeoff tab"), Some("takeoff".to_string()));
+        assert_eq!(
+            tab_query("take me to the JDAM checklist"),
+            Some("jdam".to_string())
+        );
+        assert_eq!(
+            tab_query("switch to scratchpad tab"),
+            None // "switch to" isn't a recognised prefix; falls through.
+        );
+        assert_eq!(
+            tab_query("navigate to the tactical tab"),
+            Some("tactical".to_string())
+        );
+        // Plain target with no suffix → section query, not tab query.
+        assert_eq!(tab_query("go to landing"), None);
+        assert_eq!(
+            section_query("go to landing"),
+            Some("landing".to_string())
+        );
     }
 
     /// Critical regression: existing Action phrases must keep beating any

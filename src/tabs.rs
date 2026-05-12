@@ -649,6 +649,53 @@ impl TabRegistry {
         resolve_section_in_pages(query, &pages, self.active)
     }
 
+    /// Fuzzy-match a query against every tab's label + id. No page data
+    /// needed, so this works even for tabs that haven't lazy-loaded yet.
+    /// Returns a NavTarget pointing at the matched tab's (page 0, item 0);
+    /// the caller's switch_tab handles the load.
+    pub fn resolve_tab_query(&self, query: &str) -> Option<NavMatch> {
+        let q = query.trim().to_lowercase();
+        if q.is_empty() {
+            return None;
+        }
+        let mut candidates: Vec<(f32, NavTarget, String)> = Vec::new();
+        for (tab_idx, tab) in self.tabs.iter().enumerate() {
+            // Score against the label, then the id; keep whichever's higher.
+            let s_label = strsim::jaro_winkler(&q, &tab.label.to_lowercase()) as f32;
+            let s_id = strsim::jaro_winkler(&q, &tab.id.to_lowercase()) as f32;
+            let score = s_label.max(s_id);
+            if score >= MATCH_THRESHOLD {
+                candidates.push((
+                    score,
+                    NavTarget {
+                        tab_idx,
+                        page_idx: 0,
+                        item_idx: 0,
+                    },
+                    tab.label.clone(),
+                ));
+            }
+        }
+        candidates.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal));
+        let mut iter = candidates.into_iter();
+        let (top_score, top_target, top_label) = iter.next()?;
+        let alternates: Vec<NavMatch> = iter
+            .take(4)
+            .map(|(s, t, l)| NavMatch {
+                target: t,
+                label: l,
+                score: s,
+                alternates: Vec::new(),
+            })
+            .collect();
+        Some(NavMatch {
+            target: top_target,
+            label: top_label,
+            score: top_score,
+            alternates,
+        })
+    }
+
     pub fn set_aircraft(&mut self, aircraft: String) {
         if self.aircraft == aircraft {
             return;
