@@ -103,9 +103,13 @@ slint::slint! {
 
     // One row in the voice-commands help panel. `phrases` is a comma-joined
     // list pre-rendered in Rust so Slint doesn't need to walk a [string].
+    // When `is-header` is true the row renders as a section divider —
+    // larger label, no background, used to group commands / queries /
+    // aliases visually.
     export struct VoiceCommandRow {
         action-label: string,
         phrases: string,
+        is-header: bool,
     }
 
     // Hover aggregator for the tab strip. Each tab cell's TouchArea increments
@@ -1399,13 +1403,34 @@ slint::slint! {
                     Rectangle { height: 4px; }
 
                     for row[idx] in root.voice-commands: Rectangle {
-                        height: 44px;
-                        background: #1a1a1e;
-                        border-color: #333;
+                        // Header rows: taller, transparent background, no
+                        // border, light grey uppercase title with a bottom
+                        // divider so the section it introduces reads as one
+                        // visual group.
+                        height: row.is-header ? 36px : 44px;
+                        background: row.is-header ? transparent : #1a1a1e;
+                        border-color: row.is-header ? transparent : #333;
                         border-width: 1px;
                         border-radius: 3px;
 
-                        VerticalLayout {
+                        if row.is-header: VerticalLayout {
+                            padding-left: 2px;
+                            padding-top: 14px;
+                            padding-bottom: 2px;
+                            spacing: 0px;
+                            Text {
+                                text: row.action-label;
+                                color: #e6b820;
+                                font-size: 13px;
+                                font-weight: 700;
+                            }
+                            Rectangle {
+                                height: 1px;
+                                background: #444;
+                            }
+                        }
+
+                        if !row.is-header: VerticalLayout {
                             padding-left: 10px;
                             padding-right: 10px;
                             padding-top: 4px;
@@ -3357,37 +3382,46 @@ fn main() -> Result<()> {
     state.refresh_audio_ui();
     state.refresh_tts_ui();
 
-    // Build the voice-commands help model once — RULES and query_examples
-    // are both static so this never changes during a session.
+    // Build the voice-commands help model once — RULES, query_examples and
+    // the alias hint are all static so this never changes during a session.
+    // Layout: three section headers each followed by their rows.
     {
-        let mut rows: Vec<VoiceCommandRow> = voice_router::all_rules()
-            .iter()
-            .map(|(phrases, action)| VoiceCommandRow {
-                action_label: SharedString::from(action.label()),
-                phrases: SharedString::from(phrases.join(", ").as_str()),
-            })
-            .collect();
-        // Queries are the free-form layer (NavigateToPage, NavigateToSection,
-        // NavigateToTab, ListSections) — they match by intent classifier
-        // rather than literal phrase, so they live in a separate examples
-        // table. Appending after the Action rules so the most-used commands
-        // appear first in the help list.
+        let header = |label: &str| VoiceCommandRow {
+            action_label: SharedString::from(label),
+            phrases: SharedString::default(),
+            is_header: true,
+        };
+        let command = |label: &str, phrases: String| VoiceCommandRow {
+            action_label: SharedString::from(label),
+            phrases: SharedString::from(phrases),
+            is_header: false,
+        };
+
+        let mut rows: Vec<VoiceCommandRow> = Vec::new();
+
+        // Section 1: literal-phrase Action commands.
+        rows.push(header("COMMANDS"));
+        rows.extend(
+            voice_router::all_rules()
+                .iter()
+                .map(|(phrases, action)| command(action.label(), phrases.join(", "))),
+        );
+
+        // Section 2: free-form query intents.
+        rows.push(header("VOICE QUERIES (FREE-FORM)"));
         rows.extend(
             voice_router::query_examples()
                 .iter()
-                .map(|(label, examples)| VoiceCommandRow {
-                    action_label: SharedString::from(*label),
-                    phrases: SharedString::from(examples.join(", ").as_str()),
-                }),
+                .map(|(label, examples)| command(label, examples.join(", "))),
         );
-        // One trailing hint so the alias rewrite system isn't invisible.
-        // Concrete aliases live in query_aliases.toml and vary per user.
-        rows.push(VoiceCommandRow {
-            action_label: SharedString::from("Aliases (query_aliases.toml)"),
-            phrases: SharedString::from(
-                "Common: Maverick → AGM-65, Sidewinder → AIM-9, Slammer → AIM-120, HARM → AGM-88, Mark 82 → MK-82. Edit query_aliases.toml + press F5.",
-            ),
-        });
+
+        // Section 3: phonetic-alias system pointer.
+        rows.push(header("PHONETIC ALIASES"));
+        rows.push(command(
+            "Aliases (query_aliases.toml)",
+            "Common: Maverick → AGM-65, Sidewinder → AIM-9, Slammer → AIM-120, HARM → AGM-88, Mark 82 → MK-82. Edit query_aliases.toml + press F5.".to_string(),
+        ));
+
         win.set_voice_commands(slint::ModelRc::new(VecModel::from(rows)));
     }
 
