@@ -1,27 +1,73 @@
-//! Transcript → Action mapping for voice commands.
+//! Transcript → RoutedIntent mapping for voice commands.
 //!
-//! Keep this dumb on purpose: a hand-written list of phrase patterns, longer
-//! phrases first, anchored to word boundaries. Speech-to-text outputs are
-//! noisy ("backs" instead of "back", trailing punctuation) so we lowercase,
-//! strip punctuation, and substring-match — accuracy over precision.
+//! Two layers:
+//! 1. **Action fast path** — a hand-written phrase table (`RULES`), longer
+//!    phrases first, anchored to word boundaries. STT outputs are noisy so we
+//!    lowercase, strip punctuation, and substring-match.
+//! 2. **Query classifier** — if no Action rule matches, try to classify the
+//!    transcript as a structured query (navigate by page/section/tab, list
+//!    sections, pick a result). The classifier is deterministic prefix /
+//!    keyword matching — no ML. Stays consistent with the on-device constraint.
 
 use crate::actions::Action;
 
-/// Resolve a transcript to a single action. Returns None if nothing matched
-/// so callers can log + surface the raw transcript instead of silently
-/// dispatching the wrong thing.
-pub fn route(transcript: &str) -> Option<Action> {
+/// What the voice router decided about a transcript.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum RoutedIntent {
+    /// One of the predefined actions (Next, PageNext, Cancel, …). Fast path.
+    Action(Action),
+    /// A structured query the caller needs to resolve against the loaded
+    /// content (navigate to a section by name, jump to a page index, …).
+    Query(QueryIntent),
+    /// Nothing matched. Caller surfaces the raw transcript.
+    Unmatched,
+}
+
+/// Structured-query forms the router can recognise. Resolution against the
+/// loaded pages / tabs is the caller's job (see src/checklist/resolver.rs).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum QueryIntent {
+    /// "search for AGM-65", "take me to the takeoff checklist", "how do I
+    /// employ the maverick". Free-text target; resolver decides whether it
+    /// names a section, an item, or (later) an alias.
+    NavigateToSection(String),
+    /// "get to the takeoff tab", explicit tab-only intent. Matched against
+    /// Tab.label + Tab.id.
+    NavigateToTab(String),
+    /// "go to page 3". 1-based in voice; resolver clamps.
+    NavigateToPage(u32),
+    /// "what sections are in this tab".
+    ListSections,
+    /// "the second one" / "number three". Only honoured while a results
+    /// panel is open; otherwise the dispatcher drops it.
+    PickResult(u32),
+}
+
+/// Resolve a transcript to a routed intent. Action rules run first; on a
+/// miss the query classifier gets a turn; on a miss there too the caller
+/// sees `Unmatched`.
+pub fn route(transcript: &str) -> RoutedIntent {
     let cleaned = normalise(transcript);
     if cleaned.is_empty() {
-        return None;
+        return RoutedIntent::Unmatched;
     }
     for (phrases, action) in RULES.iter() {
         for phrase in *phrases {
             if contains_phrase(&cleaned, phrase) {
-                return Some(*action);
+                return RoutedIntent::Action(*action);
             }
         }
     }
+    if let Some(query) = classify_query(&cleaned) {
+        return RoutedIntent::Query(query);
+    }
+    RoutedIntent::Unmatched
+}
+
+/// Phase-1 placeholder. Subsequent phases fill in page / section / tab /
+/// list / pick recognisers. Leaving the function in place now keeps the
+/// dispatch wiring honest from day one.
+fn classify_query(_cleaned: &str) -> Option<QueryIntent> {
     None
 }
 
@@ -256,50 +302,53 @@ const RULES: &[(&[&str], Action)] = &[
 mod tests {
     use super::*;
 
-    fn route_s(s: &str) -> Option<Action> {
-        route(s)
+    fn action(s: &str) -> Option<Action> {
+        match route(s) {
+            RoutedIntent::Action(a) => Some(a),
+            _ => None,
+        }
     }
 
     #[test]
     fn next_item() {
-        assert_eq!(route_s("Next"), Some(Action::Next));
-        assert_eq!(route_s("next."), Some(Action::Next));
-        assert_eq!(route_s("Okay"), Some(Action::Next));
-        assert_eq!(route_s("got it"), Some(Action::Next));
+        assert_eq!(action("Next"), Some(Action::Next));
+        assert_eq!(action("next."), Some(Action::Next));
+        assert_eq!(action("Okay"), Some(Action::Next));
+        assert_eq!(action("got it"), Some(Action::Next));
     }
 
     #[test]
     fn previous_item() {
-        assert_eq!(route_s("Back"), Some(Action::Previous));
-        assert_eq!(route_s("go back"), Some(Action::Previous));
-        assert_eq!(route_s("previous step"), Some(Action::Previous));
+        assert_eq!(action("Back"), Some(Action::Previous));
+        assert_eq!(action("go back"), Some(Action::Previous));
+        assert_eq!(action("previous step"), Some(Action::Previous));
     }
 
     #[test]
     fn longer_phrase_wins() {
-        assert_eq!(route_s("next page"), Some(Action::PageNext));
-        assert_eq!(route_s("previous heading"), Some(Action::PrevHeading));
-        assert_eq!(route_s("Next tab please"), Some(Action::CycleTabNext));
+        assert_eq!(action("next page"), Some(Action::PageNext));
+        assert_eq!(action("previous heading"), Some(Action::PrevHeading));
+        assert_eq!(action("Next tab please"), Some(Action::CycleTabNext));
     }
 
     #[test]
     fn word_boundary() {
         // "back" must not match "background"
-        assert_eq!(route_s("background noise"), None);
+        assert_eq!(route("background noise"), RoutedIntent::Unmatched);
         // "next" must not match "context"
-        assert_eq!(route_s("the context is"), None);
+        assert_eq!(route("the context is"), RoutedIntent::Unmatched);
     }
 
     #[test]
     fn punctuation_tolerant() {
-        assert_eq!(route_s("Repeat, please."), Some(Action::ReadCurrent));
-        assert_eq!(route_s("CANCEL!!!"), Some(Action::Cancel));
+        assert_eq!(action("Repeat, please."), Some(Action::ReadCurrent));
+        assert_eq!(action("CANCEL!!!"), Some(Action::Cancel));
     }
 
     #[test]
     fn empty_or_garbage() {
-        assert_eq!(route_s(""), None);
-        assert_eq!(route_s("   "), None);
-        assert_eq!(route_s("hmmmm"), None);
+        assert_eq!(route(""), RoutedIntent::Unmatched);
+        assert_eq!(route("   "), RoutedIntent::Unmatched);
+        assert_eq!(route("hmmmm"), RoutedIntent::Unmatched);
     }
 }

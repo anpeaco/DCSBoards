@@ -3127,7 +3127,7 @@ fn main() -> Result<()> {
                         continue;
                     }
                     match voice_router::route(trimmed) {
-                        Some(action) => {
+                        voice_router::RoutedIntent::Action(action) => {
                             eprintln!("[voice] \"{trimmed}\" → {action:?}");
                             s.show_transcript_match(format!(
                                 "{} ({})",
@@ -3136,7 +3136,14 @@ fn main() -> Result<()> {
                             ));
                             s.dispatch(action);
                         }
-                        None => {
+                        voice_router::RoutedIntent::Query(query) => {
+                            // Phase 1: classifier is a stub (returns None),
+                            // so this arm is unreachable today. Wired up now
+                            // so phase 2 onwards is one-line plumbing.
+                            eprintln!("[voice] \"{trimmed}\" → query {query:?} (no handler yet)");
+                            s.show_transcript_unmatched(trimmed.to_string());
+                        }
+                        voice_router::RoutedIntent::Unmatched => {
                             eprintln!("[voice] \"{trimmed}\" → (no match)");
                             s.show_transcript_unmatched(trimmed.to_string());
                         }
