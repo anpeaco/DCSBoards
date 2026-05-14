@@ -54,6 +54,14 @@ jobs:
       - name: cargo clippy
         run: cargo clippy --features whisper-stt --all-targets -- -D warnings
 
+      # No-features build regression guard (#27). If a future change
+      # references a `whisper-stt`-gated symbol unconditionally, this
+      # catches it on PR rather than at the next developer's
+      # `cargo check`. Using clippy (rather than plain check) so the
+      # `-D warnings` gate carries over.
+      - name: cargo clippy (no features)
+        run: cargo clippy --all-targets -- -D warnings
+
       - name: cargo test
         run: cargo test --features whisper-stt
 

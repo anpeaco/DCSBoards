@@ -10,7 +10,10 @@ mod input;
 #[cfg(windows)]
 mod overlay;
 mod settings;
-#[cfg(feature = "whisper-stt")]
+// `stt` compiles unconditionally so `SttCommand` and the `SttEngine`
+// trait can be named from struct fields + channels even without the
+// `whisper-stt` feature (#27). Only the whisper-rs-backed impl
+// (`WhisperStt`, `find_default_model`) is feature-gated.
 mod stt;
 mod query_aliases;
 mod tabs;

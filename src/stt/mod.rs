@@ -1,6 +1,19 @@
 //! Speech-to-text. M4.3: whisper.cpp (via whisper-rs) running on a worker
 //! thread so STT latency never blocks the UI.
+//!
+//! The trait and the `SttCommand` control message compile
+//! unconditionally so `main.rs` can hold them in struct fields and
+//! channels even when the `whisper-stt` feature is off (#27). The
+//! whisper-rs-backed implementation is gated below.
 
+// Without `whisper-stt` the trait + SttCommand payloads have no
+// in-crate consumers (only the channel type itself does, and that
+// just needs the names to exist). Suppress the dead-code lint at the
+// file level so a no-features `cargo clippy -D warnings` stays clean.
+// With the feature on these are used by `WhisperStt` and dispatch.
+#![allow(dead_code)]
+
+#[cfg(feature = "whisper-stt")]
 pub mod whisper;
 
 use anyhow::Result;
@@ -27,4 +40,5 @@ pub enum SttCommand {
     SetInitialPrompt(Option<String>),
 }
 
+#[cfg(feature = "whisper-stt")]
 pub use whisper::{find_default_model, WhisperStt};
