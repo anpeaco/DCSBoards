@@ -51,6 +51,14 @@ pub fn route(transcript: &str) -> RoutedIntent {
     if cleaned.is_empty() {
         return RoutedIntent::Unmatched;
     }
+    // Issue #17: bare "start" / "go" mean "advance" — they're the words
+    // users naturally say to exit the armed-after-section-jump wait.
+    // They have to short-circuit before the substring table because that
+    // would clobber phrasal commands like "go back", "go to page 3",
+    // "go on", "start over", "start reading". Treat them as exact-only.
+    if cleaned == "start" || cleaned == "go" {
+        return RoutedIntent::Action(Action::Next);
+    }
     for (phrases, action) in RULES.iter() {
         for phrase in *phrases {
             if contains_phrase(&cleaned, phrase) {
@@ -523,6 +531,30 @@ mod tests {
         assert_eq!(action("next."), Some(Action::Next));
         assert_eq!(action("Okay"), Some(Action::Next));
         assert_eq!(action("got it"), Some(Action::Next));
+    }
+
+    /// Issue #17: "start" and "go" exit the armed-after-section-jump state
+    /// and read the first step. They route to Next so they also work as
+    /// plain advance when the controller isn't armed.
+    #[test]
+    fn start_and_go_route_to_next() {
+        assert_eq!(action("start"), Some(Action::Next));
+        assert_eq!(action("Start."), Some(Action::Next));
+        assert_eq!(action("go"), Some(Action::Next));
+        assert_eq!(action("Go!"), Some(Action::Next));
+    }
+
+    /// The "start" / "go" short-circuit must NOT swallow phrasal commands
+    /// that contain those words. These cases all existed pre-#17 and
+    /// would silently regress to Next if the routing order is wrong.
+    #[test]
+    fn start_and_go_do_not_eat_phrasal_commands() {
+        assert_eq!(action("go back"), Some(Action::Previous));
+        assert_eq!(action("go on"), Some(Action::TogglePlay));
+        assert_eq!(action("start over"), Some(Action::RestartSection));
+        assert_eq!(action("start reading"), Some(Action::TogglePlay));
+        // "go to page 3" is a query, not an action.
+        assert_eq!(page_query("go to page 3"), Some(3));
     }
 
     #[test]
