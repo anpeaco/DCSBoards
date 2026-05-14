@@ -303,16 +303,26 @@ slint::slint! {
         callback piper-voice-clicked(string);
         callback tts-test-clicked();
 
-        // Last STT transcript shown in a pill next to the mic icon. Rust
-        // flips `transcript-visible` to true on a new transcript, then to
-        // false after `transcript_pill_seconds`; the opacity binding fades it.
-        in property <string> transcript-text;
-        in property <bool> transcript-visible: false;
+        // Generic message pill (issue #17D). One Rectangle, fed by a
+        // single content struct on the Rust side; sources compete by
+        // priority (sticky armed-state messages beat transient
+        // transcripts beat status toasts). Rust pushes whichever wins
+        // into these properties; Slint just renders.
+        //
+        // - `pill-pulse` and `pill-icon-d` are mutually exclusive: the
+        //   pulse dot occupies the icon slot when on.
+        // - `pill-border-color` defaults to transparent so non-armed
+        //   messages stay borderless; the armed source supplies amber.
+        in property <string> pill-text;
+        in property <bool> pill-visible: false;
+        in property <string> pill-icon-d;
+        in property <brush> pill-icon-tint: #ffcc33;
+        in property <brush> pill-border-color: transparent;
+        in property <bool> pill-pulse: false;
+        // Transient-message lifetime. Kept the on-disk name so existing
+        // settings.toml files round-trip unchanged even though the pill
+        // is no longer transcript-specific.
         in-out property <float> transcript-pill-seconds: 5.0;
-        // Optional lucide path drawn left of the transcript text. Empty
-        // string = no icon (used for "Transcribing..." / status messages).
-        in property <string> transcript-icon-d;
-        in property <brush> transcript-icon-tint: #ffcc33;
 
         callback next-clicked();
         callback prev-clicked();
@@ -486,65 +496,59 @@ slint::slint! {
         // the mic chip sits at the right "cap" of one continuous two-tone
         // pill (dark left half = transcript, yellow right half = mic).
         // Same 14px radius + 28px height as the mic so the rounding matches.
-        // Combined transcript / armed-state pill. While `armed` is set
-        // (issue #17B) the pill renders "Armed — say go" with an amber
-        // border + pulse dot — same chrome reused so the user never has
-        // two overlapping pills competing for the same screen real
-        // estate. While not armed the pill shows the last STT
-        // transcript as before. Armed wins when both signals are live;
-        // the transcript replays once the user disarms.
-        transcript-pill := Rectangle {
+        // Generic message pill (issue #17D). Renders whichever
+        // `PillMessage` the Rust side has resolved to the highest
+        // priority — armed state, transient transcripts, status
+        // toasts, future "Loading model…" / error banners — all share
+        // this one Rectangle.
+        pill := Rectangle {
             x: root.width - 8px - self.width;
             y: 32px;
             width: 320px;
             height: 28px;
             background: rgba(26, 26, 30, 0.94);
-            border-color: root.armed ? #ffaa33 : transparent;
-            border-width: root.armed ? 1px : 0;
+            border-color: root.pill-border-color;
+            border-width: 1px;
             border-radius: 14px;
-            opacity: (root.armed || root.transcript-visible) ? 1.0 : 0.0;
+            opacity: root.pill-visible ? 1.0 : 0.0;
             animate opacity { duration: 400ms; easing: ease-in-out; }
             animate border-color { duration: 300ms; easing: ease-out; }
 
-            // Armed-state pulse dot. Shares the 750 ms cycle of the
-            // highlight rectangle so the two affordances visibly beat
-            // together. Invisible when not armed.
-            Rectangle {
+            // Optional pulse dot. Mutually exclusive with the icon —
+            // sticky "alive" sources (armed state) use the pulse;
+            // transient sources (transcripts) use a lucide icon.
+            if root.pill-pulse: Rectangle {
                 x: 12px;
                 y: (parent.height - self.height) / 2;
                 width: 8px;
                 height: 8px;
                 border-radius: 4px;
-                background: #ffaa33;
-                opacity: root.armed
-                    ? (root.armed-pulse ? 1.0 : 0.4)
-                    : 0.0;
+                background: root.pill-icon-tint;
+                opacity: root.armed-pulse ? 1.0 : 0.4;
                 animate opacity { duration: 750ms; easing: ease-in-out; }
             }
 
-            // Transcript icon: hidden while armed (the pulse dot
-            // occupies that slot instead).
-            if !root.armed && root.transcript-icon-d != "": LucideIcon {
+            if !root.pill-pulse && root.pill-icon-d != "": LucideIcon {
                 x: 10px;
                 y: 6px;
                 width: 16px;
                 height: 16px;
-                path-d: root.transcript-icon-d;
-                tint: root.transcript-icon-tint;
+                path-d: root.pill-icon-d;
+                tint: root.pill-icon-tint;
             }
 
             Text {
-                // Indent past either the pulse dot (armed) or the icon
-                // (transcript). Falls back to a 14 px left margin when
-                // neither is present.
-                x: root.armed
+                // Indent past the pulse dot / icon, else fall back to
+                // a 14 px left margin.
+                x: root.pill-pulse
                     ? 28px
-                    : (root.transcript-icon-d != "" ? 32px : 14px);
+                    : (root.pill-icon-d != "" ? 32px : 14px);
                 y: 0px;
-                // Leave ~36px on the right so text doesn't slide under the mic.
+                // Leave ~36px on the right so text doesn't slide under
+                // the mic indicator.
                 width: parent.width - self.x - 36px;
                 height: parent.height;
-                text: root.armed ? "Armed — say go" : root.transcript-text;
+                text: root.pill-text;
                 color: #f0f0f0;
                 font-size: 12px;
                 vertical-alignment: center;
@@ -1820,9 +1824,19 @@ struct AppState {
     /// `RefCell` so it can be torn down + rebuilt when the user picks a
     /// different input device in settings.
     audio: Rc<RefCell<Option<AudioCapture>>>,
-    /// Single-shot timer that flips `transcript-visible` back to false after
-    /// `transcript_pill_seconds` so the pill fades out.
+    /// Single-shot timer that expires the transient pill message after
+    /// `transcript_pill_seconds` so the pill fades out (or falls back
+    /// to whatever sticky source is active — issue #17D).
     transcript_timer: Rc<slint::Timer>,
+    /// Sticky pill source (issue #17D). When `Some`, beats any
+    /// transient message — the armed-state cue lives here so a
+    /// freshly-arrived STT transcript can't displace it. Cleared by
+    /// `set_armed_state(false)`.
+    pill_sticky: Rc<RefCell<Option<PillMessage>>>,
+    /// Transient pill source. Expires via `transcript_timer`. Toasts,
+    /// STT transcripts, "(no speech)" messages — anything that should
+    /// fade after a few seconds rather than holding indefinitely.
+    pill_transient: Rc<RefCell<Option<PillMessage>>>,
     /// PCM sender into the whisper worker thread. `None` if no model loaded.
     stt_tx: Rc<Option<std::sync::mpsc::Sender<stt::SttCommand>>>,
     /// Issue #15: STT tuning — vocabulary (for whisper `initial_prompt`),
@@ -1863,6 +1877,78 @@ struct AppState {
     /// previous section's last item. Chained jumps overwrite — Previous
     /// unwinds one jump at a time. None when no jump is pending.
     pre_jump_cursor: Rc<RefCell<Option<(usize, Cursor)>>>,
+}
+
+/// One message worth showing in the pill — issue #17D's generic
+/// replacement for the old transcript+armed-only chrome. Sources push
+/// these into `AppState::pill_sticky` (armed state) or
+/// `pill_transient` (toasts, transcripts); `apply_pill()` renders
+/// whichever wins.
+#[derive(Debug, Clone)]
+struct PillMessage {
+    text: String,
+    /// Lucide `path-d` string, drawn left of the text. Empty string
+    /// suppresses the icon — used when `pulse` is on (the pulse dot
+    /// occupies the same slot) or for plain status toasts.
+    icon_d: &'static str,
+    /// Tint applied to both the icon and the pulse dot.
+    icon_tint: slint::Color,
+    /// Border colour around the pill. `transparent` for the default
+    /// chrome-less look used by transient messages.
+    border_color: slint::Color,
+    /// When true, a pulse dot replaces the icon (sticky "alive"
+    /// signal — currently only the armed state).
+    pulse: bool,
+}
+
+impl PillMessage {
+    /// Stock cue for the armed-after-section-jump wait (issue #17B).
+    /// Sticky source — cleared explicitly when the user disarms.
+    fn armed_cue() -> Self {
+        Self {
+            text: "Armed — say go".to_string(),
+            icon_d: "",
+            icon_tint: slint::Color::from_rgb_u8(0xff, 0xaa, 0x33),
+            border_color: slint::Color::from_rgb_u8(0xff, 0xaa, 0x33),
+            pulse: true,
+        }
+    }
+
+    /// Voice-command-recognised cue: lucide check, yellow tint, no
+    /// border. Same visual as the pre-#17D `show_transcript_match`.
+    fn transcript_match(text: String) -> Self {
+        Self {
+            text,
+            icon_d: "M 20 6 L 9 17 L 4 12",
+            icon_tint: slint::Color::from_rgb_u8(0xff, 0xcc, 0x33),
+            border_color: slint::Color::from_argb_u8(0, 0, 0, 0),
+            pulse: false,
+        }
+    }
+
+    /// Voice-command-unmatched cue: lucide x, red tint.
+    fn transcript_unmatched(text: String) -> Self {
+        Self {
+            text,
+            icon_d: "M 18 6 L 6 18 M 6 6 L 18 18",
+            icon_tint: slint::Color::from_rgb_u8(0xff, 0x77, 0x77),
+            border_color: slint::Color::from_argb_u8(0, 0, 0, 0),
+            pulse: false,
+        }
+    }
+
+    /// Plain status toast: no icon, no border, default tint. Used for
+    /// "(no speech)", "Click-through ON/OFF", "Transcribing 1.2s…",
+    /// etc.
+    fn status(text: String) -> Self {
+        Self {
+            text,
+            icon_d: "",
+            icon_tint: slint::Color::from_rgb_u8(0xff, 0xcc, 0x33),
+            border_color: slint::Color::from_argb_u8(0, 0, 0, 0),
+            pulse: false,
+        }
+    }
 }
 
 impl AppState {
@@ -2360,15 +2446,22 @@ impl AppState {
         true
     }
 
-    /// Mirror the armed-state flag into Slint so the UI can render the
-    /// pulsing highlight + "Armed — say go" pill (issue #17B). Every
-    /// call site that touches `self.armed` goes through here so the
-    /// in-memory and on-screen states can't drift apart.
+    /// Mirror the armed-state flag into Slint and push/clear the
+    /// sticky pill message. Every call site that touches
+    /// `self.armed` goes through here so the in-memory flag, the
+    /// highlight rect's amber pulse, and the pill content can't
+    /// drift apart. Issue #17B; pill plumbing reworked in #17D.
     fn set_armed_state(&self, armed: bool) {
         self.armed.set(armed);
         if let Some(win) = self.win.upgrade() {
             win.set_armed(armed);
         }
+        *self.pill_sticky.borrow_mut() = if armed {
+            Some(PillMessage::armed_cue())
+        } else {
+            None
+        };
+        self.apply_pill();
     }
 
     /// Position the cursor without speaking. Sibling of `nav()` — used by
@@ -2752,55 +2845,72 @@ impl AppState {
 
     /// Pop a transcript into the pill (no icon) and schedule its fade.
     /// 0 s pill duration disables it entirely.
+    /// Plain status toast — no icon, no border. Used for messages
+    /// like "(no speech)", "Click-through ON".
     fn show_transcript(&self, text: String) {
-        self.show_transcript_with(text, "", slint::Color::from_rgb_u8(0xff, 0xcc, 0x33));
+        self.push_transient_pill(PillMessage::status(text));
     }
 
-    /// Variant that draws a lucide check icon (yellow) before the text —
-    /// signals "voice command recognised + dispatched".
+    /// Voice-command-recognised toast: lucide check on the left.
     fn show_transcript_match(&self, text: String) {
-        // lucide "check"
-        let check = "M 20 6 L 9 17 L 4 12";
-        self.show_transcript_with(
-            text,
-            check,
-            slint::Color::from_rgb_u8(0xff, 0xcc, 0x33),
-        );
+        self.push_transient_pill(PillMessage::transcript_match(text));
     }
 
-    /// Variant that draws a lucide x icon (red) — signals "transcript came
-    /// back but didn't match any rule".
+    /// Voice-command-unmatched toast: red lucide x on the left.
     fn show_transcript_unmatched(&self, text: String) {
-        // lucide "x"
-        let x = "M 18 6 L 6 18 M 6 6 L 18 18";
-        self.show_transcript_with(
-            text,
-            x,
-            slint::Color::from_rgb_u8(0xff, 0x77, 0x77),
-        );
+        self.push_transient_pill(PillMessage::transcript_unmatched(text));
     }
 
-    fn show_transcript_with(&self, text: String, icon_d: &'static str, tint: slint::Color) {
+    /// Schedule a transient pill message. Beaten by any sticky
+    /// (armed-state) message currently active — the sticky message
+    /// stays on-screen, the transient is suppressed entirely rather
+    /// than queued. That keeps the priority semantics simple: only
+    /// the most recent transient is ever remembered, only the active
+    /// sticky is ever shown.
+    ///
+    /// Empty text is a no-op so callers can `show_transcript(t)`
+    /// without an empty-string guard.
+    fn push_transient_pill(&self, msg: PillMessage) {
         let dur = self.settings.borrow().transcript_pill_seconds;
-        if dur <= 0.0 || text.is_empty() {
+        if dur <= 0.0 || msg.text.is_empty() {
             return;
         }
-        if let Some(win) = self.win.upgrade() {
-            win.set_transcript_text(SharedString::from(text.as_str()));
-            win.set_transcript_icon_d(SharedString::from(icon_d));
-            win.set_transcript_icon_tint(slint::Brush::SolidColor(tint));
-            win.set_transcript_visible(true);
-        }
+        *self.pill_transient.borrow_mut() = Some(msg);
+        self.apply_pill();
         let me = self.clone();
         self.transcript_timer.start(
             slint::TimerMode::SingleShot,
             Duration::from_secs_f32(dur),
             move || {
-                if let Some(win) = me.win.upgrade() {
-                    win.set_transcript_visible(false);
-                }
+                *me.pill_transient.borrow_mut() = None;
+                me.apply_pill();
             },
         );
+    }
+
+    /// Compose the effective pill message from the two sources and
+    /// push it into Slint. Sticky beats transient. Called every time
+    /// either source changes (or expires).
+    fn apply_pill(&self) {
+        let Some(win) = self.win.upgrade() else { return };
+        let effective = self
+            .pill_sticky
+            .borrow()
+            .clone()
+            .or_else(|| self.pill_transient.borrow().clone());
+        match effective {
+            Some(msg) => {
+                win.set_pill_text(SharedString::from(msg.text.as_str()));
+                win.set_pill_icon_d(SharedString::from(msg.icon_d));
+                win.set_pill_icon_tint(slint::Brush::SolidColor(msg.icon_tint));
+                win.set_pill_border_color(slint::Brush::SolidColor(msg.border_color));
+                win.set_pill_pulse(msg.pulse);
+                win.set_pill_visible(true);
+            }
+            None => {
+                win.set_pill_visible(false);
+            }
+        }
     }
 
     /// Briefly pin the left tab strip so a button-driven tab change is
@@ -3373,6 +3483,8 @@ fn main() -> Result<()> {
         armed: Rc::new(std::cell::Cell::new(false)),
         pre_jump_cursor: Rc::new(RefCell::new(None)),
         stt_config: Rc::new(app_config.stt.clone()),
+        pill_sticky: Rc::new(RefCell::new(None)),
+        pill_transient: Rc::new(RefCell::new(None)),
     };
 
     // Real watcher channel: tx goes into the watcher callback, rx is drained
