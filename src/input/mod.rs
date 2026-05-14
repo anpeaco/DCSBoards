@@ -22,6 +22,11 @@ pub mod gamepad;
 pub enum InputEvent {
     Press(Trigger),
     Release(Trigger),
+    /// A gamepad/HID device was just enumerated and its friendly name cached.
+    /// The UI listens for this so the bindings panel — populated once at
+    /// startup before gilrs has fired its initial Connected events — can
+    /// re-render with the resolved device names instead of guid prefixes.
+    DevicesChanged,
 }
 
 bitflags::bitflags! {
@@ -73,10 +78,13 @@ impl Trigger {
                 s.push_str(&display_key(key));
                 s
             }
-            Trigger::Gamepad { guid, code } => {
-                let short: String = guid.chars().take(6).collect();
-                format!("Pad[{short}…] {code}")
-            }
+            Trigger::Gamepad { guid, code } => match gamepad::device_name(guid) {
+                Some(name) => format!("{name} {code}"),
+                None => {
+                    let short: String = guid.chars().take(6).collect();
+                    format!("Pad[{short}…] {code}")
+                }
+            },
             Trigger::Hid { vid, pid, usage } => {
                 format!("HID {vid:04x}:{pid:04x}/{usage}")
             }

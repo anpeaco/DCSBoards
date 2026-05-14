@@ -2326,6 +2326,10 @@ impl AppState {
         match event {
             InputEvent::Press(t) => self.handle_press(t),
             InputEvent::Release(t) => self.handle_release(t),
+            InputEvent::DevicesChanged => {
+                self.refresh_bindings_ui();
+                false
+            }
         }
     }
 
@@ -3214,6 +3218,10 @@ fn main() -> Result<()> {
     // Gamepad / HOTAS listener — gilrs runs on a worker thread, events arrive
     // on `gamepad_rx`, and a UI-thread Timer drains the channel into
     // handle_event so the capture-or-dispatch path is identical to keyboard.
+    // Load persisted device-name cache first so the bindings UI's initial
+    // render resolves names for currently-unplugged devices the user has
+    // seen on previous runs.
+    input::gamepad::load_persisted_names();
     let (gamepad_tx, gamepad_rx) = std::sync::mpsc::channel::<InputEvent>();
     if let Err(e) = input::gamepad::spawn(gamepad_tx) {
         eprintln!("[gamepad] disabled: {e:?}");
