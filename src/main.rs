@@ -5,6 +5,7 @@
 mod actions;
 mod audio;
 mod config;
+mod controller;
 mod input;
 #[cfg(windows)]
 mod overlay;
@@ -3029,75 +3030,39 @@ impl AppState {
     /// Dispatch a resolved action. The Cancel action is context-sensitive:
     /// closes the settings panel if open, otherwise stops in-flight speech.
     fn dispatch(&self, action: Action) {
-        // Armed-state interception (issue #17). When the controller is
-        // waiting on the user after a section jump, a handful of actions
-        // take on different semantics. Listed disarms are limited to
-        // actions that actually move the cursor or replace what's being
-        // read — neutral actions like PushToTalk (the user is about to
-        // *say* the disarm word), panel toggles, and setting toggles
-        // must not disarm.
-        if self.armed.get() {
-            match action {
-                Action::Next | Action::TogglePlay => {
-                    // Exit armed and read the current item — no page
-                    // header, no schedule_post_speech advance dance. The
-                    // user said "go" / clicked Play; they want this
-                    // step now.
-                    self.set_armed_state(false);
-                    self.start_speaking();
-                    return;
+        // Armed-state interception (issue #17). Classification lives in
+        // `controller::armed_decision` so the state-transition table
+        // can be unit-tested without TTS/Slint side-effects. Decisions
+        // either short-circuit dispatch outright or drop into the main
+        // match below (DisarmThenRun / PassThrough).
+        match controller::armed_decision(action, self.armed.get()) {
+            controller::ArmedDecision::SpeakCurrent => {
+                self.set_armed_state(false);
+                self.start_speaking();
+                return;
+            }
+            controller::ArmedDecision::RereadHeader => {
+                self.arm_after_section_jump();
+                return;
+            }
+            controller::ArmedDecision::SilentDisarm => {
+                self.set_armed_state(false);
+                self.stop_speaking();
+                return;
+            }
+            controller::ArmedDecision::ReturnToPreJump => {
+                self.set_armed_state(false);
+                if !self.return_to_pre_jump() {
+                    self.prev();
                 }
-                Action::ReadCurrent | Action::ReadSection => {
-                    // "Repeat" / "what section" while armed re-reads the
-                    // section header. Stay armed.
-                    self.arm_after_section_jump();
-                    return;
-                }
-                Action::Cancel => {
-                    self.set_armed_state(false);
-                    self.stop_speaking();
-                    return;
-                }
-                Action::Previous => {
-                    // Return to wherever the user was before the jump
-                    // rather than stepping into the previous section's
-                    // last item (which is what plain `prev()` would do
-                    // because the heading is non-navigable). Falls back
-                    // to plain `prev()` if no snapshot is on hand —
-                    // defensive; the save runs at the start of every
-                    // arming path so this should be unreachable.
-                    self.set_armed_state(false);
-                    if !self.return_to_pre_jump() {
-                        self.prev();
-                    }
-                    return;
-                }
-                // These all explicitly leave the section. Disarm so
-                // post_speech_tick (and the user's mental model)
-                // returns to normal. Heading-jump handlers re-arm.
-                Action::NextHeading
-                | Action::PrevHeading
-                | Action::PageNext
-                | Action::PagePrev
-                | Action::CycleTabPrev
-                | Action::CycleTabNext
-                | Action::RestartSection => {
-                    self.set_armed_state(false);
-                }
-                // PushToTalk, HotMicToggle, OpenSettings,
-                // OpenVoiceCommands, ReloadPronunciation,
-                // ToggleReadNotes, ToggleClickThrough, ToggleVisibility:
-                // none of these move the cursor or replace the read.
-                // Stay armed so the user's next utterance / click can
-                // still hit start/go/ok cleanly.
-                Action::PushToTalk
-                | Action::HotMicToggle
-                | Action::OpenSettings
-                | Action::OpenVoiceCommands
-                | Action::ReloadPronunciation
-                | Action::ToggleReadNotes
-                | Action::ToggleClickThrough
-                | Action::ToggleVisibility => {}
+                return;
+            }
+            controller::ArmedDecision::DisarmThenRun => {
+                self.set_armed_state(false);
+                // fall through into the main action match
+            }
+            controller::ArmedDecision::PassThrough => {
+                // fall through unchanged
             }
         }
         match action {
