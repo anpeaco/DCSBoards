@@ -3,11 +3,17 @@
 use super::SttEngine;
 use anyhow::{Context, Result};
 use std::path::{Path, PathBuf};
+use std::sync::Mutex;
 use whisper_rs::{FullParams, SamplingStrategy, WhisperContext, WhisperContextParameters};
 
 pub struct WhisperStt {
     ctx: WhisperContext,
     name: String,
+    /// Issue #15: domain vocabulary fed to Whisper as `initial_prompt`
+    /// on every transcribe(). Held under a Mutex because the main
+    /// thread updates it on aircraft switches while the STT worker
+    /// thread reads it during inference.
+    initial_prompt: Mutex<Option<String>>,
 }
 
 impl WhisperStt {
@@ -23,7 +29,11 @@ impl WhisperStt {
             .and_then(|s| s.to_str())
             .unwrap_or("whisper")
             .to_string();
-        Ok(Self { ctx, name })
+        Ok(Self {
+            ctx,
+            name,
+            initial_prompt: Mutex::new(None),
+        })
     }
 }
 
@@ -145,6 +155,20 @@ impl SttEngine for WhisperStt {
         params.set_print_progress(false);
         params.set_print_realtime(false);
         params.set_print_timestamps(false);
+        // Issue #15: bias decoding toward domain vocabulary if the
+        // caller has supplied a prompt. Clone the string out of the
+        // mutex so the lock isn't held across `state.full()` (a long-
+        // running CPU-bound call).
+        let prompt = self
+            .initial_prompt
+            .lock()
+            .ok()
+            .and_then(|guard| guard.clone());
+        if let Some(p) = prompt.as_deref() {
+            if !p.is_empty() {
+                params.set_initial_prompt(p);
+            }
+        }
         // Deterministic, conservative decoding: temperature 0 + suppress
         // blank tokens. Both reduce hallucination probability on edge-case
         // audio that still passed the gates above.
@@ -173,6 +197,26 @@ impl SttEngine for WhisperStt {
 
     fn name(&self) -> &str {
         &self.name
+    }
+
+    fn set_initial_prompt(&self, prompt: Option<String>) {
+        // Defensive NUL strip: `FullParams::set_initial_prompt` builds
+        // a CString and panics on an interior NUL. config.toml is
+        // user-edited; never trust the string to be clean.
+        let sanitised = prompt.map(|p| p.replace('\0', ""));
+        match (sanitised.as_deref(), self.initial_prompt.lock()) {
+            (Some(p), Ok(mut guard)) if !p.is_empty() => {
+                eprintln!("[stt] initial_prompt: {p}");
+                *guard = Some(p.to_string());
+            }
+            (_, Ok(mut guard)) => {
+                if guard.is_some() {
+                    eprintln!("[stt] initial_prompt: (cleared)");
+                }
+                *guard = None;
+            }
+            (_, Err(_)) => {} // poisoned; another thread will see the panic
+        }
     }
 }
 
