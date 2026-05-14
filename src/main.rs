@@ -1800,6 +1800,12 @@ struct AppState {
     /// action that isn't repeat-while-armed, or another section jump
     /// (which immediately re-arms).
     armed: Rc<std::cell::Cell<bool>>,
+    /// Snapshot of (tab_idx, cursor) captured at the start of each
+    /// section jump so `Previous` while armed can return the user to
+    /// where they were before the jump rather than stepping into the
+    /// previous section's last item. Chained jumps overwrite — Previous
+    /// unwinds one jump at a time. None when no jump is pending.
+    pre_jump_cursor: Rc<RefCell<Option<(usize, Cursor)>>>,
 }
 
 impl AppState {
@@ -2038,11 +2044,14 @@ impl AppState {
         // Section jumps arm rather than auto-read (issue #17): position
         // the cursor on the heading, then arm_after_section_jump moves
         // it forward to the first navigable item and reads only the
-        // header. Linear Next continues to flow as before.
+        // header. Linear Next continues to flow as before. The pre-jump
+        // snapshot lets Previous-while-armed return us here.
+        self.save_pre_jump_cursor();
         self.nav_silent(|p, c| step_to_heading(p, c, 1));
         self.arm_after_section_jump();
     }
     fn prev_heading(&self) {
+        self.save_pre_jump_cursor();
         self.nav_silent(|p, c| step_to_heading(p, c, -1));
         self.arm_after_section_jump();
     }
@@ -2067,6 +2076,10 @@ impl AppState {
     /// resolver, then arm — section jumps don't auto-read in issue #17.
     /// Switches tab first if needed.
     fn goto_target_armed(&self, target: tabs::NavTarget) {
+        // Capture pre-jump position BEFORE the tab switch so Previous-
+        // while-armed can return the user to the right place if the
+        // jump crossed tabs.
+        self.save_pre_jump_cursor();
         let active = self.tabs.borrow().active;
         if target.tab_idx != active {
             self.switch_tab(target.tab_idx);
@@ -2235,6 +2248,46 @@ impl AppState {
         self.apply();
         // include_page_header=true so the section name is re-announced.
         self.start_speaking_with_header(true);
+    }
+
+    /// Snapshot (active tab, cursor) so a subsequent `Previous` while
+    /// armed can return the user to where they were before the jump.
+    /// Called by the three section-jump entry points (NextHeading,
+    /// PrevHeading, NavigateToSection) right before they move the cursor.
+    fn save_pre_jump_cursor(&self) {
+        let tabs = self.tabs.borrow();
+        let active = tabs.active;
+        let Some(tab) = tabs.active_tab() else { return };
+        *self.pre_jump_cursor.borrow_mut() = Some((active, tab.cursor));
+    }
+
+    /// Restore the cursor (and tab) saved by `save_pre_jump_cursor`,
+    /// consuming the snapshot. Returns true if a snapshot was restored.
+    /// Used by `Previous` while armed (issue #17 follow-up).
+    fn return_to_pre_jump(&self) -> bool {
+        let Some((tab_idx, cursor)) = self.pre_jump_cursor.borrow_mut().take() else {
+            return false;
+        };
+        self.stop_speaking();
+        let active = self.tabs.borrow().active;
+        if active != tab_idx {
+            self.switch_tab(tab_idx);
+        }
+        {
+            let mut tabs = self.tabs.borrow_mut();
+            let Some(tab) = tabs.active_tab_mut() else { return false };
+            // Clamp defensively — the page/item layout may have changed
+            // under us via hot-reload while the user was armed.
+            let page = cursor.page.min(tab.pages.len().saturating_sub(1));
+            let item = if tab.pages.is_empty() {
+                0
+            } else {
+                cursor.item.min(tab.pages[page].manifest.items.len().saturating_sub(1))
+            };
+            tab.cursor = Cursor { page, item };
+        }
+        self.apply();
+        true
     }
 
     /// Position the cursor without speaking. Sibling of `nav()` — used by
@@ -2925,11 +2978,24 @@ impl AppState {
                     self.stop_speaking();
                     return;
                 }
+                Action::Previous => {
+                    // Return to wherever the user was before the jump
+                    // rather than stepping into the previous section's
+                    // last item (which is what plain `prev()` would do
+                    // because the heading is non-navigable). Falls back
+                    // to plain `prev()` if no snapshot is on hand —
+                    // defensive; the save runs at the start of every
+                    // arming path so this should be unreachable.
+                    self.armed.set(false);
+                    if !self.return_to_pre_jump() {
+                        self.prev();
+                    }
+                    return;
+                }
                 // These all explicitly leave the section. Disarm so
                 // post_speech_tick (and the user's mental model)
                 // returns to normal. Heading-jump handlers re-arm.
-                Action::Previous
-                | Action::NextHeading
+                Action::NextHeading
                 | Action::PrevHeading
                 | Action::PageNext
                 | Action::PagePrev
@@ -3252,6 +3318,7 @@ fn main() -> Result<()> {
         mic_locked: Rc::new(std::cell::Cell::new(false)),
         hotmic_timer: Rc::new(slint::Timer::default()),
         armed: Rc::new(std::cell::Cell::new(false)),
+        pre_jump_cursor: Rc::new(RefCell::new(None)),
     };
 
     // Real watcher channel: tx goes into the watcher callback, rx is drained
