@@ -1772,7 +1772,12 @@ struct AppState {
     /// `transcript_pill_seconds` so the pill fades out.
     transcript_timer: Rc<slint::Timer>,
     /// PCM sender into the whisper worker thread. `None` if no model loaded.
-    stt_tx: Rc<Option<std::sync::mpsc::Sender<Vec<f32>>>>,
+    stt_tx: Rc<Option<std::sync::mpsc::Sender<stt::SttCommand>>>,
+    /// Issue #15: STT tuning — vocabulary (for whisper `initial_prompt`),
+    /// post-STT corrections, and fuzzy-match threshold. Loaded from
+    /// `config.toml` at startup; the vocabulary is rebuilt and pushed
+    /// to the worker on every aircraft switch.
+    stt_config: Rc<config::SttConfig>,
     /// Single-shot timer that clears the bindings test-mode flash highlight.
     binding_flash_timer: Rc<slint::Timer>,
     /// True when the window has been moved offscreen by ToggleVisibility.
@@ -2029,10 +2034,23 @@ impl AppState {
         }
         self.apply();
         self.refresh_watcher();
+        self.push_stt_initial_prompt(&aircraft);
         {
             let mut s = self.settings.borrow_mut();
             s.current_aircraft = Some(aircraft);
             let _ = s.save(&settings_path());
+        }
+    }
+
+    /// Compose the Whisper initial-prompt string for `aircraft` from
+    /// `stt_config` and ship it to the STT worker thread. Cheap to call
+    /// repeatedly — the worker just swaps a Mutex<String> contents.
+    /// Issue #15.
+    fn push_stt_initial_prompt(&self, aircraft: &str) {
+        let Some(tx) = self.stt_tx.as_ref() else { return };
+        let prompt = self.stt_config.build_initial_prompt(aircraft);
+        if let Err(e) = tx.send(stt::SttCommand::SetInitialPrompt(prompt)) {
+            eprintln!("[stt] could not push initial_prompt: {e:?}");
         }
     }
 
@@ -2599,7 +2617,7 @@ impl AppState {
         match self.stt_tx.as_ref() {
             Some(tx) => {
                 self.show_transcript(format!("Transcribing {:.1}s...", secs));
-                if let Err(e) = tx.send(pcm) {
+                if let Err(e) = tx.send(stt::SttCommand::Pcm(pcm)) {
                     eprintln!("[stt] submit failed: {e:?}");
                 }
             }
@@ -3246,7 +3264,7 @@ fn main() -> Result<()> {
     // keeps working — PTT still captures audio and the pill reports the
     // duration.
     let (stt_tx, stt_rx_main): (
-        Option<std::sync::mpsc::Sender<Vec<f32>>>,
+        Option<std::sync::mpsc::Sender<stt::SttCommand>>,
         Option<std::sync::mpsc::Receiver<String>>,
     );
     #[cfg(feature = "whisper-stt")]
@@ -3254,26 +3272,33 @@ fn main() -> Result<()> {
         match stt::find_default_model() {
             Some(path) => {
                 eprintln!("[stt] model: {}", path.display());
-                let (req_tx, req_rx) = std::sync::mpsc::channel::<Vec<f32>>();
+                let (req_tx, req_rx) = std::sync::mpsc::channel::<stt::SttCommand>();
                 let (res_tx, res_rx) = std::sync::mpsc::channel::<String>();
                 std::thread::Builder::new()
                     .name("whisper".into())
                     .spawn(move || {
-                        use stt::SttEngine;
+                        use stt::{SttCommand, SttEngine};
                         let engine = match stt::WhisperStt::new(&path) {
                             Ok(e) => { eprintln!("[stt] loaded: {}", e.name()); e }
                             Err(e) => { eprintln!("[stt] init failed: {e:?}"); return; }
                         };
-                        while let Ok(pcm) = req_rx.recv() {
-                            let start = std::time::Instant::now();
-                            match stt::SttEngine::transcribe(&engine, &pcm) {
-                                Ok(text) => {
-                                    eprintln!("[stt] {:.0} ms: \"{}\"", start.elapsed().as_millis(), text);
-                                    let _ = res_tx.send(text);
+                        while let Ok(cmd) = req_rx.recv() {
+                            match cmd {
+                                SttCommand::Pcm(pcm) => {
+                                    let start = std::time::Instant::now();
+                                    match stt::SttEngine::transcribe(&engine, &pcm) {
+                                        Ok(text) => {
+                                            eprintln!("[stt] {:.0} ms: \"{}\"", start.elapsed().as_millis(), text);
+                                            let _ = res_tx.send(text);
+                                        }
+                                        Err(e) => {
+                                            eprintln!("[stt] transcribe failed: {e:?}");
+                                            let _ = res_tx.send(format!("(STT error: {e})"));
+                                        }
+                                    }
                                 }
-                                Err(e) => {
-                                    eprintln!("[stt] transcribe failed: {e:?}");
-                                    let _ = res_tx.send(format!("(STT error: {e})"));
+                                SttCommand::SetInitialPrompt(prompt) => {
+                                    engine.set_initial_prompt(prompt);
                                 }
                             }
                         }
@@ -3320,6 +3345,7 @@ fn main() -> Result<()> {
         hotmic_timer: Rc::new(slint::Timer::default()),
         armed: Rc::new(std::cell::Cell::new(false)),
         pre_jump_cursor: Rc::new(RefCell::new(None)),
+        stt_config: Rc::new(app_config.stt.clone()),
     };
 
     // Real watcher channel: tx goes into the watcher callback, rx is drained
@@ -3584,7 +3610,18 @@ fn main() -> Result<()> {
                         s.show_transcript("(no speech)".into());
                         continue;
                     }
-                    match voice_router::route(trimmed) {
+                    // Issue #15 step 2: apply post-STT corrections before
+                    // routing. The voice router never sees the raw mis-
+                    // transcription, so a "home" → "HARM" rewrite makes
+                    // both the displayed pill and the routed intent
+                    // agree with what the user actually said.
+                    let corrected_owned =
+                        voice_router::apply_corrections(trimmed, &s.stt_config.corrections);
+                    let routed = corrected_owned.as_deref().unwrap_or(trimmed);
+                    if let Some(rewritten) = corrected_owned.as_deref() {
+                        eprintln!("[stt] corrected: \"{trimmed}\" → \"{rewritten}\"");
+                    }
+                    match voice_router::route_with_fuzzy(routed, s.stt_config.fuzzy_threshold) {
                         voice_router::RoutedIntent::Action(action) => {
                             eprintln!("[voice] \"{trimmed}\" → {action:?}");
                             s.show_transcript_match(format!(
@@ -3649,6 +3686,12 @@ fn main() -> Result<()> {
 
     // Boot the watcher in sync with current settings + active tab.
     state.refresh_watcher();
+
+    // Seed the STT worker's initial_prompt for the boot aircraft so the
+    // very first PTT release benefits from vocabulary biasing — without
+    // this the first transcript would run with an empty prompt and only
+    // subsequent aircraft switches would push one. Issue #15.
+    state.push_stt_initial_prompt(&aircraft);
 
     // Populate the bindings list once at startup so the settings panel opens
     // with the current state.

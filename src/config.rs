@@ -6,6 +6,7 @@
 //! exposes the `pages-sample/` dev fixture as a single tab.
 
 use serde::Deserialize;
+use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone, Deserialize)]
@@ -14,6 +15,93 @@ pub struct AppConfig {
     pub aircraft: Vec<AircraftEntry>,
     #[serde(default, rename = "tabs")]
     pub tabs: Vec<TabConfig>,
+    #[serde(default)]
+    pub stt: SttConfig,
+}
+
+/// Speech-to-text tuning knobs. All three knobs target the same problem
+/// from different angles: domain-specific terms like "HARM", "AGM-65",
+/// or "JDAM" get transcribed as homophones ("home", "agement", "Jay
+/// Damn"). Layer the techniques — they compose.
+///
+/// 1. `vocabulary` (+ `per_aircraft`) feeds Whisper's `initial_prompt`
+///    so the model is biased toward the listed terms during decoding.
+/// 2. `corrections` rewrites the transcript after Whisper produces it
+///    but before the voice router sees it. Cheap, deterministic, and
+///    catches the cases that biasing alone misses.
+/// 3. `fuzzy_threshold` controls when the voice router falls back to
+///    similarity matching against the action phrase table.
+#[derive(Debug, Clone, Deserialize)]
+pub struct SttConfig {
+    /// Always-on vocabulary terms. Joined into the initial prompt
+    /// regardless of active aircraft (common system names, generic
+    /// weapon families).
+    #[serde(default)]
+    pub vocabulary: Vec<String>,
+    /// Per-aircraft vocabulary, keyed by aircraft id. Appended on top
+    /// of `vocabulary` when that aircraft becomes active.
+    #[serde(default)]
+    pub per_aircraft: HashMap<String, Vec<String>>,
+    /// Phrase → replacement, applied to the transcript before voice
+    /// routing. Keys are lowercased; matching is word-boundary so
+    /// "home" doesn't rewrite "homestead". Longest key wins so
+    /// "jay dam" beats a stray "jay".
+    #[serde(default)]
+    pub corrections: HashMap<String, String>,
+    /// Jaro-Winkler similarity threshold (0..1) for the voice router's
+    /// fuzzy fallback against action phrases. Higher = stricter. 0.85
+    /// catches obvious misrecognitions ("nest"/"nect" → "next")
+    /// without spuriously routing unrelated text.
+    #[serde(default = "default_fuzzy_threshold")]
+    pub fuzzy_threshold: f32,
+}
+
+impl Default for SttConfig {
+    fn default() -> Self {
+        Self {
+            vocabulary: Vec::new(),
+            per_aircraft: HashMap::new(),
+            corrections: HashMap::new(),
+            fuzzy_threshold: default_fuzzy_threshold(),
+        }
+    }
+}
+
+impl SttConfig {
+    /// Concatenate global + per-aircraft vocabulary into the string
+    /// Whisper accepts as `initial_prompt`. Returns None when no terms
+    /// apply so the caller can leave the prompt unset (which is what
+    /// Whisper expects — passing "" still nudges decoding).
+    ///
+    /// Embedded NULs are stripped: `whisper-rs::FullParams::
+    /// set_initial_prompt` panics on a CString::new failure, and a
+    /// user-edited config.toml is an untrusted input path.
+    pub fn build_initial_prompt(&self, aircraft: &str) -> Option<String> {
+        let mut terms: Vec<String> = self.vocabulary.to_vec();
+        if let Some(extra) = self.per_aircraft.get(aircraft) {
+            terms.extend(extra.iter().cloned());
+        }
+        if terms.is_empty() {
+            return None;
+        }
+        let body = terms
+            .into_iter()
+            .map(|t| t.replace('\0', ""))
+            .filter(|t| !t.trim().is_empty())
+            .collect::<Vec<_>>()
+            .join(", ");
+        if body.is_empty() {
+            return None;
+        }
+        // Frame the list as in-domain vocabulary rather than free text
+        // so Whisper biases token selection toward these words instead
+        // of treating the prompt as an ongoing utterance to continue.
+        Some(format!("DCS checklist vocabulary: {body}."))
+    }
+}
+
+fn default_fuzzy_threshold() -> f32 {
+    0.85
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -96,6 +184,7 @@ impl AppConfig {
                     path: "pages-sample".to_string(),
                 },
             }],
+            stt: SttConfig::default(),
         }
     }
 }

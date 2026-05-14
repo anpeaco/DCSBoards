@@ -55,3 +55,42 @@ source.kind = "dcs_kneeboards"
 # source.kind = "image_folder"
 # source.path = "C:/Users/anpea/Documents/DCS-Charts/{aircraft}"
 # source.recursive = false
+
+
+# STT accuracy knobs (issue #15). All three sections are optional —
+# leaving the block empty restores pre-#15 routing behaviour. See
+# CLAUDE.md `## STT accuracy knobs` for the full mental model.
+
+[stt]
+# Always-on vocabulary terms. Joined into Whisper's initial_prompt so
+# decoding biases toward these spellings rather than plausible-sounding
+# homophones ("HARM" stays "HARM" instead of becoming "home").
+vocabulary = [
+    "HARM", "AGM-65", "AGM-88", "AIM-9", "AIM-120", "AMRAAM",
+    "JDAM", "JSOW", "Maverick", "Sidewinder",
+    "FCR", "HMCS", "JHMCS", "HUD", "MFD", "RWR", "TGP",
+]
+# Jaro-Winkler similarity threshold for the voice router's fuzzy
+# fallback. Only fires after the substring + classify passes both
+# miss, so it can't clobber hand-tuned phrase ordering. 0.85 catches
+# "nest" / "nect" → "next" without spuriously routing unrelated text.
+fuzzy_threshold = 0.85
+
+# Per-aircraft additions, merged on top of `vocabulary` when that
+# aircraft becomes active. A fresh initial_prompt is pushed to the
+# STT worker on every aircraft switch — no restart required.
+[stt.per_aircraft]
+"F-16C_50" = ["HTS", "JSOW", "Maverick", "Sniper"]
+"A-10C_2"  = ["GAU-8", "Hydra", "Mk-82", "TGP"]
+"FA-18C_hornet" = ["AGM-84", "Harpoon", "ATFLIR"]
+"AH-64D_BLK_II" = ["TADS", "Hellfire", "Hydra"]
+
+# Post-STT rewrites applied to the raw transcript before voice
+# routing. Matching is case-insensitive, word-boundary, longest-key-
+# first so "jay dam" beats "jay" if both are listed.
+[stt.corrections]
+"home" = "HARM"
+"jay dam" = "JDAM"
+"jay sow" = "JSOW"
+"f c r" = "FCR"
+"h c m s" = "HMCS"

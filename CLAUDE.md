@@ -168,6 +168,36 @@ Currently no per-step `spoken` field in the markdown. When we add one, it gets p
 
 - Idle CPU < 1%; STT latency for 2 s utterance < 500 ms on CPU with `base.en`; TTS time-to-first-audio < 300 ms; memory < 400 MB resident with whisper model loaded; 60 FPS Slint when visible, throttled when no input.
 
+## STT accuracy knobs (config.toml `[stt]`)
+
+Whisper mis-hears domain-specific terms — "HARM" lands as "home", "AGM-65" as "agement", etc. Three layered defences in `config.toml`, all optional:
+
+```toml
+[stt]
+# Always-on bias terms fed to Whisper's initial_prompt on every transcribe.
+vocabulary = ["HARM", "AGM-65", "AIM-120", "FCR", "HMCS", "JHMCS"]
+# Higher = stricter; below this the fuzzy fallback stays silent.
+fuzzy_threshold = 0.85
+
+[stt.per_aircraft]
+"F-16C_50" = ["HTS", "JSOW", "Maverick"]
+"A-10C_2"  = ["GAU-8", "Hydra", "Mk-82"]
+
+# Post-STT rewrites applied to the raw transcript before voice routing.
+# Word-boundary, longest-key-first, lower-cased keys.
+[stt.corrections]
+"home" = "HARM"
+"jay dam" = "JDAM"
+"agement" = "AGM"
+```
+
+`vocabulary` ∪ `per_aircraft[active]` joins into a single comma-separated `initial_prompt` and is pushed to the worker on every aircraft switch. `corrections` runs in `voice_router::apply_corrections` between the STT worker and `route_with_fuzzy()`. `fuzzy_threshold` controls the Jaro-Winkler fallback in `route_with_fuzzy` — only fires after substring + classify both miss, so it can't clobber hand-tuned phrase ordering.
+
+Behavioural notes:
+- Empty `[stt]` (or no section at all) = no biasing, no corrections, no fuzzy fallback. The router behaves exactly as it did pre-#15.
+- Fuzzy threshold 0.0 disables the fallback entirely. Useful when adding new commands and you want strict matching while tuning.
+- Corrections replacement strings are kept verbatim (so `"home" = "HARM"` produces uppercase output). The downstream router normalises again, so casing doesn't affect routing — only what shows up in `[stt] corrected:` logs.
+
 ## Milestones (from SPEC §16)
 
 1. **M1 Skeleton** — Slint window with always-on-top + layered flags. Loads a hand-authored sample sidecar JSON (`pages-sample/page-03.json`) and PNG, shows the page Image, draws the highlight Rectangle at item 0's bbox. On-screen Next/Prev buttons walk `items[]`.

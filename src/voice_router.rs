@@ -10,6 +10,7 @@
 //!    keyword matching — no ML. Stays consistent with the on-device constraint.
 
 use crate::actions::Action;
+use std::collections::HashMap;
 
 /// What the voice router decided about a transcript.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -50,7 +51,116 @@ pub enum QueryIntent {
 /// Resolve a transcript to a routed intent. Action rules run first; on a
 /// miss the query classifier gets a turn; on a miss there too the caller
 /// sees `Unmatched`.
-pub fn route(transcript: &str) -> RoutedIntent {
+/// Issue #15 step 2: apply post-STT corrections to a raw transcript
+/// before it reaches `route()`. Matching is word-boundary, lower-cased,
+/// longest-key-first so "jay dam" beats "jay" when both are mapped.
+///
+/// Returns `Some(corrected)` when at least one rule fires so the
+/// caller can both log the rewrite and feed the corrected form into
+/// routing. `None` means no rule matched and the original transcript
+/// should be used unchanged.
+///
+/// Lives here (rather than in `query_aliases.rs`) because corrections
+/// operate on the unprocessed STT output, while `QueryAliases::rewrite`
+/// operates on already-classified query targets. Same algorithm, two
+/// different layers; folding them together would conflate scopes.
+pub fn apply_corrections(transcript: &str, corrections: &HashMap<String, String>) -> Option<String> {
+    if corrections.is_empty() {
+        return None;
+    }
+    let lower = transcript.to_lowercase();
+    let mut keys: Vec<&String> = corrections.keys().collect();
+    keys.sort_by_key(|k| std::cmp::Reverse(k.len()));
+    let mut out = lower;
+    let mut fired = false;
+    for key in keys {
+        let needle = key.to_lowercase();
+        if needle.is_empty() {
+            continue;
+        }
+        let Some(value) = corrections.get(key) else { continue };
+        let next = replace_word(&out, &needle, value);
+        if next != out {
+            fired = true;
+            out = next;
+        }
+    }
+    if fired {
+        Some(out)
+    } else {
+        None
+    }
+}
+
+/// Replace every word-boundary occurrence of `needle` (already lower-
+/// cased) with `replacement` in `haystack` (already lower-cased). Word
+/// boundary = start-of-string or preceded by ASCII whitespace AND end-
+/// of-string or followed by ASCII whitespace. Duplicated from
+/// `query_aliases::replace_word` rather than imported because the two
+/// callers shouldn't depend on each other; if a third site needs the
+/// same logic, extract to a shared `text_utils` module then.
+fn replace_word(haystack: &str, needle: &str, replacement: &str) -> String {
+    if needle.is_empty() || haystack.is_empty() {
+        return haystack.to_string();
+    }
+    let bytes = haystack.as_bytes();
+    let n_bytes = needle.as_bytes();
+    if n_bytes.len() > bytes.len() {
+        return haystack.to_string();
+    }
+    let mut out = String::with_capacity(haystack.len());
+    let mut last = 0usize;
+    let mut from = 0usize;
+    while from <= bytes.len().saturating_sub(n_bytes.len()) {
+        let Some(pos) = haystack[from..].find(needle) else {
+            break;
+        };
+        let abs = from + pos;
+        let before_ok = abs == 0 || bytes[abs - 1] == b' ';
+        let after_idx = abs + n_bytes.len();
+        let after_ok = after_idx == bytes.len() || bytes[after_idx] == b' ';
+        if before_ok && after_ok {
+            out.push_str(&haystack[last..abs]);
+            out.push_str(replacement);
+            last = after_idx;
+            from = after_idx;
+        } else {
+            from = abs + 1;
+        }
+    }
+    out.push_str(&haystack[last..]);
+    out
+}
+
+/// Issue #15 step 3: fuzzy fallback against the action phrase table.
+/// Called only after the substring `RULES` pass and the query
+/// classifier both miss — by then we know the transcript didn't
+/// trigger anything by exact-ish match, so a Jaro-Winkler score above
+/// `threshold` is worth treating as a misrecognition rather than
+/// silence. Returns the highest-scoring action above threshold.
+fn fuzzy_match_action(cleaned: &str, threshold: f32) -> Option<(Action, f32)> {
+    if cleaned.is_empty() || threshold <= 0.0 {
+        return None;
+    }
+    let mut best: Option<(Action, f32)> = None;
+    for (phrases, action) in RULES.iter() {
+        for phrase in *phrases {
+            let score = strsim::jaro_winkler(cleaned, phrase) as f32;
+            if score >= threshold && best.map_or(true, |(_, s)| score > s) {
+                best = Some((*action, score));
+            }
+        }
+    }
+    best
+}
+
+/// Resolve a transcript to a routed intent. The fuzzy-fallback pass
+/// against the action phrase table only fires when `fuzzy_threshold >
+/// 0.0` (issue #15 step 3); call sites pass `0.0` for deterministic
+/// no-fuzzy routing (tests, the initial release of the substring
+/// pipeline) or the user-configured threshold from `config.toml
+/// [stt] fuzzy_threshold` (default 0.85) for production.
+pub fn route_with_fuzzy(transcript: &str, fuzzy_threshold: f32) -> RoutedIntent {
     let cleaned = normalise(transcript);
     if cleaned.is_empty() {
         return RoutedIntent::Unmatched;
@@ -72,6 +182,19 @@ pub fn route(transcript: &str) -> RoutedIntent {
     }
     if let Some(query) = classify_query(&cleaned) {
         return RoutedIntent::Query(query);
+    }
+    // Last-chance fuzzy match: only fires above threshold, only on
+    // transcripts that nothing else recognised. Safer than threading
+    // it into the substring pass — the substring table has hand-tuned
+    // anti-collision rules ("go back" before "go" before "go to ...")
+    // that a fuzzy score would happily break.
+    if fuzzy_threshold > 0.0 {
+        if let Some((action, score)) = fuzzy_match_action(&cleaned, fuzzy_threshold) {
+            eprintln!(
+                "[voice] fuzzy \"{cleaned}\" → {action:?} (jw {score:.2}, threshold {fuzzy_threshold:.2})"
+            );
+            return RoutedIntent::Action(action);
+        }
     }
     RoutedIntent::Unmatched
 }
@@ -520,6 +643,13 @@ const RULES: &[(&[&str], Action)] = &[
 mod tests {
     use super::*;
 
+    /// Test convenience: route with fuzzy disabled so the substring +
+    /// classify behaviour is exercised deterministically. Issue #15's
+    /// fuzzy path has its own targeted tests below.
+    fn route(transcript: &str) -> RoutedIntent {
+        route_with_fuzzy(transcript, 0.0)
+    }
+
     fn action(s: &str) -> Option<Action> {
         match route(s) {
             RoutedIntent::Action(a) => Some(a),
@@ -763,6 +893,99 @@ mod tests {
         assert_eq!(
             route("previous heading"),
             RoutedIntent::Action(Action::PrevHeading)
+        );
+    }
+
+    // --- Issue #15: post-STT corrections + fuzzy fallback ---------------
+
+    fn corrections(pairs: &[(&str, &str)]) -> HashMap<String, String> {
+        pairs.iter().map(|(k, v)| ((*k).to_string(), (*v).to_string())).collect()
+    }
+
+    #[test]
+    fn corrections_no_rules_is_passthrough() {
+        let empty: HashMap<String, String> = HashMap::new();
+        assert_eq!(apply_corrections("home", &empty), None);
+    }
+
+    #[test]
+    fn corrections_no_match_returns_none() {
+        let map = corrections(&[("home", "HARM")]);
+        // "homestead" contains "home" but not as a whole word — must not fire.
+        assert_eq!(apply_corrections("homestead", &map), None);
+    }
+
+    #[test]
+    fn corrections_word_boundary_match() {
+        let map = corrections(&[("home", "HARM")]);
+        // Input is case-insensitive (lower-cased before matching), so
+        // "Home" matches the "home" key. Replacement string is kept
+        // verbatim — the corrected text feeds back into route() which
+        // normalises again, so the casing of the output doesn't matter
+        // for behaviour but lets config authors keep tactical-style
+        // capitalisation in the table.
+        assert_eq!(apply_corrections("select Home", &map), Some("select HARM".to_string()));
+    }
+
+    #[test]
+    fn corrections_longest_key_first() {
+        // "jay dam" beats "jay" because longest match wins, otherwise
+        // "jay" would partially fire on "jay dam" leaving "harm dam".
+        let map = corrections(&[("jay", "harm"), ("jay dam", "jdam")]);
+        assert_eq!(apply_corrections("go to jay dam page", &map), Some("go to jdam page".to_string()));
+    }
+
+    #[test]
+    fn corrections_route_end_to_end() {
+        // Issue #15 acceptance criterion: "home" → routed-via-correction →
+        // produces a recognised action (or query, depending on context).
+        // Use a recognisable command: "next" mis-heard as "nest".
+        let map = corrections(&[("nest", "next")]);
+        let corrected = apply_corrections("nest please", &map);
+        assert_eq!(corrected.as_deref(), Some("next please"));
+        // The corrected text routes via the substring table.
+        assert_eq!(
+            route_with_fuzzy(corrected.as_deref().unwrap(), 0.0),
+            RoutedIntent::Action(Action::Next)
+        );
+    }
+
+    #[test]
+    fn fuzzy_disabled_when_threshold_zero() {
+        // "nect" doesn't substring-match anything; with the fuzzy fallback
+        // off (threshold 0.0) it stays Unmatched.
+        assert_eq!(route_with_fuzzy("nect", 0.0), RoutedIntent::Unmatched);
+    }
+
+    #[test]
+    fn fuzzy_recovers_misheard_action() {
+        // "nect" / "nest" are jw-close to "next" (>0.85) and have no
+        // substring match — exactly the misrecognition case fuzzy is
+        // for. Threshold 0.85 = default.
+        assert_eq!(
+            route_with_fuzzy("nect", 0.85),
+            RoutedIntent::Action(Action::Next)
+        );
+        assert_eq!(
+            route_with_fuzzy("nest", 0.85),
+            RoutedIntent::Action(Action::Next)
+        );
+    }
+
+    #[test]
+    fn fuzzy_below_threshold_stays_unmatched() {
+        // "knight" is too phonetically far from any action phrase to
+        // count as a misrecognition. JW("knight", "next") < 0.85.
+        assert_eq!(route_with_fuzzy("knight", 0.85), RoutedIntent::Unmatched);
+    }
+
+    #[test]
+    fn fuzzy_does_not_clobber_exact_match() {
+        // "next page" has a substring hit (PageNext) AND a high-JW score
+        // against multiple phrases. Exact match must win.
+        assert_eq!(
+            route_with_fuzzy("next page", 0.85),
+            RoutedIntent::Action(Action::PageNext)
         );
     }
 }
