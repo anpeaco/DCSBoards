@@ -17,6 +17,11 @@ toml = "0.8"
 anyhow = "1"
 bitflags = { version = "2", features = ["serde"] }
 gilrs = "0.10"
+# Raw HID enumeration: gilrs reports DirectInput devices as "HID-compliant Game
+# Controller" (Windows class name) rather than the device's USB product string.
+# We query the product string directly via hidapi so bindings can show the
+# real device name (e.g. "F16 ICP").
+hidapi = "2"
 notify = "6"
 notify-debouncer-mini = "0.4"
 cpal = "0.15"
@@ -40,6 +45,7 @@ windows = { version = "0.58", features = [
     "Media_SpeechSynthesis",
     "Storage_Streams",
     "Win32_Foundation",
+    "Win32_System_Registry",
     "Win32_UI_WindowsAndMessaging",
 ] }
 
