@@ -1587,6 +1587,37 @@ fn step_cursor(pages: &[LoadedPage], cur: Cursor, dir: i32) -> Cursor {
 }
 
 /// Walk to the next/previous heading. Crosses pages like step_cursor does.
+/// Compute the armed cursor placement for a freshly-jumped section.
+/// Returns `(first_nav_idx, heading_idx)` where `first_nav_idx` is the
+/// item the cursor should land on (the first navigable item of the
+/// section) and `heading_idx` is the section header to be spoken — None
+/// if the section has no preceding heading on this page (page-title
+/// fallback handled by the caller).
+///
+/// `cursor_item` may point at either the heading itself (when the
+/// caller used `step_to_heading`) or at any item inside the section
+/// (when the caller used a NavTarget from a query resolver). Both paths
+/// produce the same result. Issue #17.
+fn place_armed_cursor(items: &[tabs::Item], cursor_item: usize) -> (usize, Option<usize>) {
+    if items.is_empty() {
+        return (0, None);
+    }
+    let item_idx = cursor_item.min(items.len() - 1);
+    if is_heading(&items[item_idx]) {
+        let first_nav = items
+            .iter()
+            .enumerate()
+            .skip(item_idx + 1)
+            .find(|(_, it)| it.navigable)
+            .map(|(idx, _)| idx)
+            .unwrap_or(item_idx);
+        (first_nav, Some(item_idx))
+    } else {
+        let heading = items[..=item_idx].iter().rposition(is_heading);
+        (item_idx, heading)
+    }
+}
+
 fn step_to_heading(pages: &[LoadedPage], cur: Cursor, dir: i32) -> Cursor {
     let items = &pages[cur.page].manifest.items;
     let n = items.len() as i32;
@@ -1761,6 +1792,14 @@ struct AppState {
     /// Polls the audio buffer every 200 ms while hot mic is latched,
     /// shipping detected utterances to STT as they complete.
     hotmic_timer: Rc<slint::Timer>,
+    /// Issue #17: the cursor sits on the first navigable item of a
+    /// freshly-jumped section, the section header has been spoken, and
+    /// we're waiting for an explicit start/go/ok/Next before reading the
+    /// step. Linear navigation never sets this — only NextHeading,
+    /// PrevHeading, and NavigateToSection. Cleared by Next, Cancel, any
+    /// action that isn't repeat-while-armed, or another section jump
+    /// (which immediately re-arms).
+    armed: Rc<std::cell::Cell<bool>>,
 }
 
 impl AppState {
@@ -1888,6 +1927,16 @@ impl AppState {
     /// Fired ~when speech finishes. Auto-advances if enabled; otherwise just
     /// clears the playing flag so the button label flips back to "Read".
     fn post_speech_tick(&self) {
+        // While armed (issue #17) auto-advance is suppressed — the user
+        // must say start/go/ok before any reading resumes. The arm path
+        // itself doesn't schedule this tick; this guard catches any
+        // other path that does (e.g. ReadSection while armed scheduled
+        // a tick before we re-enter, though arm_after_section_jump now
+        // takes that case).
+        if self.armed.get() {
+            self.set_playing(false);
+            return;
+        }
         if self.settings.borrow().auto_advance {
             let (advanced, page_changed) = {
                 let mut tabs = self.tabs.borrow_mut();
@@ -1985,8 +2034,18 @@ impl AppState {
     fn prev(&self) { self.nav(|p, c| step_cursor(p, c, -1)); }
     fn page_next(&self) { self.nav(|p, c| jump_page(p, c, 1)); }
     fn page_prev(&self) { self.nav(|p, c| jump_page(p, c, -1)); }
-    fn next_heading(&self) { self.nav(|p, c| step_to_heading(p, c, 1)); }
-    fn prev_heading(&self) { self.nav(|p, c| step_to_heading(p, c, -1)); }
+    fn next_heading(&self) {
+        // Section jumps arm rather than auto-read (issue #17): position
+        // the cursor on the heading, then arm_after_section_jump moves
+        // it forward to the first navigable item and reads only the
+        // header. Linear Next continues to flow as before.
+        self.nav_silent(|p, c| step_to_heading(p, c, 1));
+        self.arm_after_section_jump();
+    }
+    fn prev_heading(&self) {
+        self.nav_silent(|p, c| step_to_heading(p, c, -1));
+        self.arm_after_section_jump();
+    }
 
     /// Jump to an absolute page index. `n` is 1-based as spoken by the user
     /// ("page three" → 3); we clamp to the available range so out-of-bounds
@@ -2005,14 +2064,14 @@ impl AppState {
     }
 
     /// Jump to an exact (tab, page, item) coordinate produced by a query
-    /// resolver. Switches tab first if needed, then sets the cursor; the
-    /// existing nav() handles auto-read and UI refresh.
-    fn goto_target(&self, target: tabs::NavTarget) {
+    /// resolver, then arm — section jumps don't auto-read in issue #17.
+    /// Switches tab first if needed.
+    fn goto_target_armed(&self, target: tabs::NavTarget) {
         let active = self.tabs.borrow().active;
         if target.tab_idx != active {
             self.switch_tab(target.tab_idx);
         }
-        self.nav(|pages, _cur| {
+        self.nav_silent(|pages, _cur| {
             if pages.is_empty() {
                 return Cursor { page: 0, item: 0 };
             }
@@ -2025,6 +2084,7 @@ impl AppState {
             };
             Cursor { page, item }
         });
+        self.arm_after_section_jump();
     }
 
     /// Route a structured query to the right handler. Phase 2 only the
@@ -2032,6 +2092,10 @@ impl AppState {
     /// pick) plug into the same dispatcher.
     fn handle_query(&self, q: voice_router::QueryIntent) {
         use voice_router::QueryIntent;
+        // Most queries leave the armed state behind — they're explicit
+        // jumps to somewhere unrelated. NavigateToSection is the
+        // exception and re-arms at the end of its own handler.
+        self.armed.set(false);
         match q {
             QueryIntent::NavigateToPage(n) => self.goto_page(n),
             QueryIntent::NavigateToSection(target) => {
@@ -2051,7 +2115,7 @@ impl AppState {
                             nm.score,
                             nm.alternates.len()
                         );
-                        self.goto_target(nm.target);
+                        self.goto_target_armed(nm.target);
                     }
                     None => {
                         eprintln!("[voice] section query \"{rewritten}\" — no match");
@@ -2137,6 +2201,9 @@ impl AppState {
     /// context so the section name gets announced first. If no heading
     /// precedes the cursor, restarts the page from item 0.
     fn restart_section(&self) {
+        // Explicit "from the top" — user wants to hear the section, not be
+        // armed and waiting. Disarm before reading.
+        self.armed.set(false);
         self.stop_speaking();
         {
             let mut tabs = self.tabs.borrow_mut();
@@ -2168,6 +2235,72 @@ impl AppState {
         self.apply();
         // include_page_header=true so the section name is re-announced.
         self.start_speaking_with_header(true);
+    }
+
+    /// Position the cursor without speaking. Sibling of `nav()` — used by
+    /// section-jump paths that hand off to `arm_after_section_jump`
+    /// rather than auto-reading. Issue #17.
+    fn nav_silent(&self, step: impl FnOnce(&[LoadedPage], Cursor) -> Cursor) {
+        self.stop_speaking();
+        {
+            let mut tabs = self.tabs.borrow_mut();
+            let Some(tab) = tabs.active_tab_mut() else { return };
+            tab.cursor = step(&tab.pages, tab.cursor);
+        }
+        self.apply();
+    }
+
+    /// Enter the armed state after a section jump (issue #17): move the
+    /// cursor to the first navigable item of the section, speak only the
+    /// section header, and wait. The first step is highlighted but not
+    /// spoken; the user must say start / go / ok (or press Next) to
+    /// advance.
+    ///
+    /// Also serves the "repeat while armed" path — calling this when
+    /// already armed re-reads the header and keeps the same cursor
+    /// (idempotent on cursor placement).
+    fn arm_after_section_jump(&self) {
+        self.stop_speaking();
+        let heading_text = {
+            let mut tabs = self.tabs.borrow_mut();
+            let Some(tab) = tabs.active_tab_mut() else { return };
+            if tab.pages.is_empty() {
+                return;
+            }
+            let page_idx = tab.cursor.page.min(tab.pages.len() - 1);
+            let page = &tab.pages[page_idx];
+            if page.manifest.items.is_empty() {
+                return;
+            }
+            let (first_nav, heading_idx) =
+                place_armed_cursor(&page.manifest.items, tab.cursor.item);
+            tab.cursor = Cursor { page: page_idx, item: first_nav };
+
+            let pron = self.pronunciation.borrow();
+            match heading_idx {
+                Some(h) => {
+                    let it = &page.manifest.items[h];
+                    spoken_for(&it.text, it.spoken.as_deref(), &pron)
+                }
+                None => spoken_for(&page.manifest.title, None, &pron),
+            }
+        };
+
+        self.apply();
+        self.armed.set(true);
+
+        if heading_text.is_empty() {
+            return;
+        }
+        eprintln!("[tts] arm: {heading_text}");
+        if let Some(engine) = self.tts.borrow_mut().as_mut() {
+            if let Err(e) = engine.speak(&heading_text, true) {
+                eprintln!("TTS speak failed: {e:?}");
+            }
+        }
+        self.set_playing(true);
+        // Deliberately no schedule_post_speech — auto-advance must NOT
+        // kick in while armed. The user controls when reading resumes.
     }
 
     /// Speak the nearest preceding heading so the user can hear which
@@ -2761,6 +2894,39 @@ impl AppState {
     /// Dispatch a resolved action. The Cancel action is context-sensitive:
     /// closes the settings panel if open, otherwise stops in-flight speech.
     fn dispatch(&self, action: Action) {
+        // Armed-state interception (issue #17). When the controller is
+        // waiting on the user after a section jump, a handful of actions
+        // take on disarmed-read semantics; the rest implicitly disarm
+        // before running so a subsequent action (open settings, jump to
+        // another section, ToggleClickThrough, …) doesn't silently leave
+        // the controller in a stale armed state.
+        if self.armed.get() {
+            match action {
+                Action::Next => {
+                    // Exit armed and read the current item — no page
+                    // header, no schedule_post_speech advance dance. The
+                    // user said "go", they want this step now.
+                    self.armed.set(false);
+                    self.start_speaking();
+                    return;
+                }
+                Action::ReadCurrent | Action::ReadSection => {
+                    // "Repeat" / "what section" while armed re-reads the
+                    // section header. Stay armed.
+                    self.arm_after_section_jump();
+                    return;
+                }
+                Action::Cancel => {
+                    self.armed.set(false);
+                    self.stop_speaking();
+                    return;
+                }
+                // Heading jumps and section-query jumps will re-arm at
+                // the end of their handlers; everything else just drops
+                // the armed flag and runs normally.
+                _ => self.armed.set(false),
+            }
+        }
         match action {
             Action::Next => self.next(),
             Action::Previous => self.prev(),
@@ -3058,6 +3224,7 @@ fn main() -> Result<()> {
         },
         mic_locked: Rc::new(std::cell::Cell::new(false)),
         hotmic_timer: Rc::new(slint::Timer::default()),
+        armed: Rc::new(std::cell::Cell::new(false)),
     };
 
     // Real watcher channel: tx goes into the watcher callback, rx is drained
@@ -3069,33 +3236,37 @@ fn main() -> Result<()> {
     let state = state;
     state.apply();
 
+    // UI buttons go through dispatch so the armed-state interception
+    // (issue #17) lives in one place — clicking on-screen Next while
+    // armed must behave identically to saying "go" or pressing the
+    // bound key.
     {
         let s = state.clone();
-        win.on_next_clicked(move || s.next());
+        win.on_next_clicked(move || s.dispatch(Action::Next));
     }
     {
         let s = state.clone();
-        win.on_prev_clicked(move || s.prev());
+        win.on_prev_clicked(move || s.dispatch(Action::Previous));
     }
     {
         let s = state.clone();
-        win.on_page_next_clicked(move || s.page_next());
+        win.on_page_next_clicked(move || s.dispatch(Action::PageNext));
     }
     {
         let s = state.clone();
-        win.on_page_prev_clicked(move || s.page_prev());
+        win.on_page_prev_clicked(move || s.dispatch(Action::PagePrev));
     }
     {
         let s = state.clone();
-        win.on_next_heading_clicked(move || s.next_heading());
+        win.on_next_heading_clicked(move || s.dispatch(Action::NextHeading));
     }
     {
         let s = state.clone();
-        win.on_prev_heading_clicked(move || s.prev_heading());
+        win.on_prev_heading_clicked(move || s.dispatch(Action::PrevHeading));
     }
     {
         let s = state.clone();
-        win.on_read_clicked(move || s.read());
+        win.on_read_clicked(move || s.dispatch(Action::TogglePlay));
     }
     {
         let s = state.clone();
@@ -3518,4 +3689,138 @@ fn main() -> Result<()> {
 
     win.run()?;
     Ok(())
+}
+
+#[cfg(test)]
+mod armed_cursor_tests {
+    //! Unit tests for `place_armed_cursor`, the pure helper that decides
+    //! where the cursor lands and which heading gets spoken after a
+    //! section jump (issue #17). The rest of the armed state lives on
+    //! `AppState` which is mixed with TTS / Slint / settings and would
+    //! need extraction before it can be unit-tested cleanly.
+    use super::*;
+
+    fn item(kind: &str, text: &str, navigable: bool) -> tabs::Item {
+        tabs::Item {
+            idx: 0,
+            group: String::new(),
+            kind: kind.into(),
+            text: text.into(),
+            spoken: None,
+            navigable,
+            bbox: [0.0; 4],
+        }
+    }
+
+    fn heading(text: &str) -> tabs::Item {
+        item("section-header", text, false)
+    }
+
+    fn step(text: &str) -> tabs::Item {
+        item("step", text, true)
+    }
+
+    fn note(text: &str) -> tabs::Item {
+        item("note-info", text, false)
+    }
+
+    #[test]
+    fn lands_on_first_nav_after_heading_when_starting_on_heading() {
+        let items = vec![
+            step("step before"),         // 0
+            heading("Maverick"),         // 1
+            step("FCR ON"),              // 2
+            step("AGM ON"),              // 3
+        ];
+        let (cursor, heading_idx) = place_armed_cursor(&items, 1);
+        assert_eq!(cursor, 2, "cursor should advance to first navigable step");
+        assert_eq!(heading_idx, Some(1), "header spoken should be the heading we landed on");
+    }
+
+    /// Edge case from the issue: jump target is a non-navigable item
+    /// (note). Land on the next navigable item, still pick up the
+    /// preceding section header.
+    #[test]
+    fn lands_on_next_nav_when_starting_on_non_navigable_note() {
+        let items = vec![
+            heading("Maverick"),         // 0
+            note("Optional warning"),    // 1 ← cursor here
+            step("FCR ON"),              // 2
+        ];
+        let (cursor, heading_idx) = place_armed_cursor(&items, 1);
+        // Note isn't a heading so we don't shift the cursor forward; the
+        // armed cursor sits on the note, and start/go will speak it.
+        // The heading lookup walks backward and finds the section header.
+        assert_eq!(cursor, 1);
+        assert_eq!(heading_idx, Some(0));
+    }
+
+    /// Edge case: section header has only one navigable item.
+    /// arm_after_section_jump must still place the cursor there.
+    #[test]
+    fn section_with_only_one_step() {
+        let items = vec![
+            heading("Bingo"),            // 0
+            step("RTB"),                 // 1
+        ];
+        let (cursor, heading_idx) = place_armed_cursor(&items, 0);
+        assert_eq!(cursor, 1);
+        assert_eq!(heading_idx, Some(0));
+    }
+
+    /// Heading with no following navigable item (trailing notes only).
+    /// We fall back to the heading itself as the cursor — the controller
+    /// then speaks the header and arms; pressing Next finds nothing to
+    /// advance to, which is the same behaviour as today.
+    #[test]
+    fn heading_with_no_following_navigable_falls_back() {
+        let items = vec![
+            heading("Notes"),            // 0
+            note("Just info"),           // 1
+            note("More info"),           // 2
+        ];
+        let (cursor, heading_idx) = place_armed_cursor(&items, 0);
+        assert_eq!(cursor, 0, "no navigable item after heading — stay put");
+        assert_eq!(heading_idx, Some(0));
+    }
+
+    /// Cursor sits on a navigable item already inside a section (the
+    /// shape produced by a NavigateToSection query that returned the
+    /// resolved item index). Don't shift; just find the preceding
+    /// heading.
+    #[test]
+    fn cursor_already_inside_section() {
+        let items = vec![
+            heading("Maverick"),         // 0
+            step("FCR ON"),              // 1
+            step("AGM ON"),              // 2 ← cursor here
+            step("UNCAGE"),              // 3
+        ];
+        let (cursor, heading_idx) = place_armed_cursor(&items, 2);
+        assert_eq!(cursor, 2);
+        assert_eq!(heading_idx, Some(0));
+    }
+
+    /// Page with no heading at all (rare, but the manifest doesn't
+    /// require one). Return None so the caller can fall back to the
+    /// page title.
+    #[test]
+    fn no_heading_on_page() {
+        let items = vec![
+            step("free-floating step"),  // 0
+            step("another"),             // 1
+        ];
+        let (cursor, heading_idx) = place_armed_cursor(&items, 1);
+        assert_eq!(cursor, 1);
+        assert_eq!(heading_idx, None);
+    }
+
+    /// Empty manifest must not panic.
+    #[test]
+    fn empty_items_does_not_panic() {
+        let items: Vec<tabs::Item> = vec![];
+        let (cursor, heading_idx) = place_armed_cursor(&items, 0);
+        assert_eq!(cursor, 0);
+        assert_eq!(heading_idx, None);
+    }
 }
