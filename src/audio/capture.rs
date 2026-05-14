@@ -40,10 +40,6 @@ impl AudioCapture {
         &self.input_name
     }
 
-    pub fn input_sample_rate(&self) -> u32 {
-        self.input_sample_rate
-    }
-
     /// Begin accumulating audio. Clears any prior buffer.
     pub fn start(&self) {
         let mut st = self.state.lock().unwrap();

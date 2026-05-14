@@ -194,7 +194,7 @@ fn is_known_hallucination(text: &str) -> bool {
     let lower = text.to_ascii_lowercase();
     let stripped = lower
         .trim()
-        .trim_end_matches(|c: char| matches!(c, '.' | '!' | '?'))
+        .trim_end_matches(['.', '!', '?'])
         .trim();
     const PHRASES: &[&str] = &[
         "you",
@@ -208,7 +208,27 @@ fn is_known_hallucination(text: &str) -> bool {
         "♪",
         "♪ ♪",
     ];
-    PHRASES.iter().any(|&p| stripped == p)
+    PHRASES.contains(&stripped)
+}
+
+/// Look in the `models/` directory for a usable whisper model. Returns the
+/// first match in preference order (better quality → faster fallback). None
+/// if nothing is present so the app can render a banner instead of crashing.
+pub fn find_default_model() -> Option<PathBuf> {
+    const CANDIDATES: &[&str] = &[
+        "models/ggml-base.en.bin",
+        "models/ggml-small.en.bin",
+        "models/ggml-tiny.en.bin",
+        "models/ggml-base.bin",
+        "models/ggml-tiny.bin",
+    ];
+    for c in CANDIDATES {
+        let p = PathBuf::from(c);
+        if p.exists() {
+            return Some(p);
+        }
+    }
+    None
 }
 
 #[cfg(test)]
@@ -248,24 +268,4 @@ mod tests {
         // match (after stripping non-alphanumerics) is filtered.
         assert!(!is_known_hallucination("are you ready"));
     }
-}
-
-/// Look in the `models/` directory for a usable whisper model. Returns the
-/// first match in preference order (better quality → faster fallback). None
-/// if nothing is present so the app can render a banner instead of crashing.
-pub fn find_default_model() -> Option<PathBuf> {
-    const CANDIDATES: &[&str] = &[
-        "models/ggml-base.en.bin",
-        "models/ggml-small.en.bin",
-        "models/ggml-tiny.en.bin",
-        "models/ggml-base.bin",
-        "models/ggml-tiny.bin",
-    ];
-    for c in CANDIDATES {
-        let p = PathBuf::from(c);
-        if p.exists() {
-            return Some(p);
-        }
-    }
-    None
 }

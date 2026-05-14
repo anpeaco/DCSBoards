@@ -149,7 +149,7 @@ fn expand_page_refs(text: &str) -> String {
     while i < chars.len() {
         let next_is_digit = chars
             .get(i + 3)
-            .map_or(false, |c| c.is_ascii_digit());
+            .is_some_and(|c| c.is_ascii_digit());
         if i + 3 < chars.len()
             && (chars[i] == 'P' || chars[i] == 'p')
             && (chars[i + 1] == 'T' || chars[i + 1] == 't')

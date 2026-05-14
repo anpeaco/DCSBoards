@@ -13,10 +13,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  # NOTE: `RUSTFLAGS: -D warnings` is intentionally not set yet — same reason
-  # the fmt/clippy gates below are deferred. Re-enable after the pre-existing
-  # dead-code warnings (input_sample_rate, PageManifest.schema_version,
-  # Tab.kind, Watcher::current) are either consumed or annotated.
 
 jobs:
   build-and-portability-check:
@@ -49,11 +45,14 @@ jobs:
         with:
           shared-key: portable-whisper
 
-      # NOTE: `cargo fmt --check` and `cargo clippy -D warnings` are
-      # intentionally not enforced yet — the repo has pre-existing drift
-      # (fmt diffs in voice_router.rs / watcher.rs; ~13 clippy warnings).
-      # Run `cargo fmt --all` once across the codebase and clear the clippy
-      # backlog, then re-enable both as failing gates.
+      # `cargo fmt --check` remains deferred — pre-existing drift in
+      # voice_router.rs / watcher.rs would fail the gate. Run
+      # `cargo fmt --all` across the codebase to clear it before
+      # enabling. The clippy gate below catches lint regressions in the
+      # meantime.
+
+      - name: cargo clippy
+        run: cargo clippy --features whisper-stt --all-targets -- -D warnings
 
       - name: cargo test
         run: cargo test --features whisper-stt
