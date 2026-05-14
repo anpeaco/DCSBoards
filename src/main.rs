@@ -281,6 +281,12 @@ slint::slint! {
         in property <string> audio-input-selected;
         in property <bool> mic-hot: false;
         in-out property <bool> mic-pulse: false;
+        // Issue #17B: armed-after-section-jump state. The cursor is sitting
+        // on the first step waiting for start/go/ok before reading. Drives
+        // both a pill ("Armed — say go") and a pulsing highlight so the
+        // user can tell at a glance that the controller is parked.
+        in property <bool> armed: false;
+        in-out property <bool> armed-pulse: false;
         callback audio-input-clicked(string);
 
         // TTS engine + voice selection. The voice list is the basenames of
@@ -429,15 +435,28 @@ slint::slint! {
         }
 
         // Current-item highlight. Coords are pre-scaled in Rust to display space.
+        // While armed (issue #17B) the highlight pulses between two alpha
+        // levels on a 750 ms cycle — visible from across the room without
+        // being motion-distracting like a faster strobe would be.
         Rectangle {
             x: root.hl-x;
             y: root.hl-y;
             width: root.hl-w;
             height: root.hl-h;
-            border-color: #ffcc33;
+            border-color: root.armed ? #ffaa33 : #ffcc33;
             border-width: 2px;
-            background: #ffcc3322;
+            background: root.armed
+                ? (root.armed-pulse ? #ffaa3355 : #ffaa331a)
+                : #ffcc3322;
             border-radius: 2px;
+            animate background { duration: 750ms; easing: ease-in-out; }
+            animate border-color { duration: 300ms; easing: ease-out; }
+
+            Timer {
+                interval: 750ms;
+                running: root.armed;
+                triggered() => { root.armed-pulse = !root.armed-pulse; }
+            }
         }
 
         // Click-through indicator. Just a small 22×22 chip top-right (same
@@ -493,6 +512,49 @@ slint::slint! {
                 width: parent.width - self.x - 36px;
                 height: parent.height;
                 text: root.transcript-text;
+                color: #f0f0f0;
+                font-size: 12px;
+                vertical-alignment: center;
+                overflow: elide;
+            }
+        }
+
+        // Armed-state pill (issue #17B). Same chrome as the transcript
+        // pill so the two read as a family; stacked directly below it
+        // with a small gap. Fades in/out via opacity, no slide, so it
+        // doesn't shove other UI around. Amber border + pulse echo the
+        // highlight rectangle's amber while armed.
+        armed-pill := Rectangle {
+            x: root.width - 8px - self.width;
+            y: 68px;
+            width: 200px;
+            height: 28px;
+            background: rgba(26, 26, 30, 0.94);
+            border-color: #ffaa33;
+            border-width: 1px;
+            border-radius: 14px;
+            opacity: root.armed ? 1.0 : 0.0;
+            animate opacity { duration: 400ms; easing: ease-in-out; }
+
+            // Pulse dot, same cadence as the highlight pulse so the two
+            // affordances visibly share a heartbeat.
+            Rectangle {
+                x: 12px;
+                y: (parent.height - self.height) / 2;
+                width: 8px;
+                height: 8px;
+                border-radius: 4px;
+                background: #ffaa33;
+                opacity: root.armed-pulse ? 1.0 : 0.4;
+                animate opacity { duration: 750ms; easing: ease-in-out; }
+            }
+
+            Text {
+                x: 28px;
+                y: 0px;
+                width: parent.width - 36px;
+                height: parent.height;
+                text: "Armed — say go";
                 color: #f0f0f0;
                 font-size: 12px;
                 vertical-alignment: center;
@@ -2126,7 +2188,7 @@ impl AppState {
         // Most queries leave the armed state behind — they're explicit
         // jumps to somewhere unrelated. NavigateToSection is the
         // exception and re-arms at the end of its own handler.
-        self.armed.set(false);
+        self.set_armed_state(false);
         match q {
             QueryIntent::NavigateToPage(n) => self.goto_page(n),
             QueryIntent::NavigateToSection(target) => {
@@ -2234,7 +2296,7 @@ impl AppState {
     fn restart_section(&self) {
         // Explicit "from the top" — user wants to hear the section, not be
         // armed and waiting. Disarm before reading.
-        self.armed.set(false);
+        self.set_armed_state(false);
         self.stop_speaking();
         {
             let mut tabs = self.tabs.borrow_mut();
@@ -2308,6 +2370,17 @@ impl AppState {
         true
     }
 
+    /// Mirror the armed-state flag into Slint so the UI can render the
+    /// pulsing highlight + "Armed — say go" pill (issue #17B). Every
+    /// call site that touches `self.armed` goes through here so the
+    /// in-memory and on-screen states can't drift apart.
+    fn set_armed_state(&self, armed: bool) {
+        self.armed.set(armed);
+        if let Some(win) = self.win.upgrade() {
+            win.set_armed(armed);
+        }
+    }
+
     /// Position the cursor without speaking. Sibling of `nav()` — used by
     /// section-jump paths that hand off to `arm_after_section_jump`
     /// rather than auto-reading. Issue #17.
@@ -2358,7 +2431,7 @@ impl AppState {
         };
 
         self.apply();
-        self.armed.set(true);
+        self.set_armed_state(true);
 
         if heading_text.is_empty() {
             return;
@@ -2981,7 +3054,7 @@ impl AppState {
                     // header, no schedule_post_speech advance dance. The
                     // user said "go" / clicked Play; they want this
                     // step now.
-                    self.armed.set(false);
+                    self.set_armed_state(false);
                     self.start_speaking();
                     return;
                 }
@@ -2992,7 +3065,7 @@ impl AppState {
                     return;
                 }
                 Action::Cancel => {
-                    self.armed.set(false);
+                    self.set_armed_state(false);
                     self.stop_speaking();
                     return;
                 }
@@ -3004,7 +3077,7 @@ impl AppState {
                     // to plain `prev()` if no snapshot is on hand —
                     // defensive; the save runs at the start of every
                     // arming path so this should be unreachable.
-                    self.armed.set(false);
+                    self.set_armed_state(false);
                     if !self.return_to_pre_jump() {
                         self.prev();
                     }
@@ -3020,7 +3093,7 @@ impl AppState {
                 | Action::CycleTabPrev
                 | Action::CycleTabNext
                 | Action::RestartSection => {
-                    self.armed.set(false);
+                    self.set_armed_state(false);
                 }
                 // PushToTalk, HotMicToggle, OpenSettings,
                 // OpenVoiceCommands, ReloadPronunciation,
