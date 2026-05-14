@@ -52,9 +52,7 @@ pub fn device_name(guid: &str) -> Option<String> {
             None
         }
     };
-    if let Ok(mut map) = registry().lock() {
-        map.insert(guid.to_string(), resolved.clone());
-    }
+    cache_resolution(guid.to_string(), resolved.clone());
     resolved
 }
 
@@ -86,8 +84,68 @@ fn resolve_name_from_vid_pid(vid: u16, pid: u16) -> Option<String> {
 }
 
 fn remember(guid: String, name: String) {
+    cache_resolution(guid, Some(name));
+}
+
+/// Insert a resolution outcome into the cache. Positive entries are also
+/// flushed to disk so cached names survive across runs even when the
+/// device is unplugged — joy.cpl `OEMName` entries are written
+/// opportunistically by Windows and many generic HID joysticks never
+/// get one.
+fn cache_resolution(guid: String, name: Option<String>) {
+    let positive = name.is_some();
     if let Ok(mut map) = registry().lock() {
-        map.insert(guid, Some(name));
+        map.insert(guid, name);
+    }
+    if positive {
+        save_persisted_names();
+    }
+}
+
+fn persisted_names_path() -> std::path::PathBuf {
+    std::path::PathBuf::from("device_names.toml")
+}
+
+/// Load previously-resolved names from disk into the registry. Called
+/// once at startup before the bindings UI renders so cached entries
+/// short-circuit the slow joy.cpl + hidapi resolve path.
+pub fn load_persisted_names() {
+    let path = persisted_names_path();
+    let Ok(text) = std::fs::read_to_string(&path) else {
+        return; // missing file is the common first-run case, not an error
+    };
+    let parsed: Result<HashMap<String, String>, _> = toml::from_str(&text);
+    match parsed {
+        Ok(map) => {
+            let n = map.len();
+            if let Ok(mut reg) = registry().lock() {
+                for (guid, name) in map {
+                    reg.insert(guid, Some(name));
+                }
+            }
+            eprintln!(
+                "[gamepad] loaded {n} persisted device names from {}",
+                path.display()
+            );
+        }
+        Err(e) => eprintln!("[gamepad] {} parse failed: {e}", path.display()),
+    }
+}
+
+/// Snapshot every positive entry in the registry and write it to disk.
+/// Called whenever a new name is cached. The file is small (handful of
+/// short strings) so rewriting whole each time keeps the code simple.
+fn save_persisted_names() {
+    let map: HashMap<String, String> = match registry().lock() {
+        Ok(reg) => reg
+            .iter()
+            .filter_map(|(g, n)| n.as_ref().map(|name| (g.clone(), name.clone())))
+            .collect(),
+        Err(_) => return,
+    };
+    let Ok(text) = toml::to_string_pretty(&map) else { return };
+    if let Err(e) = std::fs::write(persisted_names_path(), text) {
+        eprintln!("[gamepad] failed to save device_names.toml: {e}");
     }
 }
 

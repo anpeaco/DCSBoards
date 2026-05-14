@@ -18,6 +18,11 @@ config.local.toml
 # config.toml + pronunciation.toml are shared; settings.toml is local.
 settings.toml
 
+# Per-machine cache of resolved gamepad device names — populated as the
+# user plugs devices in so previously-seen ones keep their names while
+# unplugged.
+device_names.toml
+
 # Models and large assets (downloaded separately)
 /models/*.bin
 /models/*.gguf
