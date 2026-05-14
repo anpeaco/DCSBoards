@@ -485,18 +485,45 @@ slint::slint! {
         // the mic chip sits at the right "cap" of one continuous two-tone
         // pill (dark left half = transcript, yellow right half = mic).
         // Same 14px radius + 28px height as the mic so the rounding matches.
+        // Combined transcript / armed-state pill. While `armed` is set
+        // (issue #17B) the pill renders "Armed — say go" with an amber
+        // border + pulse dot — same chrome reused so the user never has
+        // two overlapping pills competing for the same screen real
+        // estate. While not armed the pill shows the last STT
+        // transcript as before. Armed wins when both signals are live;
+        // the transcript replays once the user disarms.
         transcript-pill := Rectangle {
             x: root.width - 8px - self.width;
             y: 32px;
             width: 320px;
             height: 28px;
             background: rgba(26, 26, 30, 0.94);
+            border-color: root.armed ? #ffaa33 : transparent;
+            border-width: root.armed ? 1px : 0;
             border-radius: 14px;
-            opacity: root.transcript-visible ? 1.0 : 0.0;
+            opacity: (root.armed || root.transcript-visible) ? 1.0 : 0.0;
             animate opacity { duration: 400ms; easing: ease-in-out; }
+            animate border-color { duration: 300ms; easing: ease-out; }
 
-            // Optional state icon (lucide check / x) — left of the text.
-            if root.transcript-icon-d != "": LucideIcon {
+            // Armed-state pulse dot. Shares the 750 ms cycle of the
+            // highlight rectangle so the two affordances visibly beat
+            // together. Invisible when not armed.
+            Rectangle {
+                x: 12px;
+                y: (parent.height - self.height) / 2;
+                width: 8px;
+                height: 8px;
+                border-radius: 4px;
+                background: #ffaa33;
+                opacity: root.armed
+                    ? (root.armed-pulse ? 1.0 : 0.4)
+                    : 0.0;
+                animate opacity { duration: 750ms; easing: ease-in-out; }
+            }
+
+            // Transcript icon: hidden while armed (the pulse dot
+            // occupies that slot instead).
+            if !root.armed && root.transcript-icon-d != "": LucideIcon {
                 x: 10px;
                 y: 6px;
                 width: 16px;
@@ -506,55 +533,17 @@ slint::slint! {
             }
 
             Text {
-                x: root.transcript-icon-d != "" ? 32px : 14px;
+                // Indent past either the pulse dot (armed) or the icon
+                // (transcript). Falls back to a 14 px left margin when
+                // neither is present.
+                x: root.armed
+                    ? 28px
+                    : (root.transcript-icon-d != "" ? 32px : 14px);
                 y: 0px;
                 // Leave ~36px on the right so text doesn't slide under the mic.
                 width: parent.width - self.x - 36px;
                 height: parent.height;
-                text: root.transcript-text;
-                color: #f0f0f0;
-                font-size: 12px;
-                vertical-alignment: center;
-                overflow: elide;
-            }
-        }
-
-        // Armed-state pill (issue #17B). Same chrome as the transcript
-        // pill so the two read as a family; stacked directly below it
-        // with a small gap. Fades in/out via opacity, no slide, so it
-        // doesn't shove other UI around. Amber border + pulse echo the
-        // highlight rectangle's amber while armed.
-        armed-pill := Rectangle {
-            x: root.width - 8px - self.width;
-            y: 68px;
-            width: 200px;
-            height: 28px;
-            background: rgba(26, 26, 30, 0.94);
-            border-color: #ffaa33;
-            border-width: 1px;
-            border-radius: 14px;
-            opacity: root.armed ? 1.0 : 0.0;
-            animate opacity { duration: 400ms; easing: ease-in-out; }
-
-            // Pulse dot, same cadence as the highlight pulse so the two
-            // affordances visibly share a heartbeat.
-            Rectangle {
-                x: 12px;
-                y: (parent.height - self.height) / 2;
-                width: 8px;
-                height: 8px;
-                border-radius: 4px;
-                background: #ffaa33;
-                opacity: root.armed-pulse ? 1.0 : 0.4;
-                animate opacity { duration: 750ms; easing: ease-in-out; }
-            }
-
-            Text {
-                x: 28px;
-                y: 0px;
-                width: parent.width - 36px;
-                height: parent.height;
-                text: "Armed — say go";
+                text: root.armed ? "Armed — say go" : root.transcript-text;
                 color: #f0f0f0;
                 font-size: 12px;
                 vertical-alignment: center;
