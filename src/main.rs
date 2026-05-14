@@ -2326,6 +2326,10 @@ impl AppState {
         match event {
             InputEvent::Press(t) => self.handle_press(t),
             InputEvent::Release(t) => self.handle_release(t),
+            InputEvent::DevicesChanged => {
+                self.refresh_bindings_ui();
+                false
+            }
         }
     }
 

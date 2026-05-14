@@ -39,6 +39,7 @@ fn remember(guid: String, name: String) {
 pub fn spawn(tx: Sender<InputEvent>) -> Result<()> {
     let mut gilrs = Gilrs::new().map_err(|e| anyhow::anyhow!("{e}"))?;
     eprintln!("[gamepad] gilrs initialised");
+    let mut any = false;
     for (_id, gp) in gilrs.gamepads() {
         let guid = fmt_uuid(gp.uuid());
         eprintln!(
@@ -50,6 +51,11 @@ pub fn spawn(tx: Sender<InputEvent>) -> Result<()> {
             guid
         );
         remember(guid, friendly_name(&gp));
+        any = true;
+    }
+    if any {
+        // Tell the UI to re-render the bindings panel with resolved names.
+        let _ = tx.send(InputEvent::DevicesChanged);
     }
     thread::Builder::new()
         .name("gamepad".into())
@@ -64,8 +70,18 @@ fn run(gilrs: &mut Gilrs, tx: Sender<InputEvent>) {
                 EventType::Connected => {
                     let gp = gilrs.gamepad(ev.id);
                     let guid = fmt_uuid(gp.uuid());
-                    eprintln!("[gamepad] connected: {} ({})", gp.name(), guid);
+                    eprintln!(
+                        "[gamepad] connected: name={:?} os_name={:?} vid={:?} pid={:?} guid={}",
+                        gp.name(),
+                        gp.os_name(),
+                        gp.vendor_id(),
+                        gp.product_id(),
+                        guid
+                    );
                     remember(guid, friendly_name(&gp));
+                    if tx.send(InputEvent::DevicesChanged).is_err() {
+                        return;
+                    }
                 }
                 EventType::Disconnected => {
                     eprintln!("[gamepad] disconnected: id={:?}", ev.id);
