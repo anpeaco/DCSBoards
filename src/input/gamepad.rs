@@ -13,30 +13,49 @@ use std::sync::{Mutex, OnceLock};
 use std::thread;
 use std::time::Duration;
 
-/// Process-wide guid → friendly device name cache. Populated by the gamepad
-/// thread on Connected events (and at startup); read by `Trigger::display()`
-/// so the bindings UI can show "F16 ICP" instead of a 32-char GUID.
-fn registry() -> &'static Mutex<HashMap<String, String>> {
-    static R: OnceLock<Mutex<HashMap<String, String>>> = OnceLock::new();
+/// Process-wide guid → resolved-name cache. `Some(name)` is a hit;
+/// `None` is "we tried joy.cpl and hidapi and got nothing — don't retry".
+/// Negative caching matters because `HidApi::new()` enumerates every HID
+/// device on the system (slow), and `refresh_bindings_ui` runs on the UI
+/// thread for every row at startup. Without it, an empty cache would
+/// hang the window for seconds while every binding row redid the work.
+fn registry() -> &'static Mutex<HashMap<String, Option<String>>> {
+    static R: OnceLock<Mutex<HashMap<String, Option<String>>>> = OnceLock::new();
     R.get_or_init(|| Mutex::new(HashMap::new()))
 }
 
 /// Look up the friendly name for a gamepad guid. First checks the
-/// session cache populated by Connected events; if absent, parses vid/pid
+/// session cache (populated by Connected events); on miss, parses vid/pid
 /// out of the SDL guid bytes and queries Windows joy.cpl + hidapi directly
-/// so names still resolve for devices that aren't currently plugged in
-/// (settings.toml bindings to a HOTAS that's powered off, etc).
+/// so names still resolve for devices that aren't currently plugged in.
 ///
-/// The resolved name is written back into the cache so subsequent
-/// renders skip the registry/hidapi work.
+/// The resolution outcome is always written back, including negatives, so
+/// the slow path runs at most once per unique guid per session.
 pub fn device_name(guid: &str) -> Option<String> {
-    if let Some(name) = registry().lock().ok()?.get(guid).cloned() {
-        return Some(name);
+    {
+        let map = registry().lock().ok()?;
+        if let Some(cached) = map.get(guid) {
+            return cached.clone();
+        }
     }
-    let (vid, pid) = sdl_guid_vid_pid(guid)?;
-    let name = resolve_name_from_vid_pid(vid, pid)?;
-    remember(guid.to_string(), name.clone());
-    Some(name)
+    let resolved = match sdl_guid_vid_pid(guid) {
+        Some((vid, pid)) => {
+            let name = resolve_name_from_vid_pid(vid, pid);
+            eprintln!(
+                "[gamepad] resolve guid={} vid={:#06x} pid={:#06x} → {:?}",
+                guid, vid, pid, name
+            );
+            name
+        }
+        None => {
+            eprintln!("[gamepad] resolve guid={} → unparseable", guid);
+            None
+        }
+    };
+    if let Ok(mut map) = registry().lock() {
+        map.insert(guid.to_string(), resolved.clone());
+    }
+    resolved
 }
 
 /// SDL2 game-controller guid format: 16 bytes encoded as 32 hex chars.
@@ -68,7 +87,7 @@ fn resolve_name_from_vid_pid(vid: u16, pid: u16) -> Option<String> {
 
 fn remember(guid: String, name: String) {
     if let Ok(mut map) = registry().lock() {
-        map.insert(guid, name);
+        map.insert(guid, Some(name));
     }
 }
 
