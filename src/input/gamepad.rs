@@ -21,11 +21,49 @@ fn registry() -> &'static Mutex<HashMap<String, String>> {
     R.get_or_init(|| Mutex::new(HashMap::new()))
 }
 
-/// Look up the friendly name for a gamepad guid, if it's been seen this
-/// session. Returns None for unknown devices (disconnected before startup,
-/// or gilrs failed to initialise) — callers fall back to the raw guid.
+/// Look up the friendly name for a gamepad guid. First checks the
+/// session cache populated by Connected events; if absent, parses vid/pid
+/// out of the SDL guid bytes and queries Windows joy.cpl + hidapi directly
+/// so names still resolve for devices that aren't currently plugged in
+/// (settings.toml bindings to a HOTAS that's powered off, etc).
+///
+/// The resolved name is written back into the cache so subsequent
+/// renders skip the registry/hidapi work.
 pub fn device_name(guid: &str) -> Option<String> {
-    registry().lock().ok()?.get(guid).cloned()
+    if let Some(name) = registry().lock().ok()?.get(guid).cloned() {
+        return Some(name);
+    }
+    let (vid, pid) = sdl_guid_vid_pid(guid)?;
+    let name = resolve_name_from_vid_pid(vid, pid)?;
+    remember(guid.to_string(), name.clone());
+    Some(name)
+}
+
+/// SDL2 game-controller guid format: 16 bytes encoded as 32 hex chars.
+/// Bytes 4-5 are the vendor id, bytes 8-9 are the product id, both little-
+/// endian. (Byte 0 is the bus type — 0x03 for HID.) Returns None for any
+/// guid that doesn't fit that layout, e.g. xinput-style guids on Linux.
+fn sdl_guid_vid_pid(guid: &str) -> Option<(u16, u16)> {
+    if guid.len() != 32 { return None; }
+    let byte = |i: usize| u8::from_str_radix(&guid[i * 2..i * 2 + 2], 16).ok();
+    let vid = u16::from_le_bytes([byte(4)?, byte(5)?]);
+    let pid = u16::from_le_bytes([byte(8)?, byte(9)?]);
+    if vid == 0 && pid == 0 { return None; }
+    Some((vid, pid))
+}
+
+/// Try the same lookups as `friendly_name(&gp)` but without a gilrs handle:
+/// joy.cpl OEMName, then hidapi product string. Returns None if neither
+/// path yields a non-empty string (e.g. device truly unknown to Windows).
+fn resolve_name_from_vid_pid(vid: u16, pid: u16) -> Option<String> {
+    #[cfg(windows)]
+    if let Some(name) = joy_cpl_oem_name(vid, pid) {
+        if !name.trim().is_empty() { return Some(name); }
+    }
+    if let Some(name) = hid_product_string(vid, pid) {
+        if !name.trim().is_empty() { return Some(name); }
+    }
+    None
 }
 
 fn remember(guid: String, name: String) {
@@ -125,21 +163,7 @@ fn friendly_name(gp: &gilrs::Gamepad<'_>) -> String {
     let fallback = || gp.name().to_string();
     let Some(vid) = gp.vendor_id() else { return fallback() };
     let Some(pid) = gp.product_id() else { return fallback() };
-
-    #[cfg(windows)]
-    if let Some(name) = joy_cpl_oem_name(vid, pid) {
-        if !name.trim().is_empty() {
-            return name;
-        }
-    }
-
-    if let Some(name) = hid_product_string(vid, pid) {
-        if !name.trim().is_empty() {
-            return name;
-        }
-    }
-
-    fallback()
+    resolve_name_from_vid_pid(vid, pid).unwrap_or_else(fallback)
 }
 
 /// Enumerate HID devices and return the product string for the first match
@@ -248,4 +272,26 @@ fn fmt_uuid(bytes: [u8; 16]) -> String {
         s.push_str(&format!("{:02x}", b));
     }
     s
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn sdl_guid_parses_vid_pid_little_endian() {
+        // SDL2-format guid for a Thrustmaster device: vid bytes are at
+        // positions 4-5, pid bytes at 8-9, both little-endian.
+        let (vid, pid) = sdl_guid_vid_pid("030000004f04000053b3000000000000").unwrap();
+        assert_eq!(vid, 0x044f);
+        assert_eq!(pid, 0xb353);
+    }
+
+    #[test]
+    fn sdl_guid_rejects_malformed() {
+        assert!(sdl_guid_vid_pid("nope").is_none());
+        assert!(sdl_guid_vid_pid("").is_none());
+        // All-zero vid+pid is treated as unparseable (xinput placeholders).
+        assert!(sdl_guid_vid_pid("03000000000000000000000000000000").is_none());
+    }
 }
