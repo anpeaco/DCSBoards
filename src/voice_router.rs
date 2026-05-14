@@ -39,7 +39,11 @@ pub enum QueryIntent {
     /// "what sections are in this tab".
     ListSections,
     /// "the second one" / "number three". Only honoured while a results
-    /// panel is open; otherwise the dispatcher drops it.
+    /// panel is open; otherwise the dispatcher drops it. The results-
+    /// panel flow (voice queries phase 5b) hasn't shipped yet, so no
+    /// code path constructs this variant — kept on the enum because the
+    /// classifier is already wired to match it.
+    #[allow(dead_code)]
     PickResult(u32),
 }
 
@@ -254,11 +258,9 @@ fn normalise(s: &str) -> String {
         if ch.is_ascii_alphanumeric() {
             out.push(ch);
             last_space = false;
-        } else if ch.is_whitespace() || ch == '-' || ch == '_' {
-            if !last_space {
-                out.push(' ');
-                last_space = true;
-            }
+        } else if (ch.is_whitespace() || ch == '-' || ch == '_') && !last_space {
+            out.push(' ');
+            last_space = true;
         }
         // Other punctuation (commas, periods, apostrophes) just drops.
     }

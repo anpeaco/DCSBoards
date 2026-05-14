@@ -262,9 +262,13 @@ fn piper_worker(
                 if let Some(child) = active_child.as_mut() {
                     match child.try_wait() {
                         Ok(Some(status)) => {
-                            // try_wait doesn't consume the Child; do that
-                            // now so we can read its stderr.
+                            // try_wait already reaped the child on
+                            // Ok(Some(_)). The explicit wait() below is
+                            // a no-op idempotent reap that silences
+                            // clippy::zombie_processes — it can't see
+                            // through the try_wait branch.
                             let mut child = active_child.take().unwrap();
+                            let _ = child.wait();
                             let out = pending_output.take();
                             if !status.success() {
                                 let mut buf = String::new();

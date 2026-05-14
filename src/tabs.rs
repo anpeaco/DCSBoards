@@ -17,7 +17,12 @@ use crate::config::{
 // deserialize the same JSON shape so it lives here too.
 #[derive(Debug, Deserialize, Clone)]
 pub struct PageManifest {
+    /// Deserialized from the generator's sidecar JSON. Reserved for the
+    /// versioned-schema contract described in CLAUDE.md ("Source-of-
+    /// truth split") so a future schema bump can surface a banner
+    /// instead of mis-parsing the manifest.
     #[serde(default)]
+    #[allow(dead_code)]
     pub schema_version: String,
     pub title: String,
     pub image: String,
@@ -92,6 +97,10 @@ pub struct Tab {
     pub id: String,
     pub label: String,
     pub icon: String,
+    /// Loaded from the tab's config entry. Currently every active tab
+    /// is `Generator`; `ImageFolder` is wired through serde but no code
+    /// path branches on it yet (see CLAUDE.md M8 / image-fallback work).
+    #[allow(dead_code)]
     pub kind: TabKind,
     /// Resolved disk path for the source. None until first load.
     pub source_path: Option<PathBuf>,
@@ -163,7 +172,7 @@ impl Tab {
                 self.pages = pages;
                 self.cursor = Cursor {
                     page: 0,
-                    item: first_navigable(&self.pages.first().map(|p| p.manifest.items.as_slice()).unwrap_or(&[])),
+                    item: first_navigable(self.pages.first().map(|p| p.manifest.items.as_slice()).unwrap_or(&[])),
                 };
             }
             Err(e) => {
@@ -220,7 +229,9 @@ const MATCH_THRESHOLD: f32 = 0.7;
 const TOKEN_BONUS_CAP: f32 = 0.20;
 
 /// Direct-navigate threshold: a single hit above this, with no close
-/// alternates, dispatches without the results panel.
+/// alternates, dispatches without the results panel. Referenced by the
+/// results-panel flow that hasn't shipped yet (voice queries phase 5b).
+#[allow(dead_code)]
 pub const CONFIDENT_THRESHOLD: f32 = 0.8;
 
 /// Pure function over a tab's pages. Each `pages[i]` is the item slice for
@@ -351,228 +362,12 @@ fn token_overlap_bonus(query: &str, candidate: &str) -> f32 {
     coverage * TOKEN_BONUS_CAP
 }
 
-#[cfg(test)]
-mod resolver_tests {
-    use super::*;
-
-    fn step(idx: u32, group: &str, text: &str) -> Item {
-        Item {
-            idx,
-            group: group.to_string(),
-            kind: "step".to_string(),
-            text: text.to_string(),
-            spoken: None,
-            navigable: true,
-            bbox: [0.0, 0.0, 1.0, 1.0],
-        }
-    }
-
-    fn header(idx: u32, text: &str) -> Item {
-        Item {
-            idx,
-            group: String::new(),
-            kind: "section-header".to_string(),
-            text: text.to_string(),
-            spoken: None,
-            navigable: false,
-            bbox: [0.0, 0.0, 1.0, 1.0],
-        }
-    }
-
-    fn agm_fixture() -> Vec<Item> {
-        vec![
-            header(0, "AGM-65D/G IR PRE"),
-            step(1, "AGM-65D/G IR PRE", "FCR switch | provides ranging ... ON"),
-            step(2, "AGM-65D/G IR PRE", "MFD page ... WPN"),
-            header(3, "AGM-65 EMPLOYMENT"),
-            step(4, "AGM-65 EMPLOYMENT", "Master arm switch ... ARM"),
-            step(5, "AGM-65 EMPLOYMENT", "Pickle ... AS REQUIRED"),
-            header(6, "AGM-65 BORESIGHT"),
-            step(7, "AGM-65 BORESIGHT", "TGP page ... BORE"),
-        ]
-    }
-
-    /// Specific query → the right section wins, exact-match score, lands on
-    /// the first navigable item in that section's group.
-    #[test]
-    fn picks_best_section_among_alternatives() {
-        let items = agm_fixture();
-        let pages: [&[Item]; 1] = [&items];
-
-        let m = resolve_section_in_pages("agm 65 employment", &pages, 0)
-            .expect("should match a section");
-        assert_eq!(m.label, "AGM-65 EMPLOYMENT");
-        // First navigable item in the matched group — idx 4 (Master arm).
-        assert_eq!(m.target.item_idx, 4);
-        // Case-insensitive exact match ⇒ score effectively 1.0.
-        assert!(
-            m.score > 0.95,
-            "exact-match score should be near 1.0, got {}",
-            m.score
-        );
-    }
-
-    /// Issue #7: qualifying the AGM-65 query with a mode keyword should
-    /// land on the matching sub-section, not the prefix-shared sibling.
-    /// Before the token-overlap bonus, all three AGM-65 headers scored
-    /// near-identically on "agm 65 ir" because Jaro-Winkler is
-    /// character-level — the new tokeniser splits "65d/g" so "ir" can
-    /// register as a present-or-absent token, and the bonus separates
-    /// the candidates.
-    #[test]
-    fn weapon_mode_qualifier_picks_right_subsection() {
-        let items = agm_fixture();
-        let pages: [&[Item]; 1] = [&items];
-
-        let m = resolve_section_in_pages("agm 65 ir", &pages, 0)
-            .expect("AGM-65 IR query should match");
-        assert_eq!(m.label, "AGM-65D/G IR PRE", "wanted IR PRE, got {}", m.label);
-
-        let m = resolve_section_in_pages("agm 65 boresight", &pages, 0)
-            .expect("AGM-65 boresight query should match");
-        assert_eq!(
-            m.label, "AGM-65 BORESIGHT",
-            "wanted BORESIGHT, got {}",
-            m.label
-        );
-
-        // Confirm the existing canonical case still resolves the same way.
-        let m = resolve_section_in_pages("agm 65 employment", &pages, 0)
-            .expect("AGM-65 employment query should match");
-        assert_eq!(m.label, "AGM-65 EMPLOYMENT");
-    }
-
-    /// Token-coverage bonus is order-independent. STT sometimes inverts
-    /// word order ("IR pre AGM-65") and the user shouldn't have to memorise
-    /// the header's word order to navigate.
-    #[test]
-    fn token_order_independence() {
-        let items = agm_fixture();
-        let pages: [&[Item]; 1] = [&items];
-        let m = resolve_section_in_pages("ir pre agm 65", &pages, 0)
-            .expect("reversed-order query should still match");
-        assert_eq!(m.label, "AGM-65D/G IR PRE");
-    }
-
-    /// The normaliser splits letter/digit runs so designator-style tokens
-    /// don't get glued to model variants. Without this, "agm 65d g ir pre"
-    /// wouldn't tokenise cleanly and the "65" token wouldn't match.
-    #[test]
-    fn normalize_match_splits_letter_digit_boundaries() {
-        assert_eq!(normalize_match("AGM-65D/G IR PRE"), "agm 65 d g ir pre");
-        assert_eq!(normalize_match("MK-82"), "mk 82");
-        assert_eq!(normalize_match("AIM-120C"), "aim 120 c");
-        // Idempotent on already-normalised input.
-        assert_eq!(normalize_match("agm 65 ir pre"), "agm 65 ir pre");
-        // Empty / whitespace input collapses to empty.
-        assert_eq!(normalize_match(""), "");
-        assert_eq!(normalize_match("   "), "");
-        assert_eq!(normalize_match("---"), "");
-    }
-
-    /// Broad query that hits the common prefix of all three sections — the
-    /// alternates list should surface the other two so the panel (phase 5)
-    /// can disambiguate.
-    #[test]
-    fn broad_query_returns_multiple_alternates() {
-        let items = agm_fixture();
-        let pages: [&[Item]; 1] = [&items];
-
-        let m = resolve_section_in_pages("agm 65", &pages, 0)
-            .expect("should match");
-        // At least one alternate — the broad query is intentionally ambiguous.
-        // We don't pin the exact top-hit label because all three sections
-        // share the "agm 65" prefix and any tie-break is fine.
-        assert!(
-            !m.alternates.is_empty(),
-            "broad query should produce alternates, got top-only: {:?}",
-            m.label
-        );
-    }
-
-    /// Same group on multiple pages should still resolve cleanly — first
-    /// occurrence wins (it's where the section "starts").
-    #[test]
-    fn dedupes_repeated_group_within_page() {
-        // 5 steps in the same group; only the first should be scored, so
-        // alternates aren't crowded with duplicates.
-        let page = [
-            header(0, "TAKEOFF"),
-            step(1, "TAKEOFF", "step 1"),
-            step(2, "TAKEOFF", "step 2"),
-            step(3, "TAKEOFF", "step 3"),
-            step(4, "TAKEOFF", "step 4"),
-        ];
-        let pages: [&[Item]; 1] = [&page];
-        let m = resolve_section_in_pages("takeoff", &pages, 0).expect("should match");
-        assert_eq!(m.target.item_idx, 1); // first navigable in group
-        assert!(m.alternates.is_empty()); // no duplicates promoted
-    }
-
-    /// End-to-end: an alias rewrite turns a voice query the user actually
-    /// says into the canonical form the section header uses, unlocking a
-    /// match that wouldn't otherwise clear the 0.7 threshold.
-    ///
-    /// "maverick" vs "agm 65" scores ~0.44 in Jaro-Winkler (different
-    /// first letter, almost no character overlap) — well below threshold.
-    /// The alias "maverick" → "agm 65" rewrites the query, after which it
-    /// exact-matches the section group at score 1.0.
-    #[test]
-    fn alias_rewrite_unlocks_canonical_section_match() {
-        use crate::query_aliases::QueryAliases;
-        let items = [
-            header(0, "AGM-65 EMPLOYMENT"),
-            step(1, "AGM-65 EMPLOYMENT", "Master arm switch ... ARM"),
-            step(2, "AGM-65 EMPLOYMENT", "Pickle ... AS REQUIRED"),
-        ];
-        let pages: [&[Item]; 1] = [&items];
-
-        // Without aliases: "maverick" can't reach the canonical section.
-        assert!(
-            resolve_section_in_pages("maverick", &pages, 0).is_none(),
-            "raw \"maverick\" should not match \"AGM-65\" without alias rewrite"
-        );
-
-        // With aliases: same query rewrites to canonical, then matches.
-        let aliases = QueryAliases {
-            rewrites: [("maverick".to_string(), "agm 65".to_string())]
-                .into_iter()
-                .collect(),
-        };
-        let rewritten = aliases.rewrite("maverick");
-        assert_eq!(rewritten, "agm 65");
-        let m = resolve_section_in_pages(&rewritten, &pages, 0)
-            .expect("rewritten query should match the canonical section");
-        assert!(
-            m.label.starts_with("AGM-65"),
-            "expected an AGM-65 section, got {}",
-            m.label
-        );
-    }
-
-    /// Nothing similar enough → None, so the caller can fall through to
-    /// "no match" UX instead of dispatching to a garbage target.
-    #[test]
-    fn rejects_unrelated_query() {
-        let page = [
-            header(0, "TAKEOFF"),
-            step(1, "TAKEOFF", "throttle ... MIL"),
-            header(2, "LANDING"),
-            step(3, "LANDING", "gear ... DOWN"),
-        ];
-        let pages: [&[Item]; 1] = [&page];
-        assert!(resolve_section_in_pages("kangaroo", &pages, 0).is_none());
-        assert!(resolve_section_in_pages("", &pages, 0).is_none());
-        assert!(resolve_section_in_pages("   ", &pages, 0).is_none());
-    }
-}
-
 fn load_generator_pages(dir: &Path) -> Result<Vec<LoadedPage>> {
     let mut json_paths: Vec<PathBuf> = std::fs::read_dir(dir)
         .with_context(|| format!("reading dir {}", dir.display()))?
         .filter_map(|e| e.ok())
         .map(|e| e.path())
-        .filter(|p| p.extension().map_or(false, |ext| ext == "json"))
+        .filter(|p| p.extension().is_some_and(|ext| ext == "json"))
         .collect();
     json_paths.sort();
 
@@ -872,5 +667,221 @@ impl TabRegistry {
         if let Some(tab) = self.tabs.get_mut(self.active) {
             tab.ensure_loaded(&aircraft);
         }
+    }
+}
+
+#[cfg(test)]
+mod resolver_tests {
+    use super::*;
+
+    fn step(idx: u32, group: &str, text: &str) -> Item {
+        Item {
+            idx,
+            group: group.to_string(),
+            kind: "step".to_string(),
+            text: text.to_string(),
+            spoken: None,
+            navigable: true,
+            bbox: [0.0, 0.0, 1.0, 1.0],
+        }
+    }
+
+    fn header(idx: u32, text: &str) -> Item {
+        Item {
+            idx,
+            group: String::new(),
+            kind: "section-header".to_string(),
+            text: text.to_string(),
+            spoken: None,
+            navigable: false,
+            bbox: [0.0, 0.0, 1.0, 1.0],
+        }
+    }
+
+    fn agm_fixture() -> Vec<Item> {
+        vec![
+            header(0, "AGM-65D/G IR PRE"),
+            step(1, "AGM-65D/G IR PRE", "FCR switch | provides ranging ... ON"),
+            step(2, "AGM-65D/G IR PRE", "MFD page ... WPN"),
+            header(3, "AGM-65 EMPLOYMENT"),
+            step(4, "AGM-65 EMPLOYMENT", "Master arm switch ... ARM"),
+            step(5, "AGM-65 EMPLOYMENT", "Pickle ... AS REQUIRED"),
+            header(6, "AGM-65 BORESIGHT"),
+            step(7, "AGM-65 BORESIGHT", "TGP page ... BORE"),
+        ]
+    }
+
+    /// Specific query → the right section wins, exact-match score, lands on
+    /// the first navigable item in that section's group.
+    #[test]
+    fn picks_best_section_among_alternatives() {
+        let items = agm_fixture();
+        let pages: [&[Item]; 1] = [&items];
+
+        let m = resolve_section_in_pages("agm 65 employment", &pages, 0)
+            .expect("should match a section");
+        assert_eq!(m.label, "AGM-65 EMPLOYMENT");
+        // First navigable item in the matched group — idx 4 (Master arm).
+        assert_eq!(m.target.item_idx, 4);
+        // Case-insensitive exact match ⇒ score effectively 1.0.
+        assert!(
+            m.score > 0.95,
+            "exact-match score should be near 1.0, got {}",
+            m.score
+        );
+    }
+
+    /// Issue #7: qualifying the AGM-65 query with a mode keyword should
+    /// land on the matching sub-section, not the prefix-shared sibling.
+    /// Before the token-overlap bonus, all three AGM-65 headers scored
+    /// near-identically on "agm 65 ir" because Jaro-Winkler is
+    /// character-level — the new tokeniser splits "65d/g" so "ir" can
+    /// register as a present-or-absent token, and the bonus separates
+    /// the candidates.
+    #[test]
+    fn weapon_mode_qualifier_picks_right_subsection() {
+        let items = agm_fixture();
+        let pages: [&[Item]; 1] = [&items];
+
+        let m = resolve_section_in_pages("agm 65 ir", &pages, 0)
+            .expect("AGM-65 IR query should match");
+        assert_eq!(m.label, "AGM-65D/G IR PRE", "wanted IR PRE, got {}", m.label);
+
+        let m = resolve_section_in_pages("agm 65 boresight", &pages, 0)
+            .expect("AGM-65 boresight query should match");
+        assert_eq!(
+            m.label, "AGM-65 BORESIGHT",
+            "wanted BORESIGHT, got {}",
+            m.label
+        );
+
+        // Confirm the existing canonical case still resolves the same way.
+        let m = resolve_section_in_pages("agm 65 employment", &pages, 0)
+            .expect("AGM-65 employment query should match");
+        assert_eq!(m.label, "AGM-65 EMPLOYMENT");
+    }
+
+    /// Token-coverage bonus is order-independent. STT sometimes inverts
+    /// word order ("IR pre AGM-65") and the user shouldn't have to memorise
+    /// the header's word order to navigate.
+    #[test]
+    fn token_order_independence() {
+        let items = agm_fixture();
+        let pages: [&[Item]; 1] = [&items];
+        let m = resolve_section_in_pages("ir pre agm 65", &pages, 0)
+            .expect("reversed-order query should still match");
+        assert_eq!(m.label, "AGM-65D/G IR PRE");
+    }
+
+    /// The normaliser splits letter/digit runs so designator-style tokens
+    /// don't get glued to model variants. Without this, "agm 65d g ir pre"
+    /// wouldn't tokenise cleanly and the "65" token wouldn't match.
+    #[test]
+    fn normalize_match_splits_letter_digit_boundaries() {
+        assert_eq!(normalize_match("AGM-65D/G IR PRE"), "agm 65 d g ir pre");
+        assert_eq!(normalize_match("MK-82"), "mk 82");
+        assert_eq!(normalize_match("AIM-120C"), "aim 120 c");
+        // Idempotent on already-normalised input.
+        assert_eq!(normalize_match("agm 65 ir pre"), "agm 65 ir pre");
+        // Empty / whitespace input collapses to empty.
+        assert_eq!(normalize_match(""), "");
+        assert_eq!(normalize_match("   "), "");
+        assert_eq!(normalize_match("---"), "");
+    }
+
+    /// Broad query that hits the common prefix of all three sections — the
+    /// alternates list should surface the other two so the panel (phase 5)
+    /// can disambiguate.
+    #[test]
+    fn broad_query_returns_multiple_alternates() {
+        let items = agm_fixture();
+        let pages: [&[Item]; 1] = [&items];
+
+        let m = resolve_section_in_pages("agm 65", &pages, 0)
+            .expect("should match");
+        // At least one alternate — the broad query is intentionally ambiguous.
+        // We don't pin the exact top-hit label because all three sections
+        // share the "agm 65" prefix and any tie-break is fine.
+        assert!(
+            !m.alternates.is_empty(),
+            "broad query should produce alternates, got top-only: {:?}",
+            m.label
+        );
+    }
+
+    /// Same group on multiple pages should still resolve cleanly — first
+    /// occurrence wins (it's where the section "starts").
+    #[test]
+    fn dedupes_repeated_group_within_page() {
+        // 5 steps in the same group; only the first should be scored, so
+        // alternates aren't crowded with duplicates.
+        let page = [
+            header(0, "TAKEOFF"),
+            step(1, "TAKEOFF", "step 1"),
+            step(2, "TAKEOFF", "step 2"),
+            step(3, "TAKEOFF", "step 3"),
+            step(4, "TAKEOFF", "step 4"),
+        ];
+        let pages: [&[Item]; 1] = [&page];
+        let m = resolve_section_in_pages("takeoff", &pages, 0).expect("should match");
+        assert_eq!(m.target.item_idx, 1); // first navigable in group
+        assert!(m.alternates.is_empty()); // no duplicates promoted
+    }
+
+    /// End-to-end: an alias rewrite turns a voice query the user actually
+    /// says into the canonical form the section header uses, unlocking a
+    /// match that wouldn't otherwise clear the 0.7 threshold.
+    ///
+    /// "maverick" vs "agm 65" scores ~0.44 in Jaro-Winkler (different
+    /// first letter, almost no character overlap) — well below threshold.
+    /// The alias "maverick" → "agm 65" rewrites the query, after which it
+    /// exact-matches the section group at score 1.0.
+    #[test]
+    fn alias_rewrite_unlocks_canonical_section_match() {
+        use crate::query_aliases::QueryAliases;
+        let items = [
+            header(0, "AGM-65 EMPLOYMENT"),
+            step(1, "AGM-65 EMPLOYMENT", "Master arm switch ... ARM"),
+            step(2, "AGM-65 EMPLOYMENT", "Pickle ... AS REQUIRED"),
+        ];
+        let pages: [&[Item]; 1] = [&items];
+
+        // Without aliases: "maverick" can't reach the canonical section.
+        assert!(
+            resolve_section_in_pages("maverick", &pages, 0).is_none(),
+            "raw \"maverick\" should not match \"AGM-65\" without alias rewrite"
+        );
+
+        // With aliases: same query rewrites to canonical, then matches.
+        let aliases = QueryAliases {
+            rewrites: [("maverick".to_string(), "agm 65".to_string())]
+                .into_iter()
+                .collect(),
+        };
+        let rewritten = aliases.rewrite("maverick");
+        assert_eq!(rewritten, "agm 65");
+        let m = resolve_section_in_pages(&rewritten, &pages, 0)
+            .expect("rewritten query should match the canonical section");
+        assert!(
+            m.label.starts_with("AGM-65"),
+            "expected an AGM-65 section, got {}",
+            m.label
+        );
+    }
+
+    /// Nothing similar enough → None, so the caller can fall through to
+    /// "no match" UX instead of dispatching to a garbage target.
+    #[test]
+    fn rejects_unrelated_query() {
+        let page = [
+            header(0, "TAKEOFF"),
+            step(1, "TAKEOFF", "throttle ... MIL"),
+            header(2, "LANDING"),
+            step(3, "LANDING", "gear ... DOWN"),
+        ];
+        let pages: [&[Item]; 1] = [&page];
+        assert!(resolve_section_in_pages("kangaroo", &pages, 0).is_none());
+        assert!(resolve_section_in_pages("", &pages, 0).is_none());
+        assert!(resolve_section_in_pages("   ", &pages, 0).is_none());
     }
 }

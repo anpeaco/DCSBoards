@@ -59,7 +59,8 @@ impl QueryAliases {
             return query.to_string();
         }
         let mut keys: Vec<(&String, &String)> = self.rewrites.iter().collect();
-        keys.sort_by(|a, b| b.0.len().cmp(&a.0.len()));
+        // Longest key first so "mark 82" → "mk 82" beats "mark" → "mk".
+        keys.sort_by_key(|(k, _)| std::cmp::Reverse(k.len()));
         let mut out = query.to_string();
         for (key, value) in keys {
             if key.is_empty() {

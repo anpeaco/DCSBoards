@@ -1534,7 +1534,7 @@ fn list_piper_voices() -> Vec<PathBuf> {
     };
     for e in entries.flatten() {
         let p = e.path();
-        if p.extension().map_or(false, |ext| ext == "onnx") {
+        if p.extension().is_some_and(|ext| ext == "onnx") {
             let cfg = p.with_extension("onnx.json");
             if cfg.exists() {
                 out.push(p);
@@ -1632,8 +1632,8 @@ fn step_to_heading(pages: &[LoadedPage], cur: Cursor, dir: i32) -> Cursor {
         }
     }
     if dir > 0 {
-        for p in (cur.page + 1)..pages.len() {
-            if let Some((idx, _)) = pages[p]
+        for (p, page) in pages.iter().enumerate().skip(cur.page + 1) {
+            if let Some((idx, _)) = page
                 .manifest
                 .items
                 .iter()
@@ -2229,7 +2229,7 @@ impl AppState {
 
             let heading_idx = page.manifest.items[..=item_idx]
                 .iter()
-                .rposition(|i| is_heading(i));
+                .rposition(is_heading);
 
             let new_item = match heading_idx {
                 Some(h) => page
@@ -3101,9 +3101,10 @@ impl AppState {
                 // bring it back.
                 if let Some(win) = self.win.upgrade() {
                     if self.window_hidden.get() {
-                        let pos = self.saved_pos.borrow().clone().unwrap_or_else(|| {
-                            slint::PhysicalPosition::new(100, 100)
-                        });
+                        let pos = self
+                            .saved_pos
+                            .borrow()
+                            .unwrap_or_else(|| slint::PhysicalPosition::new(100, 100));
                         win.window().set_position(pos);
                         self.window_hidden.set(false);
                         eprintln!("[ui] show at {:?}", (pos.x, pos.y));

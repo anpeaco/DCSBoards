@@ -8,7 +8,7 @@
 use anyhow::Result;
 use notify::RecursiveMode;
 use notify_debouncer_mini::{new_debouncer, DebounceEventResult, Debouncer};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::sync::mpsc::Sender;
 use std::time::Duration;
 
@@ -71,9 +71,5 @@ impl Watcher {
         self.debouncer = Some(debouncer);
         self.watched_path = Some(p);
         Ok(())
-    }
-
-    pub fn current(&self) -> Option<&Path> {
-        self.watched_path.as_deref()
     }
 }
