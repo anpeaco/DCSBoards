@@ -137,21 +137,31 @@ fn replace_word(haystack: &str, needle: &str, replacement: &str) -> String {
 /// classifier both miss — by then we know the transcript didn't
 /// trigger anything by exact-ish match, so a Jaro-Winkler score above
 /// `threshold` is worth treating as a misrecognition rather than
-/// silence. Returns the highest-scoring action above threshold.
-fn fuzzy_match_action(cleaned: &str, threshold: f32) -> Option<(Action, f32)> {
-    if cleaned.is_empty() || threshold <= 0.0 {
-        return None;
+/// silence.
+///
+/// Returns the top `n` candidates above threshold, sorted by score
+/// descending. The route uses index 0; the rest go in the debug log
+/// so the user can see why a misrecognition landed where it did.
+fn fuzzy_match_actions(
+    cleaned: &str,
+    threshold: f32,
+    n: usize,
+) -> Vec<(Action, f32, &'static str)> {
+    if cleaned.is_empty() || threshold <= 0.0 || n == 0 {
+        return Vec::new();
     }
-    let mut best: Option<(Action, f32)> = None;
+    let mut all: Vec<(Action, f32, &'static str)> = Vec::new();
     for (phrases, action) in RULES.iter() {
         for phrase in *phrases {
             let score = strsim::jaro_winkler(cleaned, phrase) as f32;
-            if score >= threshold && best.map_or(true, |(_, s)| score > s) {
-                best = Some((*action, score));
+            if score >= threshold {
+                all.push((*action, score, *phrase));
             }
         }
     }
-    best
+    all.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    all.truncate(n);
+    all
 }
 
 /// Resolve a transcript to a routed intent. The fuzzy-fallback pass
@@ -189,10 +199,17 @@ pub fn route_with_fuzzy(transcript: &str, fuzzy_threshold: f32) -> RoutedIntent 
     // anti-collision rules ("go back" before "go" before "go to ...")
     // that a fuzzy score would happily break.
     if fuzzy_threshold > 0.0 {
-        if let Some((action, score)) = fuzzy_match_action(&cleaned, fuzzy_threshold) {
+        let candidates = fuzzy_match_actions(&cleaned, fuzzy_threshold, 3);
+        if let Some(&(action, score, phrase)) = candidates.first() {
             eprintln!(
-                "[voice] fuzzy \"{cleaned}\" → {action:?} (jw {score:.2}, threshold {fuzzy_threshold:.2})"
+                "[voice] fuzzy \"{cleaned}\" → {action:?} via \"{phrase}\" \
+                 (jw {score:.2}, threshold {fuzzy_threshold:.2})"
             );
+            for &(alt_action, alt_score, alt_phrase) in candidates.iter().skip(1) {
+                eprintln!(
+                    "[voice]   alt: {alt_action:?} via \"{alt_phrase}\" (jw {alt_score:.2})"
+                );
+            }
             return RoutedIntent::Action(action);
         }
     }

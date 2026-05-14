@@ -2287,6 +2287,9 @@ impl AppState {
                             nm.score,
                             nm.alternates.len()
                         );
+                        for alt in nm.alternates.iter().take(2) {
+                            eprintln!("[voice]   alt: \"{}\" (score {:.2})", alt.label, alt.score);
+                        }
                         self.goto_target_armed(nm.target);
                     }
                     None => {
@@ -2303,9 +2306,12 @@ impl AppState {
                 match nm {
                     Some(nm) => {
                         eprintln!(
-                            "[voice] tab \"{}\" → \"{}\" (score {:.2})",
-                            rewritten, nm.label, nm.score
+                            "[voice] tab \"{}\" → \"{}\" (score {:.2}, {} alternates)",
+                            rewritten, nm.label, nm.score, nm.alternates.len()
                         );
+                        for alt in nm.alternates.iter().take(2) {
+                            eprintln!("[voice]   alt: \"{}\" (score {:.2})", alt.label, alt.score);
+                        }
                         self.switch_tab(nm.target.tab_idx);
                     }
                     None => {
