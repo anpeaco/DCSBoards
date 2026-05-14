@@ -2298,9 +2298,11 @@ impl AppState {
                 eprintln!("TTS speak failed: {e:?}");
             }
         }
-        self.set_playing(true);
-        // Deliberately no schedule_post_speech — auto-advance must NOT
-        // kick in while armed. The user controls when reading resumes.
+        // Deliberately no set_playing(true) and no schedule_post_speech —
+        // the armed header is one-shot, not part of the play cadence.
+        // Setting "playing" would leave the on-screen Play button stuck
+        // in "stop" mode forever (no post_speech_tick clears it back).
+        // The user controls when reading resumes via start/go/ok/Next.
     }
 
     /// Speak the nearest preceding heading so the user can hear which
@@ -2896,16 +2898,18 @@ impl AppState {
     fn dispatch(&self, action: Action) {
         // Armed-state interception (issue #17). When the controller is
         // waiting on the user after a section jump, a handful of actions
-        // take on disarmed-read semantics; the rest implicitly disarm
-        // before running so a subsequent action (open settings, jump to
-        // another section, ToggleClickThrough, …) doesn't silently leave
-        // the controller in a stale armed state.
+        // take on different semantics. Listed disarms are limited to
+        // actions that actually move the cursor or replace what's being
+        // read — neutral actions like PushToTalk (the user is about to
+        // *say* the disarm word), panel toggles, and setting toggles
+        // must not disarm.
         if self.armed.get() {
             match action {
-                Action::Next => {
+                Action::Next | Action::TogglePlay => {
                     // Exit armed and read the current item — no page
                     // header, no schedule_post_speech advance dance. The
-                    // user said "go", they want this step now.
+                    // user said "go" / clicked Play; they want this
+                    // step now.
                     self.armed.set(false);
                     self.start_speaking();
                     return;
@@ -2921,10 +2925,33 @@ impl AppState {
                     self.stop_speaking();
                     return;
                 }
-                // Heading jumps and section-query jumps will re-arm at
-                // the end of their handlers; everything else just drops
-                // the armed flag and runs normally.
-                _ => self.armed.set(false),
+                // These all explicitly leave the section. Disarm so
+                // post_speech_tick (and the user's mental model)
+                // returns to normal. Heading-jump handlers re-arm.
+                Action::Previous
+                | Action::NextHeading
+                | Action::PrevHeading
+                | Action::PageNext
+                | Action::PagePrev
+                | Action::CycleTabPrev
+                | Action::CycleTabNext
+                | Action::RestartSection => {
+                    self.armed.set(false);
+                }
+                // PushToTalk, HotMicToggle, OpenSettings,
+                // OpenVoiceCommands, ReloadPronunciation,
+                // ToggleReadNotes, ToggleClickThrough, ToggleVisibility:
+                // none of these move the cursor or replace the read.
+                // Stay armed so the user's next utterance / click can
+                // still hit start/go/ok cleanly.
+                Action::PushToTalk
+                | Action::HotMicToggle
+                | Action::OpenSettings
+                | Action::OpenVoiceCommands
+                | Action::ReloadPronunciation
+                | Action::ToggleReadNotes
+                | Action::ToggleClickThrough
+                | Action::ToggleVisibility => {}
             }
         }
         match action {
