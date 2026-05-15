@@ -2048,6 +2048,13 @@ struct AppState {
     /// previous section's last item. Chained jumps overwrite — Previous
     /// unwinds one jump at a time. None when no jump is pending.
     pre_jump_cursor: Rc<RefCell<Option<(usize, Cursor)>>>,
+    /// VR overlay session (#30 phase 2). Some when `--features vr` is
+    /// on AND OpenVR init succeeded. apply() pushes a fresh frame to
+    /// it on every cursor change so the headset view stays in sync
+    /// with the desktop. None on default builds — the field exists but
+    /// nothing ever populates it.
+    #[cfg(feature = "vr")]
+    vr_session: Rc<RefCell<Option<vr::VrSession>>>,
 }
 
 /// One message worth showing in the pill — issue #17D's generic
@@ -2159,6 +2166,49 @@ impl AppState {
         let tabs = self.tabs.borrow();
         if let Some(tab) = tabs.active_tab() {
             apply_cursor(&win, tab);
+        }
+        drop(tabs);
+        #[cfg(feature = "vr")]
+        self.vr_repaint();
+    }
+
+    /// Push a fresh kneeboard frame to the VR overlay if we have a
+    /// live session. Driven by apply() so it tracks every cursor move
+    /// without needing a polling timer. No-op when VR isn't active.
+    #[cfg(feature = "vr")]
+    fn vr_repaint(&self) {
+        let session_borrow = self.vr_session.borrow();
+        let Some(session) = session_borrow.as_ref() else { return };
+        let tabs = self.tabs.borrow();
+        let Some(tab) = tabs.active_tab() else { return };
+        if tab.pages.is_empty() {
+            return;
+        }
+        let cur = tab.cursor;
+        let page_idx = cur.page.min(tab.pages.len() - 1);
+        let page = &tab.pages[page_idx];
+        let item_idx = cur.item.min(page.manifest.items.len().saturating_sub(1));
+        let bbox = page.manifest.items.get(item_idx).and_then(|item| {
+            if is_step(item) || is_heading(item) || is_note(item) {
+                let [bx, by, bw, bh] = item.bbox;
+                Some([bx as u32, by as u32, bw as u32, bh as u32])
+            } else {
+                None
+            }
+        });
+        let path = page.image_path.clone();
+        // Drop the tabs borrow before render — render_kneeboard_frame
+        // does file I/O on cache miss and we don't want to hold the
+        // RefCell across that.
+        drop(tabs);
+        match vr::render_kneeboard_frame(&path, bbox) {
+            Ok(frame) => {
+                let (w, h) = (frame.width(), frame.height());
+                if let Err(e) = session.submit_frame(frame.as_raw(), w, h) {
+                    eprintln!("[vr] submit_frame error: {e:?}");
+                }
+            }
+            Err(e) => eprintln!("[vr] render error: {e:?}"),
         }
     }
 
@@ -3882,6 +3932,8 @@ fn main() -> Result<()> {
         pill_transient: Rc::new(RefCell::new(None)),
         pill_critical: Rc::new(RefCell::new(None)),
         critical_timer: Rc::new(slint::Timer::default()),
+        #[cfg(feature = "vr")]
+        vr_session: Rc::new(RefCell::new(None)),
     };
 
     // Real watcher channel: tx goes into the watcher callback, rx is drained
@@ -4409,22 +4461,23 @@ fn main() -> Result<()> {
         }
     }
 
-    // VR phase 1 (issue #30): if the `vr` cargo feature is on, try to
-    // bring up an OpenVR overlay session and submit a static test
-    // pattern. Failure here is non-fatal — the desktop window already
-    // works; missing SteamVR / no HMD just logs and we move on.
-    // Phase 2 swaps the test pattern for actual Slint frames.
+    // VR phases 1+2 (issue #30): if the `vr` cargo feature is on, try
+    // to bring up an OpenVR overlay session, store it on AppState, and
+    // push the first kneeboard frame. apply() then repaints on every
+    // cursor change. Failure here is non-fatal — the desktop window
+    // keeps working; missing SteamVR / no HMD just logs and we move
+    // on. Phase 3 will add HMD-presence detection + auto-switching.
     #[cfg(feature = "vr")]
-    let _vr_session = match vr::init_test_pattern_session() {
-        Ok(sess) => {
-            eprintln!("[vr] phase-1 test pattern session active");
-            Some(sess)
+    {
+        match vr::init_session() {
+            Ok(sess) => {
+                eprintln!("[vr] session active — pushing first frame");
+                *state.vr_session.borrow_mut() = Some(sess);
+                state.vr_repaint();
+            }
+            Err(e) => eprintln!("[vr] init skipped: {e:?}"),
         }
-        Err(e) => {
-            eprintln!("[vr] init skipped: {e:?}");
-            None
-        }
-    };
+    }
 
     win.run()?;
     Ok(())

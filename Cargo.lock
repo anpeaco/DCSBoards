@@ -887,6 +887,7 @@ dependencies = [
  "cpal",
  "gilrs",
  "hidapi",
+ "image",
  "notify",
  "notify-debouncer-mini",
  "openvr",
