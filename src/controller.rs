@@ -86,7 +86,20 @@ pub fn armed_decision(action: Action, armed: bool) -> ArmedDecision {
         | Action::ReloadPronunciation
         | Action::ToggleReadNotes
         | Action::ToggleClickThrough
-        | Action::ToggleVisibility => ArmedDecision::PassThrough,
+        | Action::ToggleVisibility
+        // VR positioning actions never move the checklist cursor;
+        // they're a separate concern that should run while armed
+        // without disarming.
+        | Action::VrPlaceHere
+        | Action::VrMoveCloser
+        | Action::VrMoveFurther
+        | Action::VrMoveLeft
+        | Action::VrMoveRight
+        | Action::VrMoveUp
+        | Action::VrMoveDown
+        | Action::VrSizeUp
+        | Action::VrSizeDown
+        | Action::VrResetPose => ArmedDecision::PassThrough,
     }
 }
 

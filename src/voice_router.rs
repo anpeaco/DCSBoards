@@ -654,6 +654,111 @@ const RULES: &[(&[&str], Action)] = &[
         &["cancel", "stop", "never mind", "nevermind", "shut up", "quiet"],
         Action::Cancel,
     ),
+    // VR overlay positioning (#30 phase 4). Place these at the END of
+    // the table so they don't accidentally steal "place" / "move" /
+    // "reset" / "bigger" / "smaller" tokens from other commands. Most
+    // entries are multi-word phrases anyway, which lets the longest-
+    // phrase-first match prefer them when the user is being explicit.
+    (
+        &[
+            "place kneeboard here",
+            "place board here",
+            "kneeboard here",
+            "place here",
+            "snap here",
+            "reposition here",
+        ],
+        Action::VrPlaceHere,
+    ),
+    (
+        &[
+            "move kneeboard closer",
+            "move board closer",
+            "kneeboard closer",
+            "move closer",
+            "bring closer",
+            "closer to me",
+        ],
+        Action::VrMoveCloser,
+    ),
+    (
+        &[
+            "move kneeboard further",
+            "move kneeboard farther",
+            "kneeboard further",
+            "move further",
+            "move farther",
+            "push back",
+            "further away",
+        ],
+        Action::VrMoveFurther,
+    ),
+    (
+        &[
+            "move kneeboard left",
+            "kneeboard left",
+            "move left",
+            "shift left",
+        ],
+        Action::VrMoveLeft,
+    ),
+    (
+        &[
+            "move kneeboard right",
+            "kneeboard right",
+            "move right",
+            "shift right",
+        ],
+        Action::VrMoveRight,
+    ),
+    (
+        &[
+            "move kneeboard up",
+            "kneeboard up",
+            "move up",
+            "raise kneeboard",
+        ],
+        Action::VrMoveUp,
+    ),
+    (
+        &[
+            "move kneeboard down",
+            "kneeboard down",
+            "move down",
+            "lower kneeboard",
+        ],
+        Action::VrMoveDown,
+    ),
+    (
+        &[
+            "kneeboard bigger",
+            "make bigger",
+            "make it bigger",
+            "make larger",
+            "bigger kneeboard",
+            "scale up",
+        ],
+        Action::VrSizeUp,
+    ),
+    (
+        &[
+            "kneeboard smaller",
+            "make smaller",
+            "make it smaller",
+            "smaller kneeboard",
+            "scale down",
+        ],
+        Action::VrSizeDown,
+    ),
+    (
+        &[
+            "reset kneeboard",
+            "reset position",
+            "default position",
+            "kneeboard default",
+        ],
+        Action::VrResetPose,
+    ),
 ];
 
 #[cfg(test)]
