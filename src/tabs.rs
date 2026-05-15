@@ -564,28 +564,45 @@ impl TabRegistry {
         tab.ensure_loaded(&aircraft);
 
         // Try to restore cursor: same page title + same item.idx wins; else
-        // fall back to first navigable of page 0.
-        if let Some(title) = prev_page_title {
-            if let Some((page_idx, page)) = tab
-                .pages
-                .iter()
-                .enumerate()
-                .find(|(_, p)| p.manifest.title == title)
-            {
-                let item_idx = prev_item_idx_in_manifest
-                    .and_then(|target_idx| {
-                        page.manifest
-                            .items
-                            .iter()
-                            .position(|i| i.idx == target_idx)
+        // fall back to first navigable of page 0. The fallback is the
+        // important branch — without it a page rename or page deletion
+        // would leave `tab.cursor` pointing at a stale (page, item) tuple
+        // (apply_cursor clamps the indices so it doesn't crash, but the
+        // user lands on whatever is now at the old position rather than a
+        // sensible spot).
+        let restored = prev_page_title
+            .as_ref()
+            .and_then(|title| {
+                tab.pages
+                    .iter()
+                    .enumerate()
+                    .find(|(_, p)| &p.manifest.title == title)
+                    .map(|(page_idx, page)| {
+                        let item_idx = prev_item_idx_in_manifest
+                            .and_then(|target_idx| {
+                                page.manifest
+                                    .items
+                                    .iter()
+                                    .position(|i| i.idx == target_idx)
+                            })
+                            .unwrap_or_else(|| first_navigable(&page.manifest.items));
+                        Cursor {
+                            page: page_idx,
+                            item: item_idx,
+                        }
                     })
-                    .unwrap_or_else(|| first_navigable(&page.manifest.items));
-                tab.cursor = Cursor {
-                    page: page_idx,
-                    item: item_idx,
-                };
-            }
-        }
+            });
+        tab.cursor = match restored {
+            Some(c) => c,
+            None => Cursor {
+                page: 0,
+                item: tab
+                    .pages
+                    .first()
+                    .map(|p| first_navigable(&p.manifest.items))
+                    .unwrap_or(0),
+            },
+        };
         true
     }
 
