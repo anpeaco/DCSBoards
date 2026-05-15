@@ -1914,6 +1914,11 @@ struct AppState {
     stt_config: Rc<config::SttConfig>,
     /// Single-shot timer that clears the bindings test-mode flash highlight.
     binding_flash_timer: Rc<slint::Timer>,
+    /// Single-shot safety timer for binding capture mode. Without it,
+    /// clicking the edit pencil and walking away leaves the row armed
+    /// forever — and any subsequent keystroke (e.g. accidentally
+    /// closing settings with Esc later) would land as a binding.
+    binding_capture_timer: Rc<slint::Timer>,
     /// True when the window has been moved offscreen by ToggleVisibility.
     /// `saved_pos` holds the position to restore on the next toggle.
     window_hidden: Rc<std::cell::Cell<bool>>,
@@ -2753,14 +2758,34 @@ impl AppState {
     }
 
     /// Begin capturing a key for `action`. The next keypress (other than Esc)
-    /// is recorded as the action's sole trigger.
+    /// is recorded as the action's sole trigger. A 10 s safety timer
+    /// auto-cancels if the user walked away — without it, an abandoned
+    /// capture row would silently grab the next stray keystroke (e.g.
+    /// the Esc that closes settings minutes later).
     fn start_binding_capture(&self, action: Action) {
         *self.capture.borrow_mut() = Some(action);
         self.refresh_bindings_ui();
+        self.show_transcript(format!(
+            "Press a key to bind '{}' (Esc to cancel)",
+            action.label()
+        ));
+        let me = self.clone();
+        self.binding_capture_timer.start(
+            slint::TimerMode::SingleShot,
+            Duration::from_secs(10),
+            move || {
+                if me.capture.borrow().is_some() {
+                    eprintln!("[bind] capture timed out — auto-cancelling");
+                    me.cancel_binding_capture();
+                    me.show_transcript("Bind cancelled (timed out)".to_string());
+                }
+            },
+        );
     }
 
     fn cancel_binding_capture(&self) {
         *self.capture.borrow_mut() = None;
+        self.binding_capture_timer.stop();
         self.refresh_bindings_ui();
     }
 
@@ -2784,6 +2809,7 @@ impl AppState {
             let _ = s.save(&settings_path());
         }
         *self.capture.borrow_mut() = None;
+        self.binding_capture_timer.stop();
         self.refresh_bindings_ui();
     }
 
@@ -3711,6 +3737,7 @@ fn main() -> Result<()> {
         transcript_timer: Rc::new(slint::Timer::default()),
         stt_tx: Rc::new(stt_tx),
         binding_flash_timer: Rc::new(slint::Timer::default()),
+        binding_capture_timer: Rc::new(slint::Timer::default()),
         window_hidden: Rc::new(std::cell::Cell::new(false)),
         saved_pos: Rc::new(RefCell::new(None)),
         strip_pin_timer: Rc::new(slint::Timer::default()),
