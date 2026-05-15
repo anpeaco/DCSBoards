@@ -15,6 +15,7 @@ use anyhow::{Context, Result};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use cpal::{Device, SampleFormat, Stream};
 use rubato::{FftFixedInOut, Resampler};
+use std::sync::mpsc::{channel, Receiver, Sender};
 use std::sync::{Arc, Mutex};
 
 pub const TARGET_RATE: u32 = 16_000;
@@ -33,11 +34,24 @@ pub struct AudioCapture {
     input_sample_rate: u32,
     input_channels: u16,
     input_name: String,
+    /// Drains async errors raised by cpal's `err_fn` from the audio
+    /// thread (e.g. device disappeared mid-session — headset unplugged
+    /// while flying). Polled from the UI thread; surfaces via the
+    /// critical pill instead of being eprintln-only.
+    error_rx: Mutex<Receiver<String>>,
 }
 
 impl AudioCapture {
     pub fn input_name(&self) -> &str {
         &self.input_name
+    }
+
+    /// Drain a single async stream-error message if cpal raised one
+    /// since the last poll. None if the stream is healthy. Returning
+    /// strings (rather than typed errors) keeps the boundary thin —
+    /// the UI thread just needs something to put in a pill.
+    pub fn try_take_error(&self) -> Option<String> {
+        self.error_rx.lock().ok()?.try_recv().ok()
     }
 
     /// Begin accumulating audio. Clears any prior buffer.
@@ -231,7 +245,17 @@ fn open_with(device: Device) -> Result<AudioCapture> {
     );
 
     let state = Arc::new(Mutex::new(RecordingState::default()));
-    let err_fn = |e| eprintln!("[audio] stream error: {e}");
+    // Async error path. cpal calls `err_fn` from its audio thread when
+    // the stream goes wrong (most commonly: device removed while
+    // running). Forward the message into a channel the UI thread can
+    // drain; eprintln stays for log forensics.
+    let (err_tx, err_rx) = channel::<String>();
+    let err_fn_factory = |tx: Sender<String>| {
+        move |e: cpal::StreamError| {
+            eprintln!("[audio] stream error: {e}");
+            let _ = tx.send(format!("{e}"));
+        }
+    };
     let config: cpal::StreamConfig = supported.config();
 
     let stream = match format {
@@ -245,7 +269,7 @@ fn open_with(device: Device) -> Result<AudioCapture> {
                         st.samples.extend_from_slice(data);
                     }
                 },
-                err_fn,
+                err_fn_factory(err_tx.clone()),
                 None,
             )?
         }
@@ -260,7 +284,7 @@ fn open_with(device: Device) -> Result<AudioCapture> {
                             .extend(data.iter().map(|&s| s as f32 / i16::MAX as f32));
                     }
                 },
-                err_fn,
+                err_fn_factory(err_tx.clone()),
                 None,
             )?
         }
@@ -277,7 +301,7 @@ fn open_with(device: Device) -> Result<AudioCapture> {
                         );
                     }
                 },
-                err_fn,
+                err_fn_factory(err_tx.clone()),
                 None,
             )?
         }
@@ -285,12 +309,14 @@ fn open_with(device: Device) -> Result<AudioCapture> {
     };
     stream.play().context("start input stream")?;
 
+    drop(err_tx);
     Ok(AudioCapture {
         _stream: stream,
         state,
         input_sample_rate: sample_rate,
         input_channels: channels,
         input_name,
+        error_rx: Mutex::new(err_rx),
     })
 }
 

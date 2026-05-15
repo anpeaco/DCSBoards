@@ -4075,6 +4075,27 @@ fn main() -> Result<()> {
         );
     }
 
+    // Drain async cpal stream errors raised on the audio thread (e.g.
+    // headset unplugged mid-flight). Polled at 200 ms — these are rare,
+    // so we don't need 50 ms cadence; missing the first poll by ~200 ms
+    // is invisible to the user. Surfaces via the critical pill so a
+    // sudden voice-loss has an explanation.
+    let audio_poll_timer: Rc<slint::Timer> = Rc::new(slint::Timer::default());
+    {
+        let s = state.clone();
+        let audio_poll_timer = audio_poll_timer.clone();
+        audio_poll_timer.start(
+            slint::TimerMode::Repeated,
+            Duration::from_millis(200),
+            move || {
+                let err = s.audio.borrow().as_ref().and_then(|a| a.try_take_error());
+                if let Some(msg) = err {
+                    s.show_critical(format!("Microphone error — {msg}"));
+                }
+            },
+        );
+    }
+
     // Boot the watcher in sync with current settings + active tab.
     state.refresh_watcher();
 
