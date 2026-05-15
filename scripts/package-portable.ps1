@@ -112,7 +112,7 @@ if (Test-Path $pagesSrc) {
     Write-Warning "pages-sample/ not found at repo root -- bundle will have no checklists."
 }
 
-# --- 5. Whisper STT model ---
+# --- 5. Whisper STT model + install script ---
 if (-not $SkipWhisper) {
     $whisperSrc = Join-Path $repoRoot "models/ggml-base.en.bin"
     if (Test-Path $whisperSrc) {
@@ -121,6 +121,17 @@ if (-not $SkipWhisper) {
     } else {
         Write-Warning "models/ggml-base.en.bin missing -- STT will not work on the test machine."
     }
+}
+# Always include the model installer in the bundle. Even users who got
+# the full bundle (with the model already inside) might want to switch
+# variants (-Tiny / -Small) or re-download a corrupted model later.
+$installerSrc = Join-Path $repoRoot "scripts/install-whisper-model.ps1"
+if (Test-Path $installerSrc) {
+    $bundleScripts = Join-Path $bundle "scripts"
+    New-Item -ItemType Directory -Force -Path $bundleScripts | Out-Null
+    Copy-Item $installerSrc $bundleScripts
+} else {
+    Write-Warning "scripts/install-whisper-model.ps1 missing -- bundle won't include the model fetcher."
 }
 
 # --- 6. Piper TTS (engine + dlls + espeak-ng-data + voices) ---
@@ -157,6 +168,18 @@ How to run
 2. Double-click `dcs-kneeboard.exe`.
 
 A console window opens with debug logs and the overlay appears.
+
+If Windows shows a "Windows protected your PC" SmartScreen warning,
+click "More info" then "Run anyway". This is expected: the binary is
+unsigned (a code-signing cert is on the roadmap).
+
+If the bundle didn't include `models\ggml-base.en.bin`, voice control
+will be disabled. Fetch it with:
+
+    .\scripts\install-whisper-model.ps1
+
+(needs internet; downloads ~148 MB from HuggingFace). Use `-Tiny` for
+a faster smaller model or `-Small` for a slower more accurate one.
 
 Quick test
 ----------
@@ -236,6 +259,9 @@ models\ggml-base.en.bin          Whisper STT model (~148 MB)
 models\piper\piper.exe + DLLs    Piper TTS engine
 models\piper\espeak-ng-data\     Piper phoneme tables
 models\piper\voices\*.onnx       Piper voices (with matching .onnx.json)
+scripts\install-whisper-model.ps1
+                                 Re-download / swap the Whisper model
+                                 (-Tiny / -Small / -Force flags)
 
 The app creates `settings.toml` on first run to remember your bindings,
 window position, audio device, etc. Delete it to reset to defaults.

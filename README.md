@@ -56,7 +56,27 @@ The voice-commands panel is self-documenting — every phrase the router
 matches is shown grouped by the action it triggers, generated from the
 same rules table that does the matching.
 
-## Quick start
+## Quick start (download & run)
+
+For pilots who don't want to build from source:
+
+1. Grab the latest **`DCSBoards-Portable.zip`** from the [Releases page](https://github.com/anpeaco/DCSBoards/releases).
+2. Unzip anywhere (`Desktop\DCSBoards` is fine — no install needed).
+3. Double-click **`dcs-kneeboard.exe`**.
+
+If Windows shows a **"Windows protected your PC"** SmartScreen warning, click **"More info"** then **"Run anyway"**. The binary is unsigned today (a code-signing cert is on the roadmap); SmartScreen flags every unrecognised publisher by default.
+
+The full bundle includes the Whisper STT model. If you grabbed a smaller bundle without it, run:
+
+```powershell
+.\scripts\install-whisper-model.ps1            # ~148 MB, base.en (default)
+.\scripts\install-whisper-model.ps1 -Tiny      # ~75 MB, faster, less accurate
+.\scripts\install-whisper-model.ps1 -Small     # ~466 MB, slower, more accurate
+```
+
+First-run will look complicated until you bind PTT — the welcome overlay walks you through it.
+
+## Build from source
 
 ```powershell
 # Default build (no STT — push-to-talk records audio but doesn't transcribe).
@@ -75,10 +95,8 @@ winget install --id Kitware.CMake
 
 # 3. Restart your shell so PATH picks up the new tools.
 
-# 4. Download a Whisper GGML model (~148 MB)
-Invoke-WebRequest `
-  -Uri "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin" `
-  -OutFile "models/ggml-base.en.bin"
+# 4. Download a Whisper GGML model (~148 MB) — convenience wrapper:
+.\scripts\install-whisper-model.ps1
 
 # 5. Build with the feature flag (first build compiles whisper.cpp — slow,
 #    subsequent builds are fast).
