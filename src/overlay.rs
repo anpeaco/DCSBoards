@@ -7,7 +7,8 @@
 #![cfg(windows)]
 
 use windows::core::PCWSTR;
-use windows::Win32::Foundation::{COLORREF, HWND};
+use windows::Win32::Foundation::{COLORREF, HWND, POINT};
+use windows::Win32::Graphics::Gdi::{MonitorFromPoint, MONITOR_DEFAULTTONULL};
 use windows::Win32::UI::WindowsAndMessaging::{
     FindWindowW, GetWindowLongPtrW, SetLayeredWindowAttributes, SetWindowLongPtrW, SetWindowPos,
     GWL_EXSTYLE, LWA_ALPHA, SWP_FRAMECHANGED, SWP_NOACTIVATE, SWP_NOMOVE, SWP_NOSIZE,
@@ -82,4 +83,14 @@ pub fn set_opacity(opacity: f32) -> bool {
     }
     eprintln!("[overlay] opacity {alpha_byte}/255");
     true
+}
+
+/// True if the given window-center point lies on any currently-attached
+/// monitor. Used at startup to detect a stranded persisted position
+/// (e.g. user unplugged the external display we were last positioned on)
+/// so we can fall back to a safe default instead of opening off-screen.
+pub fn point_on_visible_monitor(x: i32, y: i32) -> bool {
+    let pt = POINT { x, y };
+    let hmon = unsafe { MonitorFromPoint(pt, MONITOR_DEFAULTTONULL) };
+    !hmon.is_invalid()
 }

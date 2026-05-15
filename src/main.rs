@@ -49,6 +49,24 @@ fn safe_position_filter(pos: slint::PhysicalPosition) -> Option<slint::PhysicalP
     }
 }
 
+/// Snapshot the current window position+size into settings.toml. Skips
+/// the offscreen ToggleVisibility position so we don't lose the user's
+/// real spot. Shared by close, drag-debounce, and any other natural
+/// save point so size + position move as a unit.
+fn persist_window_geometry(win: &MainWindow, settings: &Rc<RefCell<Settings>>) {
+    let pos = win.window().position();
+    let Some(pos) = safe_position_filter(pos) else { return };
+    let size = win.window().size();
+    let mut s = settings.borrow_mut();
+    s.window_x = Some(pos.x);
+    s.window_y = Some(pos.y);
+    s.window_w = Some(size.width);
+    s.window_h = Some(size.height);
+    if let Err(e) = s.save(&settings_path()) {
+        eprintln!("[settings] geometry save failed: {e:?}");
+    }
+}
+
 fn is_step(item: &Item) -> bool {
     item.kind == "step"
 }
@@ -3502,8 +3520,34 @@ fn main() -> Result<()> {
         win.set_window_opacity(Settings::clamp_window_opacity(s.window_opacity));
         win.set_tts_rate(s.tts_rate);
         win.set_tts_volume(s.tts_volume);
+        // Restore size before position so the on-monitor check uses the
+        // size the window will actually open at.
+        if let (Some(w), Some(h)) = (s.window_w, s.window_h) {
+            win.window().set_size(slint::PhysicalSize::new(w, h));
+        }
         if let (Some(x), Some(y)) = (s.window_x, s.window_y) {
-            win.window().set_position(slint::PhysicalPosition::new(x, y));
+            // Clamp: persisted position must land on a currently-attached
+            // monitor. If the user unplugged the screen we were on, the
+            // overlay would otherwise open invisible at a remembered
+            // off-screen coord. Center-point check is enough for the
+            // common case; partial-overlap is OS-handled.
+            let (w, h) = match (s.window_w, s.window_h) {
+                (Some(w), Some(h)) => (w as i32, h as i32),
+                _ => (600, 900),
+            };
+            let center = (x + w / 2, y + h / 2);
+            #[cfg(windows)]
+            let visible = overlay::point_on_visible_monitor(center.0, center.1);
+            #[cfg(not(windows))]
+            let visible = true;
+            if visible {
+                win.window().set_position(slint::PhysicalPosition::new(x, y));
+            } else {
+                eprintln!(
+                    "[settings] persisted window position ({x},{y}) is off all monitors — \
+                     resetting to safe default"
+                );
+            }
         }
     }
 
@@ -3769,20 +3813,16 @@ fn main() -> Result<()> {
         });
     }
 
-    // Close also persists the final window position so users don't have to
-    // wait for the debounced drag-save to fire before quitting.
+    // Close also persists the final window geometry so users don't have
+    // to wait for the debounced drag-save to fire before quitting. Also
+    // the only natural moment to capture an OS-edge resize that didn't
+    // go through `on_drag_by` (Slint has no generic size-changed callback).
     {
         let win_weak = win.as_weak();
         let settings = settings.clone();
         win.on_close_clicked(move || {
             if let Some(win) = win_weak.upgrade() {
-                let pos = win.window().position();
-                if let Some(pos) = safe_position_filter(pos) {
-                    let mut s = settings.borrow_mut();
-                    s.window_x = Some(pos.x);
-                    s.window_y = Some(pos.y);
-                    let _ = s.save(&settings_path());
-                }
+                persist_window_geometry(&win, &settings);
             }
             let _ = slint::quit_event_loop();
         });
@@ -4111,15 +4151,7 @@ fn main() -> Result<()> {
                 Duration::from_millis(500),
                 move || {
                     let Some(win) = win_weak.upgrade() else { return };
-                    let pos = win.window().position();
-                    if let Some(pos) = safe_position_filter(pos) {
-                        let mut s = settings.borrow_mut();
-                        s.window_x = Some(pos.x);
-                        s.window_y = Some(pos.y);
-                        if let Err(e) = s.save(&settings_path()) {
-                            eprintln!("[settings] position save failed: {e:?}");
-                        }
-                    }
+                    persist_window_geometry(&win, &settings);
                 },
             );
         });
