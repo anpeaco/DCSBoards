@@ -27,10 +27,21 @@ pub struct Settings {
     pub read_notes: bool,
 
     /// Last-known window position in physical pixels. None on first run.
+    /// Cleared/clamped at startup if the persisted point isn't inside any
+    /// visible monitor (e.g. user unplugged the external display we were
+    /// pinned to) so the overlay can't get stranded off-screen.
     #[serde(default)]
     pub window_x: Option<i32>,
     #[serde(default)]
     pub window_y: Option<i32>,
+
+    /// Last-known window size in physical pixels. None on first run, in
+    /// which case the slint default (600x900) applies. Saved on close and
+    /// on the same debounce as position.
+    #[serde(default)]
+    pub window_w: Option<u32>,
+    #[serde(default)]
+    pub window_h: Option<u32>,
 
     /// Aircraft module id (matches DCS folder names: F-16C_50, FA-18C_hornet, ...).
     /// Used by tab sources that resolve `{aircraft}` in their paths and by the
@@ -171,6 +182,8 @@ impl Default for Settings {
             read_notes: Self::default_read_notes(),
             window_x: None,
             window_y: None,
+            window_w: None,
+            window_h: None,
             current_aircraft: None,
             last_tab: None,
             bindings: Bindings::default(),
