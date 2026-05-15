@@ -3613,13 +3613,27 @@ fn main() -> Result<()> {
                 eprintln!("[stt] model: {}", path.display());
                 let (req_tx, req_rx) = std::sync::mpsc::channel::<stt::SttCommand>();
                 let (res_tx, res_rx) = std::sync::mpsc::channel::<String>();
+                // One-shot channel for the worker to report its
+                // init result (Ok or model-load / CPU-feature error).
+                // Previously the worker exited silently on failure
+                // and PTT just didn't work — surface it in the pill
+                // instead.
+                let (init_tx, init_rx) = std::sync::mpsc::channel::<Result<(), String>>();
                 std::thread::Builder::new()
                     .name("whisper".into())
                     .spawn(move || {
                         use stt::{SttCommand, SttEngine};
                         let engine = match stt::WhisperStt::new(&path) {
-                            Ok(e) => { eprintln!("[stt] loaded: {}", e.name()); e }
-                            Err(e) => { eprintln!("[stt] init failed: {e:?}"); return; }
+                            Ok(e) => {
+                                eprintln!("[stt] loaded: {}", e.name());
+                                let _ = init_tx.send(Ok(()));
+                                e
+                            }
+                            Err(e) => {
+                                eprintln!("[stt] init failed: {e:?}");
+                                let _ = init_tx.send(Err(format!("{e}")));
+                                return;
+                            }
                         };
                         while let Ok(cmd) = req_rx.recv() {
                             match cmd {
@@ -3642,8 +3656,30 @@ fn main() -> Result<()> {
                             }
                         }
                     })?;
-                stt_tx = Some(req_tx);
-                stt_rx_main = Some(res_rx);
+                // Block briefly for init. Model load is ~500ms; the
+                // failure modes (missing AVX2/FMA/F16C, corrupt model
+                // file) resolve in microseconds. 5 s ceiling guards
+                // against a wedged worker so startup can't hang
+                // forever.
+                match init_rx.recv_timeout(Duration::from_secs(5)) {
+                    Ok(Ok(())) => {
+                        stt_tx = Some(req_tx);
+                        stt_rx_main = Some(res_rx);
+                    }
+                    Ok(Err(msg)) => {
+                        pending_critical.push(format!("Voice off — STT init failed: {msg}"));
+                        stt_tx = None;
+                        stt_rx_main = None;
+                    }
+                    Err(_) => {
+                        eprintln!("[stt] init timeout — assuming wedged worker");
+                        pending_critical.push(
+                            "Voice off — STT worker timed out at startup".to_string(),
+                        );
+                        stt_tx = None;
+                        stt_rx_main = None;
+                    }
+                }
             }
             None => {
                 eprintln!("[stt] no model found — disabled");
