@@ -1580,7 +1580,12 @@ slint::slint! {
 const DISPLAY_W: f32 = 600.0;
 const DISPLAY_H: f32 = 900.0;
 
-fn init_tts(settings: &Settings) -> Result<Box<dyn TtsEngine>> {
+/// Build the configured TTS engine. Returns the engine plus an
+/// optional warning describing a non-fatal fallback (e.g. piper was
+/// selected but its exe / voice was missing so we used WinRT). The
+/// warning is surfaced via the critical pill so the user can see why
+/// the engine they chose isn't actually running.
+fn init_tts(settings: &Settings) -> Result<(Box<dyn TtsEngine>, Option<String>)> {
     #[cfg(windows)]
     {
         if settings.tts_engine == "piper" {
@@ -1588,23 +1593,25 @@ fn init_tts(settings: &Settings) -> Result<Box<dyn TtsEngine>> {
             let voice = settings.tts_piper_voice.as_ref().map(PathBuf::from);
             if let Some(voice) = voice {
                 match tts::PiperTts::new(piper_exe.clone(), voice.clone()) {
-                    Ok(p) => return Ok(Box::new(p)),
+                    Ok(p) => return Ok((Box::new(p), None)),
                     Err(e) => {
-                        eprintln!(
-                            "[tts] piper init failed ({e:?}); falling back to WinRT"
-                        );
+                        let msg = format!("Piper init failed — using WinRT ({e})");
+                        eprintln!("[tts] {msg}");
+                        return Ok((Box::new(tts::WinRtTts::new()?), Some(msg)));
                     }
                 }
             } else {
-                eprintln!("[tts] piper selected but no voice configured; using WinRT");
+                let msg = "Piper selected but no voice configured — using WinRT".to_string();
+                eprintln!("[tts] {msg}");
+                return Ok((Box::new(tts::WinRtTts::new()?), Some(msg)));
             }
         }
-        Ok(Box::new(tts::WinRtTts::new()?))
+        Ok((Box::new(tts::WinRtTts::new()?), None))
     }
     #[cfg(not(windows))]
     {
         let _ = settings;
-        Ok(Box::new(tts::NoopTts::new()?))
+        Ok((Box::new(tts::NoopTts::new()?), None))
     }
 }
 
@@ -1870,6 +1877,16 @@ struct AppState {
     /// STT transcripts, "(no speech)" messages — anything that should
     /// fade after a few seconds rather than holding indefinitely.
     pill_transient: Rc<RefCell<Option<PillMessage>>>,
+    /// Critical-error pill source. Beats both sticky and transient so
+    /// a silent-failure message (whisper model missing, audio device
+    /// gone, piper fallback) is impossible to miss. Latest critical
+    /// replaces the previous; the queue is single-slot deliberately —
+    /// concurrent startup failures are rare enough that latest-wins +
+    /// full detail in the log is the right trade.
+    pill_critical: Rc<RefCell<Option<PillMessage>>>,
+    /// Single-shot timer that expires the critical pill. Held longer
+    /// than the transcript timer (15 s) so the user has time to read.
+    critical_timer: Rc<slint::Timer>,
     /// PCM sender into the whisper worker thread. `None` if no model loaded.
     stt_tx: Rc<Option<std::sync::mpsc::Sender<stt::SttCommand>>>,
     /// Issue #15: STT tuning — vocabulary (for whisper `initial_prompt`),
@@ -1979,6 +1996,22 @@ impl PillMessage {
             icon_d: "",
             icon_tint: slint::Color::from_rgb_u8(0xff, 0xcc, 0x33),
             border_color: slint::Color::from_argb_u8(0, 0, 0, 0),
+            pulse: false,
+        }
+    }
+
+    /// Critical-error cue: lucide warning triangle, red tint, red
+    /// border. Used for silent-failure scenarios that previously only
+    /// hit the log (whisper model missing, audio device gone, piper
+    /// fallback when piper was selected). Distinct from
+    /// `transcript_unmatched`'s red `x` by both icon and border so the
+    /// two don't get confused.
+    fn critical(text: String) -> Self {
+        Self {
+            text,
+            icon_d: "M 10.29 3.86 L 1.82 18 a 2 2 0 0 0 1.71 3 h 16.94 a 2 2 0 0 0 1.71 -3 L 13.71 3.86 a 2 2 0 0 0 -3.42 0 z M 12 9 v 4 M 12 17 h 0.01",
+            icon_tint: slint::Color::from_rgb_u8(0xff, 0x77, 0x77),
+            border_color: slint::Color::from_rgb_u8(0xff, 0x55, 0x55),
             pulse: false,
         }
     }
@@ -2900,6 +2933,30 @@ impl AppState {
         self.push_transient_pill(PillMessage::transcript_unmatched(text));
     }
 
+    /// Surface a critical-error message in the pill. Beats both
+    /// sticky and transient sources so silent-failure scenarios stop
+    /// being silent. Held for 15 s then drops back to whatever
+    /// sticky/transient source is active (usually nothing). Always
+    /// also logged via `eprintln!` so the message survives in the
+    /// console after the pill fades.
+    fn show_critical(&self, text: String) {
+        if text.is_empty() {
+            return;
+        }
+        eprintln!("[critical] {text}");
+        *self.pill_critical.borrow_mut() = Some(PillMessage::critical(text));
+        self.apply_pill();
+        let me = self.clone();
+        self.critical_timer.start(
+            slint::TimerMode::SingleShot,
+            Duration::from_secs(15),
+            move || {
+                *me.pill_critical.borrow_mut() = None;
+                me.apply_pill();
+            },
+        );
+    }
+
     /// Schedule a transient pill message. Beaten by any sticky
     /// (armed-state) message currently active — the sticky message
     /// stays on-screen, the transient is suppressed entirely rather
@@ -2927,15 +2984,18 @@ impl AppState {
         );
     }
 
-    /// Compose the effective pill message from the two sources and
-    /// push it into Slint. Sticky beats transient. Called every time
-    /// either source changes (or expires).
+    /// Compose the effective pill message from the three sources and
+    /// push it into Slint. Priority: critical (silent-failure
+    /// banners) > sticky (armed-state cue) > transient (transcripts,
+    /// status toasts). Called every time any source changes or
+    /// expires.
     fn apply_pill(&self) {
         let Some(win) = self.win.upgrade() else { return };
         let effective = self
-            .pill_sticky
+            .pill_critical
             .borrow()
             .clone()
+            .or_else(|| self.pill_sticky.borrow().clone())
             .or_else(|| self.pill_transient.borrow().clone());
         match effective {
             Some(msg) => {
@@ -3061,14 +3121,21 @@ impl AppState {
         };
         let s = self.settings.borrow();
         match init_tts(&s) {
-            Ok(mut engine) => {
+            Ok((mut engine, warn)) => {
                 eprintln!("[tts] engine ready: {}", engine.name());
                 engine.set_rate(r);
                 engine.set_volume(v);
                 drop(s);
                 *self.tts.borrow_mut() = Some(engine);
+                if let Some(msg) = warn {
+                    self.show_critical(msg);
+                }
             }
-            Err(e) => eprintln!("[tts] rebuild failed: {e:?}"),
+            Err(e) => {
+                eprintln!("[tts] rebuild failed: {e:?}");
+                drop(s);
+                self.show_critical(format!("TTS engine init failed: {e}"));
+            }
         }
     }
 
@@ -3328,6 +3395,12 @@ fn main() -> Result<()> {
     let app_config = AppConfig::load_or_default(&config_path());
     let settings = Rc::new(RefCell::new(Settings::load_or_default(&settings_path())));
 
+    // Collected during init so silent failures (whisper missing, audio
+    // open failure, piper fallback) can be surfaced in the pill once
+    // the window exists. Latest message wins; the full log still has
+    // every entry.
+    let mut pending_critical: Vec<String> = Vec::new();
+
     // Resolve initial aircraft: settings override, else first config entry, else fallback.
     let aircraft = settings
         .borrow()
@@ -3360,7 +3433,19 @@ fn main() -> Result<()> {
     )));
 
     let tts: Rc<RefCell<Option<Box<dyn TtsEngine>>>> = Rc::new(RefCell::new(
-        init_tts(&settings.borrow()).map_err(|e| eprintln!("TTS init failed: {e:?}")).ok(),
+        match init_tts(&settings.borrow()) {
+            Ok((engine, warn)) => {
+                if let Some(msg) = warn {
+                    pending_critical.push(msg);
+                }
+                Some(engine)
+            }
+            Err(e) => {
+                eprintln!("TTS init failed: {e:?}");
+                pending_critical.push(format!("TTS engine init failed: {e}"));
+                None
+            }
+        },
     ));
     // Apply the persisted rate / volume to the freshly built engine.
     {
@@ -3430,6 +3515,7 @@ fn main() -> Result<()> {
             }
             Err(e) => {
                 eprintln!("[audio] disabled: {e:?}");
+                pending_critical.push(format!("Microphone unavailable — voice off ({e})"));
                 None
             }
         }
@@ -3485,6 +3571,9 @@ fn main() -> Result<()> {
             }
             None => {
                 eprintln!("[stt] no model found — disabled");
+                pending_critical.push(
+                    "Whisper model missing — voice commands off (see models/README.md)".to_string(),
+                );
                 stt_tx = None;
                 stt_rx_main = None;
             }
@@ -3525,6 +3614,8 @@ fn main() -> Result<()> {
         stt_config: Rc::new(app_config.stt.clone()),
         pill_sticky: Rc::new(RefCell::new(None)),
         pill_transient: Rc::new(RefCell::new(None)),
+        pill_critical: Rc::new(RefCell::new(None)),
+        critical_timer: Rc::new(slint::Timer::default()),
     };
 
     // Real watcher channel: tx goes into the watcher callback, rx is drained
@@ -3535,6 +3626,14 @@ fn main() -> Result<()> {
     state.watcher_tx = watch_tx;
     let state = state;
     state.apply();
+
+    // Surface any startup silent-failures captured during init. Latest
+    // wins by design (single critical slot); the full list is in the
+    // log already. Done after `state.apply()` so the pill timer and
+    // window are both ready to render.
+    if let Some(msg) = pending_critical.pop() {
+        state.show_critical(msg);
+    }
 
     // UI buttons go through dispatch so the armed-state interception
     // (issue #17) lives in one place — clicking on-screen Next while
