@@ -10,6 +10,8 @@
 
 #![cfg(feature = "vr")]
 
+pub mod render;
 pub mod session;
 
-pub use session::init_test_pattern_session;
+pub use render::render_kneeboard_frame;
+pub use session::{init_session, VrSession};

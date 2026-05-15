@@ -12,7 +12,7 @@ whisper-stt = ["dep:whisper-rs"]
 # probes for SteamVR + an HMD; if both present, the kneeboard is
 # composited into the VR view as a world-locked overlay rather than
 # a desktop window. Off by default — desktop-only build keeps shipping.
-vr = ["dep:openvr"]
+vr = ["dep:openvr", "dep:image"]
 
 [dependencies]
 slint = { version = "1.13", default-features = false, features = ["std", "compat-1-2", "backend-winit", "renderer-femtovg"] }
@@ -45,6 +45,10 @@ whisper-rs = { version = "0.16", optional = true }
 # provides it. We don't ship one — VR mode is opt-in and assumes the
 # user has SteamVR.
 openvr = { version = "0.9", optional = true }
+# PNG decode + pixel manipulation for the VR render path (#30 phase 2).
+# Already pulled in transitively by slint; we depend explicitly so the
+# version doesn't shift under us.
+image = { version = "0.25", default-features = false, features = ["png"], optional = true }
 
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.58", features = [
