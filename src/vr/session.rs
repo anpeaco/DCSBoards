@@ -10,15 +10,18 @@ use openvr::overlay::OverlayHandle;
 use openvr::pose::Matrix3x4;
 use openvr::{ApplicationType, Context as OvrContext, TrackingUniverseOrigin};
 
-/// Default world-locked pose: 0.6 m forward of the standing zero-pose,
-/// 0.20 m below eye level, 0.30 m wide.
+/// Default world-locked pose: 0.6 m forward of the seated zero-pose,
+/// 0.20 m below eye level, 0.30 m wide. Seated origin is the right
+/// frame for DCS pilots — the SteamVR seated-zero calibration puts
+/// Y=0 at eye height + the user's actual seated position at X=Z=0,
+/// so the default forward+down lands as a tablet you can read down at.
+/// Standing origin would put Y=0 at the floor, dropping the overlay
+/// 20 cm below the chaperone — definitely not what we want.
 const DEFAULT_FORWARD_M: f32 = 0.6;
 const DEFAULT_DROP_M: f32 = -0.2;
 const DEFAULT_WIDTH_M: f32 = 0.30;
 
-/// Identity rotation + (0, DROP, -FORWARD). Rendered facing the
-/// standing zero-pose, which is the same direction the user faced
-/// when they ran the SteamVR room setup.
+/// Identity rotation + (0, DROP, -FORWARD) in seated-origin coords.
 fn default_transform() -> Matrix3x4 {
     Matrix3x4([
         [1.0, 0.0, 0.0, 0.0],
@@ -64,7 +67,7 @@ impl VrSession {
             .ctx
             .system()
             .map_err(|e| anyhow!("ctx.system failed: {e:?}"))?;
-        let poses = system.device_to_absolute_tracking_pose(TrackingUniverseOrigin::Standing, 0.0);
+        let poses = system.device_to_absolute_tracking_pose(TrackingUniverseOrigin::Seated, 0.0);
         let hmd = poses.first().ok_or_else(|| anyhow!("no HMD pose"))?;
         let hmd_m = *hmd.device_to_absolute_tracking();
 
@@ -139,7 +142,7 @@ impl VrSession {
             .overlay()
             .map_err(|e| anyhow!("ctx.overlay failed: {e:?}"))?;
         overlay
-            .set_transform_absolute(self.overlay_handle, TrackingUniverseOrigin::Standing, &pose)
+            .set_transform_absolute(self.overlay_handle, TrackingUniverseOrigin::Seated, &pose)
             .map_err(|e| anyhow!("set_transform_absolute failed: {e:?}"))?;
         self.pose = pose;
         Ok(())
@@ -182,7 +185,7 @@ pub fn init_session() -> Result<VrSession> {
 
     let pose = default_transform();
     overlay
-        .set_transform_absolute(overlay_handle, TrackingUniverseOrigin::Standing, &pose)
+        .set_transform_absolute(overlay_handle, TrackingUniverseOrigin::Seated, &pose)
         .map_err(|e| anyhow!("set_transform_absolute failed: {e:?}"))?;
 
     overlay

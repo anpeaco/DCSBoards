@@ -238,6 +238,53 @@ the desired key / button. Last-writer-wins on conflicts.
 | Push-to-talk | *unbound — bind to a HOTAS trigger* |
 | Hot mic toggle | *unbound* |
 
+## VR mode
+
+When built with the `vr` cargo feature, the overlay can render itself as a world-locked SteamVR overlay instead of a desktop window — the kneeboard floats in the cockpit space ~0.6 m in front of you and stays put as you look around. Voice + HOTAS work exactly the same; only the rendering changes.
+
+```bash
+cargo build --release --features vr
+```
+
+The VR runtime is auto-detected:
+
+| `settings.toml` `vr_mode` | Behaviour |
+|---|---|
+| `"auto"` *(default)* | Enter VR if SteamVR runtime + HMD both present, otherwise stay on desktop |
+| `"vr"` | Force VR mode regardless of detection |
+| `"desktop"` | Force desktop mode; never init OpenVR |
+
+Plugging / unplugging the HMD mid-session is re-evaluated every 2 s and triggers the desktop ↔ VR switch transparently.
+
+### Positioning the overlay
+
+| Voice phrase | HOTAS-bindable action | What it does |
+|---|---|---|
+| "place kneeboard here" | `VrPlaceHere` | Snap to in front of where you're looking right now |
+| "move closer" / "move further" | `VrMoveCloser` / `VrMoveFurther` | ±10 cm world-Z |
+| "move up" / "move down" / "move left" / "move right" | `VrMoveUp` etc. | ±10 cm world XYZ |
+| "make bigger" / "make smaller" | `VrSizeUp` / `VrSizeDown` | ±5 cm overlay width (clamped 15 cm – 1 m) |
+| "reset kneeboard" | `VrResetPose` | Back to the default forward+down pose |
+
+Pose + size are saved per aircraft (`vr_poses` in `settings.toml`), so the F-16 kneeboard can live on the right console while the A-10 kneeboard lives above the HUD.
+
+### Headset compatibility
+
+VR mode goes through SteamVR. Anything that talks SteamVR works:
+
+- **Quest 2 / 3 / Pro** via Virtual Desktop, Air Link, or Link cable
+- **Valve Index, HTC Vive**, original Vive Pro
+- **WMR headsets** via the SteamVR-WMR bridge
+- **Pimax** (any model that supports SteamVR)
+
+For runtimes that don't go through SteamVR (Quest standalone, Varjo Aero in native OpenXR mode), VR mode won't engage. Fall back to a desktop-overlay-in-VR tool like [OVR Toolkit](https://store.steampowered.com/app/1068820/OVR_Toolkit/) or [XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/) and pin the regular desktop window into your view that way. A native OpenXR path (issue #30 follow-up) may land later.
+
+### Limitations in VR mode
+
+- Keyboard hotkeys still fire but you can't see the keyboard — bind PTT and the navigation actions to your HOTAS before flying.
+- Click-through and the opacity slider are no-ops (no mouse, OpenVR overlays handle alpha differently).
+- The chrome (settings panel, voice-commands help, mic indicator, pills) **only renders to the desktop window**, not into the headset. The VR view shows page + highlight only. Fix the kneeboard via voice; everything else stays in the audio loop.
+
 ## Related project — kneeboards generator
 
 The static pages this overlay consumes are produced by a sibling Node.js +
@@ -260,5 +307,7 @@ See `SPEC.md` for the full design and `CLAUDE.md` for the working notes.
 
 Active development. The overlay is functional end-to-end: page rendering,
 TTS readout, push-to-talk and continuous hot-mic STT, voice routing, hot
-reload, click-through, persistent bindings. M9 (signed installer + auto-
-updater) is the remaining gap before public release.
+reload, click-through, persistent bindings. VR mode (`--features vr`,
+SteamVR overlay) is functional with auto-switching desktop ↔ VR and
+per-aircraft pose persistence — see [VR mode](#vr-mode). M9 (signed
+installer + auto-updater) is the remaining gap before public release.
