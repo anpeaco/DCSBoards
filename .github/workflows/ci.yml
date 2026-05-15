@@ -62,6 +62,14 @@ jobs:
       - name: cargo clippy (no features)
         run: cargo clippy --all-targets -- -D warnings
 
+      # VR feature gate (#30). Catches regressions in the openvr-
+      # gated paths in src/vr/ before they reach a user with the
+      # feature enabled. The CI runner doesn't have an HMD or
+      # SteamVR installed, but we only build/lint here — no init
+      # call is made.
+      - name: cargo clippy (vr feature)
+        run: cargo clippy --features vr --all-targets -- -D warnings
+
       - name: cargo test
         run: cargo test --features whisper-stt
 
