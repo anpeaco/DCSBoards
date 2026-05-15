@@ -2000,6 +2000,21 @@ impl PillMessage {
         }
     }
 
+    /// Lowest-priority "we hear you" cue, shown only while PTT is
+    /// held AND no other pill source has content. Same pulse dot as
+    /// the armed cue but yellow tint + no border so it doesn't look
+    /// like an armed-state lookalike. Disappears the instant PTT
+    /// releases (the transient "Transcribing X.Xs..." takes over).
+    fn listening() -> Self {
+        Self {
+            text: "Listening…".to_string(),
+            icon_d: "",
+            icon_tint: slint::Color::from_rgb_u8(0xff, 0xcc, 0x33),
+            border_color: slint::Color::from_argb_u8(0, 0, 0, 0),
+            pulse: true,
+        }
+    }
+
     /// Critical-error cue: lucide warning triangle, red tint, red
     /// border. Used for silent-failure scenarios that previously only
     /// hit the log (whisper model missing, audio device gone, piper
@@ -2913,6 +2928,9 @@ impl AppState {
         if let Some(win) = self.win.upgrade() {
             win.set_mic_hot(hot);
         }
+        // Re-render the pill so the lowest-priority listening cue
+        // appears/disappears in lockstep with PTT.
+        self.apply_pill();
     }
 
     /// Pop a transcript into the pill (no icon) and schedule its fade.
@@ -2984,11 +3002,13 @@ impl AppState {
         );
     }
 
-    /// Compose the effective pill message from the three sources and
+    /// Compose the effective pill message from the four sources and
     /// push it into Slint. Priority: critical (silent-failure
     /// banners) > sticky (armed-state cue) > transient (transcripts,
-    /// status toasts). Called every time any source changes or
-    /// expires.
+    /// status toasts) > listening (PTT-held cue, only when nothing
+    /// else has content). Called every time any source changes or
+    /// expires, and from `set_mic_hot` so the listening cue tracks
+    /// the PTT edge.
     fn apply_pill(&self) {
         let Some(win) = self.win.upgrade() else { return };
         let effective = self
@@ -2996,7 +3016,14 @@ impl AppState {
             .borrow()
             .clone()
             .or_else(|| self.pill_sticky.borrow().clone())
-            .or_else(|| self.pill_transient.borrow().clone());
+            .or_else(|| self.pill_transient.borrow().clone())
+            .or_else(|| {
+                if win.get_mic_hot() {
+                    Some(PillMessage::listening())
+                } else {
+                    None
+                }
+            });
         match effective {
             Some(msg) => {
                 win.set_pill_text(SharedString::from(msg.text.as_str()));
@@ -3319,6 +3346,10 @@ impl AppState {
                     self.set_mic_hot(true);
                 } else {
                     eprintln!("[ptt] no audio device — cannot capture");
+                    // Surface the dead PTT in the pill so a press at least
+                    // gets a visible response. The startup critical pill
+                    // covered "no mic" once, but it has long since faded.
+                    self.show_transcript("No microphone — voice off".to_string());
                 }
             }
             Action::HotMicToggle => {
@@ -3338,6 +3369,7 @@ impl AppState {
                     self.start_hotmic_polling();
                 } else {
                     eprintln!("[hotmic] no audio device — cannot capture");
+                    self.show_transcript("No microphone — voice off".to_string());
                 }
             }
             Action::ToggleReadNotes => {
