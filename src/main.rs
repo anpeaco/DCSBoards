@@ -19,6 +19,8 @@ mod query_aliases;
 mod tabs;
 mod tts;
 mod voice_router;
+#[cfg(feature = "vr")]
+mod vr;
 mod watcher;
 
 use actions::Action;
@@ -4406,6 +4408,23 @@ fn main() -> Result<()> {
             );
         }
     }
+
+    // VR phase 1 (issue #30): if the `vr` cargo feature is on, try to
+    // bring up an OpenVR overlay session and submit a static test
+    // pattern. Failure here is non-fatal — the desktop window already
+    // works; missing SteamVR / no HMD just logs and we move on.
+    // Phase 2 swaps the test pattern for actual Slint frames.
+    #[cfg(feature = "vr")]
+    let _vr_session = match vr::init_test_pattern_session() {
+        Ok(sess) => {
+            eprintln!("[vr] phase-1 test pattern session active");
+            Some(sess)
+        }
+        Err(e) => {
+            eprintln!("[vr] init skipped: {e:?}");
+            None
+        }
+    };
 
     win.run()?;
     Ok(())
