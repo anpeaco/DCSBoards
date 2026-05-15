@@ -6,7 +6,19 @@
 use crate::input::Bindings;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::path::{Path, PathBuf};
+
+/// Saved VR overlay pose (#30 phase 4). One per aircraft so a pilot
+/// can leave the F-16 kneeboard pinned to its dash spot and the A-10
+/// kneeboard pinned to a different spot.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VrPose {
+    /// OpenVR row-major 3x4 transform (rotation + translation in m).
+    pub transform: [[f32; 4]; 3],
+    /// Overlay width in meters. Height is implied by the page aspect.
+    pub size_m: f32,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
@@ -134,6 +146,13 @@ pub struct Settings {
     /// session triggers the auto-switch transparently.
     #[serde(default = "Settings::default_vr_mode")]
     pub vr_mode: String,
+
+    /// Saved VR overlay poses keyed by aircraft id (#30 phase 4).
+    /// Updated by Vr* actions (place-here, nudge, resize, reset);
+    /// loaded on aircraft switch so each module remembers where the
+    /// pilot last pinned its kneeboard.
+    #[serde(default)]
+    pub vr_poses: HashMap<String, VrPose>,
 }
 
 impl Settings {
@@ -219,6 +238,7 @@ impl Default for Settings {
             tts_volume: Self::default_tts_volume(),
             welcome_shown: Self::default_welcome_shown(),
             vr_mode: Self::default_vr_mode(),
+            vr_poses: HashMap::new(),
         }
     }
 }

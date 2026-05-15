@@ -56,6 +56,26 @@ pub enum Action {
     ToggleClickThrough,
     /// M7: hide/show the overlay window.
     ToggleVisibility,
+    // VR overlay positioning (#30 phase 4). Only meaningful in VR
+    // mode; no-op on desktop. Voice-friendly phrasings live in the
+    // voice_router phrase table.
+    /// Snap the VR overlay to ~0.6 m in front of the HMD's current pose.
+    VrPlaceHere,
+    /// Move the VR overlay 10 cm closer to / further from the user
+    /// (along world Z, i.e. world-forward/back from the SteamVR origin).
+    VrMoveCloser,
+    VrMoveFurther,
+    /// Move the VR overlay 10 cm in world ±X.
+    VrMoveLeft,
+    VrMoveRight,
+    /// Move the VR overlay 10 cm in world ±Y.
+    VrMoveUp,
+    VrMoveDown,
+    /// Grow / shrink overlay width by 5 cm (clamped 15 cm — 1 m).
+    VrSizeUp,
+    VrSizeDown,
+    /// Re-apply the default forward+down pose at default size.
+    VrResetPose,
 }
 
 impl Action {
@@ -83,6 +103,16 @@ impl Action {
             Action::Cancel => "Cancel",
             Action::ToggleClickThrough => "Toggle click-through",
             Action::ToggleVisibility => "Toggle visibility",
+            Action::VrPlaceHere => "VR: place kneeboard here",
+            Action::VrMoveCloser => "VR: move closer",
+            Action::VrMoveFurther => "VR: move further",
+            Action::VrMoveLeft => "VR: move left",
+            Action::VrMoveRight => "VR: move right",
+            Action::VrMoveUp => "VR: move up",
+            Action::VrMoveDown => "VR: move down",
+            Action::VrSizeUp => "VR: bigger",
+            Action::VrSizeDown => "VR: smaller",
+            Action::VrResetPose => "VR: reset position",
         }
     }
 
@@ -110,6 +140,16 @@ impl Action {
             Action::Cancel,
             Action::ToggleClickThrough,
             Action::ToggleVisibility,
+            Action::VrPlaceHere,
+            Action::VrMoveCloser,
+            Action::VrMoveFurther,
+            Action::VrMoveLeft,
+            Action::VrMoveRight,
+            Action::VrMoveUp,
+            Action::VrMoveDown,
+            Action::VrSizeUp,
+            Action::VrSizeDown,
+            Action::VrResetPose,
         ]
     }
 }

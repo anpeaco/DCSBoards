@@ -2184,8 +2184,14 @@ impl AppState {
         let have = self.vr_session.borrow().is_some();
         if should && !have {
             match vr::init_session() {
-                Ok(sess) => {
+                Ok(mut sess) => {
                     eprintln!("[vr] auto-switch ON ({mode}) — entering VR mode");
+                    // Restore the saved pose for the current aircraft
+                    // (phase 4) before exposing the session — that way
+                    // the very first frame the user sees in-headset is
+                    // pinned to the right spot for this module rather
+                    // than the default forward-of-zero-pose location.
+                    self.apply_saved_vr_pose(&mut sess);
                     *self.vr_session.borrow_mut() = Some(sess);
                     self.vr_set_window_hidden(true);
                     self.vr_repaint();
@@ -2198,6 +2204,22 @@ impl AppState {
             // re-show the desktop window — avoids any flicker overlap.
             *self.vr_session.borrow_mut() = None;
             self.vr_set_window_hidden(false);
+        }
+    }
+
+    /// Look up the saved pose for the current aircraft and push it
+    /// to `sess`. Falls back to the session's default if no saved
+    /// pose exists yet (first time in this aircraft in VR).
+    #[cfg(feature = "vr")]
+    fn apply_saved_vr_pose(&self, sess: &mut vr::VrSession) {
+        let aircraft = self.tabs.borrow().aircraft.clone();
+        let pose = self.settings.borrow().vr_poses.get(&aircraft).cloned();
+        if let Some(p) = pose {
+            if let Err(e) = sess.apply_saved(p.transform, p.size_m) {
+                eprintln!("[vr] apply saved pose for {aircraft} failed: {e:?}");
+            } else {
+                eprintln!("[vr] restored saved pose for {aircraft}");
+            }
         }
     }
 
@@ -2494,6 +2516,15 @@ impl AppState {
         self.apply();
         self.refresh_watcher();
         self.push_stt_initial_prompt(&aircraft);
+        // Restore the saved VR pose for this aircraft (#30 phase 4).
+        // Pilots want the F-16 kneeboard pinned to its dash spot and
+        // the A-10 kneeboard pinned to a different spot, so the pose
+        // travels with the aircraft. Falls back to whatever the
+        // session is currently showing if no saved pose exists.
+        #[cfg(feature = "vr")]
+        if let Some(sess) = self.vr_session.borrow_mut().as_mut() {
+            self.apply_saved_vr_pose(sess);
+        }
         {
             let mut s = self.settings.borrow_mut();
             s.current_aircraft = Some(aircraft.clone());
@@ -3684,6 +3715,76 @@ impl AppState {
                     .unwrap_or(false);
                 self.set_click_through(!now);
             }
+            Action::VrPlaceHere
+            | Action::VrMoveCloser
+            | Action::VrMoveFurther
+            | Action::VrMoveLeft
+            | Action::VrMoveRight
+            | Action::VrMoveUp
+            | Action::VrMoveDown
+            | Action::VrSizeUp
+            | Action::VrSizeDown
+            | Action::VrResetPose => {
+                #[cfg(feature = "vr")]
+                self.dispatch_vr_action(action);
+                #[cfg(not(feature = "vr"))]
+                eprintln!("[vr] {action:?} ignored — built without --features vr");
+            }
+        }
+    }
+
+    /// VR overlay positioning dispatch (#30 phase 4). Mutates the
+    /// session pose / size, then persists the new pose for the
+    /// current aircraft. No-op when VR session isn't active.
+    #[cfg(feature = "vr")]
+    fn dispatch_vr_action(&self, action: Action) {
+        const NUDGE_M: f32 = 0.10;
+        const SIZE_DELTA_M: f32 = 0.05;
+        let mut session_borrow = self.vr_session.borrow_mut();
+        let Some(session) = session_borrow.as_mut() else {
+            self.show_transcript("VR mode not active".to_string());
+            return;
+        };
+        let result = match action {
+            Action::VrPlaceHere => session.place_here(),
+            Action::VrMoveCloser => session.nudge_translation(0.0, 0.0, NUDGE_M),
+            Action::VrMoveFurther => session.nudge_translation(0.0, 0.0, -NUDGE_M),
+            Action::VrMoveLeft => session.nudge_translation(-NUDGE_M, 0.0, 0.0),
+            Action::VrMoveRight => session.nudge_translation(NUDGE_M, 0.0, 0.0),
+            Action::VrMoveUp => session.nudge_translation(0.0, NUDGE_M, 0.0),
+            Action::VrMoveDown => session.nudge_translation(0.0, -NUDGE_M, 0.0),
+            Action::VrSizeUp => session.nudge_size(SIZE_DELTA_M),
+            Action::VrSizeDown => session.nudge_size(-SIZE_DELTA_M),
+            Action::VrResetPose => session.reset(),
+            _ => Ok(()),
+        };
+        let snapshot = session.snapshot();
+        drop(session_borrow);
+        match result {
+            Ok(()) => self.persist_vr_pose(snapshot),
+            Err(e) => {
+                eprintln!("[vr] {action:?} failed: {e:?}");
+                self.show_critical(format!("VR action failed: {e}"));
+            }
+        }
+    }
+
+    /// Save the current overlay pose + size to settings.toml under
+    /// the active aircraft id so the next session in this aircraft
+    /// (or the next aircraft switch back) restores it.
+    #[cfg(feature = "vr")]
+    fn persist_vr_pose(&self, snapshot: ([[f32; 4]; 3], f32)) {
+        let aircraft = self.tabs.borrow().aircraft.clone();
+        let mut s = self.settings.borrow_mut();
+        s.vr_poses.insert(
+            aircraft,
+            settings::VrPose {
+                transform: snapshot.0,
+                size_m: snapshot.1,
+            },
+        );
+        if let Err(e) = s.save(&settings_path()) {
+            eprintln!("[settings] VR pose save failed: {e:?}");
         }
     }
 }
