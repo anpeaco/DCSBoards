@@ -255,6 +255,9 @@ slint::slint! {
         in-out property <bool> hot-reload: false;
         in-out property <bool> mute-mic-during-speech: true;
         in-out property <bool> click-through: false;
+        // Window opacity 0.3..=1.0. Applied via Win32 SetLayeredWindowAttributes
+        // on the Rust side; this property is just the slider's bound value.
+        in-out property <float> window-opacity: 1.0;
         in-out property <bool> is-playing: false;
 
         // Tabs + aircraft state pushed from Rust.
@@ -1045,6 +1048,33 @@ slint::slint! {
                     }
                     Text {
                         text: round(root.transcript-pill-seconds * 10) / 10 + " s";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        horizontal-alignment: right;
+                        font-size: 14px;
+                        font-weight: 500;
+                        width: 56px;
+                    }
+                }
+                HorizontalLayout {
+                    spacing: 10px;
+                    Text {
+                        text: "Window opacity:";
+                        color: #f0f0f0;
+                        vertical-alignment: center;
+                        font-size: 14px;
+                    }
+                    opacity-slider := Slider {
+                        minimum: 0.3;
+                        maximum: 1.0;
+                        value: root.window-opacity;
+                        changed value => {
+                            root.window-opacity = self.value;
+                            root.settings-changed();
+                        }
+                    }
+                    Text {
+                        text: round(root.window-opacity * 100) + " %";
                         color: #f0f0f0;
                         vertical-alignment: center;
                         horizontal-alignment: right;
@@ -3352,6 +3382,7 @@ fn main() -> Result<()> {
         win.set_hot_reload(s.hot_reload);
         win.set_mute_mic_during_speech(s.mute_mic_during_speech);
         win.set_click_through(s.click_through);
+        win.set_window_opacity(Settings::clamp_window_opacity(s.window_opacity));
         win.set_tts_rate(s.tts_rate);
         win.set_tts_volume(s.tts_volume);
         if let (Some(x), Some(y)) = (s.window_x, s.window_y) {
@@ -3574,18 +3605,23 @@ fn main() -> Result<()> {
                 // Only update the click-through field; the Win32 apply
                 // happens unconditionally below so the new state takes effect.
                 sett.click_through = win.get_click_through();
+                sett.window_opacity = Settings::clamp_window_opacity(win.get_window_opacity());
                 sett.tts_rate = win.get_tts_rate();
                 sett.tts_volume = win.get_tts_volume();
                 if let Err(e) = sett.save(&settings_path()) {
                     eprintln!("[settings] save failed: {e:?}");
                 }
             }
-            // Apply Win32 click-through outside the borrow so set_click_through's
-            // own settings.save doesn't double-fire.
+            // Apply Win32 click-through + opacity outside the borrow so the
+            // applies don't re-enter settings.save.
             #[cfg(windows)]
             {
-                let want = s.settings.borrow().click_through;
-                overlay::set_click_through(want);
+                let (want_ct, want_op) = {
+                    let sett = s.settings.borrow();
+                    (sett.click_through, sett.window_opacity)
+                };
+                overlay::set_click_through(want_ct);
+                overlay::set_opacity(want_op);
             }
             // Push rate / volume into the live engine.
             {
@@ -3958,19 +3994,29 @@ fn main() -> Result<()> {
         });
     }
 
-    // Apply persisted click-through on a short delay so the window has
-    // actually been shown — FindWindowW needs the HWND to exist.
+    // Apply persisted Win32 overlay attributes on a short delay so the
+    // window has actually been shown — FindWindowW needs the HWND to
+    // exist. Opacity always applies; click-through only when persisted on.
     #[cfg(windows)]
-    if settings.borrow().click_through {
-        let timer = Box::new(slint::Timer::default());
-        let timer_ref: &slint::Timer = Box::leak(timer);
-        timer_ref.start(
-            slint::TimerMode::SingleShot,
-            Duration::from_millis(400),
-            move || {
-                overlay::set_click_through(true);
-            },
-        );
+    {
+        let want_ct = settings.borrow().click_through;
+        let want_op = Settings::clamp_window_opacity(settings.borrow().window_opacity);
+        if want_ct || (want_op - 1.0).abs() > f32::EPSILON {
+            let timer = Box::new(slint::Timer::default());
+            let timer_ref: &slint::Timer = Box::leak(timer);
+            timer_ref.start(
+                slint::TimerMode::SingleShot,
+                Duration::from_millis(400),
+                move || {
+                    if want_ct {
+                        overlay::set_click_through(true);
+                    }
+                    if (want_op - 1.0).abs() > f32::EPSILON {
+                        overlay::set_opacity(want_op);
+                    }
+                },
+            );
+        }
     }
 
     win.run()?;
