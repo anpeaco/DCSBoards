@@ -1,0 +1,107 @@
+# Tagged-release publisher.
+#
+# Trigger: push a tag matching `v*` (e.g. `v0.2.0`, `v1.0.0-rc1`). The
+# release is created as a DRAFT — the maintainer reviews the auto-
+# generated notes and clicks "Publish release" to make it visible.
+# Drop --draft below once you trust the auto-notes for routine releases.
+#
+# Bundle shipped: SMALL (no Whisper model, no Piper). End users run
+# `scripts\install-whisper-model.ps1` from inside the unzipped bundle
+# to fetch the STT model. Keeps the release zip ~30 MB instead of
+# ~290 MB; full-bundle variant can be added later if there's demand.
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write   # for `gh release create`
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-and-publish:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      # Mirrors the CI install step; whisper-rs-sys needs libclang for
+      # bindgen and we want llvm-objdump for the AVX-512 portability
+      # check below.
+      - name: Install LLVM via chocolatey
+        shell: pwsh
+        run: |
+          choco install llvm -y --no-progress
+          $llvmBin = 'C:\Program Files\LLVM\bin'
+          if (-not (Test-Path (Join-Path $llvmBin 'llvm-objdump.exe'))) {
+            throw "llvm-objdump.exe not found at $llvmBin after install"
+          }
+          Add-Content -Path $env:GITHUB_PATH -Value $llvmBin
+          Add-Content -Path $env:GITHUB_ENV  -Value "LIBCLANG_PATH=$llvmBin"
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: portable-whisper
+
+      # Build + package in one step. The portable env vars pin
+      # whisper.cpp to x86-64-v3 (AVX2 + FMA + F16C, no AVX-512) so the
+      # binary runs on Intel Haswell-and-later / AMD Zen-and-later.
+      # Same flags as the CI portability check; if you change one,
+      # change the other.
+      - name: Build + package portable bundle
+        env:
+          GGML_NATIVE: "OFF"
+          GGML_AVX: "ON"
+          GGML_AVX2: "ON"
+          GGML_FMA: "ON"
+          GGML_F16C: "ON"
+          GGML_AVX512: "OFF"
+          GGML_AVX512_VBMI: "OFF"
+          GGML_AVX512_VNNI: "OFF"
+        shell: pwsh
+        run: |
+          .\scripts\package-portable.ps1 -SkipWhisper -SkipPiper
+
+      # Defense-in-depth: even though the env vars above tell whisper.cpp
+      # to skip AVX-512, a future refactor of whisper-rs-sys's build.rs
+      # could stop forwarding them. Disassembling the built exe and
+      # asserting no ZMM/EVEX opcodes leak in catches that before users
+      # download a broken portable. Same regex / logic as ci.yml.
+      - name: Assert no AVX-512 opcodes in built exe
+        shell: pwsh
+        run: |
+          $exe = "release\DCSBoards-Portable\dcs-kneeboard.exe"
+          if (-not (Test-Path $exe)) { throw "missing $exe" }
+          $pattern = '\bzmm\d|\bvpermt2|\bvpternlog|\bkmov[bwdq]\b|%k[0-7]\b'
+          $hits = & llvm-objdump.exe --disassemble $exe 2>$null | Select-String -Pattern $pattern
+          if ($hits) {
+            Write-Host "::error::AVX-512 opcodes found in $exe -- portable build is broken (regression of #1)"
+            $hits | Select-Object -First 20 | ForEach-Object { Write-Host $_.Line }
+            exit 1
+          }
+          Write-Host "No AVX-512 opcodes in $exe -- portable baseline holds."
+
+      # gh CLI is preinstalled on windows-latest. --verify-tag rejects
+      # if the tag doesn't exist on the remote (shouldn't happen for a
+      # push trigger, but defensive). --generate-notes pulls the commit
+      # log since the previous tag. --draft so the maintainer reviews
+      # before promoting.
+      - name: Create draft GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          gh release create $tag `
+            release\DCSBoards-Portable.zip `
+            --title $tag `
+            --generate-notes `
+            --verify-tag `
+            --draft
+          Write-Host "Draft release created for $tag -- review notes + publish on GitHub."
