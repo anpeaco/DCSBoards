@@ -2172,6 +2172,60 @@ impl AppState {
         self.vr_repaint();
     }
 
+    /// Phase 3: poll-driven mode arbitration. If `vr_mode` says we
+    /// should be active and we aren't, init a session and hide the
+    /// desktop window. If we shouldn't be active and we are, drop the
+    /// session and bring the desktop window back. Idempotent — safe
+    /// to call from a 2 s repeating timer with no transition.
+    #[cfg(feature = "vr")]
+    fn evaluate_vr_mode(&self) {
+        let mode = self.settings.borrow().vr_mode.clone();
+        let should = vr::should_be_active(&mode);
+        let have = self.vr_session.borrow().is_some();
+        if should && !have {
+            match vr::init_session() {
+                Ok(sess) => {
+                    eprintln!("[vr] auto-switch ON ({mode}) — entering VR mode");
+                    *self.vr_session.borrow_mut() = Some(sess);
+                    self.vr_set_window_hidden(true);
+                    self.vr_repaint();
+                }
+                Err(e) => eprintln!("[vr] init refused: {e:?}"),
+            }
+        } else if !should && have {
+            eprintln!("[vr] auto-switch OFF ({mode}) — leaving VR mode");
+            // Drop the session first so VR_Shutdown completes before we
+            // re-show the desktop window — avoids any flicker overlap.
+            *self.vr_session.borrow_mut() = None;
+            self.vr_set_window_hidden(false);
+        }
+    }
+
+    /// Move the desktop window offscreen (or restore it). Same
+    /// pattern as Action::ToggleVisibility — slint::Window::hide()
+    /// would tear down timers + the event loop, which we can't have
+    /// while VR mode is owning the lifecycle.
+    #[cfg(feature = "vr")]
+    fn vr_set_window_hidden(&self, hidden: bool) {
+        let Some(win) = self.win.upgrade() else { return };
+        if hidden {
+            if !self.window_hidden.get() {
+                let cur = win.window().position();
+                *self.saved_pos.borrow_mut() = Some(cur);
+                win.window()
+                    .set_position(slint::PhysicalPosition::new(-30000, -30000));
+                self.window_hidden.set(true);
+            }
+        } else if self.window_hidden.get() {
+            let pos = self
+                .saved_pos
+                .borrow()
+                .unwrap_or_else(|| slint::PhysicalPosition::new(100, 100));
+            win.window().set_position(pos);
+            self.window_hidden.set(false);
+        }
+    }
+
     /// Push a fresh kneeboard frame to the VR overlay if we have a
     /// live session. Driven by apply() so it tracks every cursor move
     /// without needing a polling timer. No-op when VR isn't active.
@@ -4461,23 +4515,24 @@ fn main() -> Result<()> {
         }
     }
 
-    // VR phases 1+2 (issue #30): if the `vr` cargo feature is on, try
-    // to bring up an OpenVR overlay session, store it on AppState, and
-    // push the first kneeboard frame. apply() then repaints on every
-    // cursor change. Failure here is non-fatal — the desktop window
-    // keeps working; missing SteamVR / no HMD just logs and we move
-    // on. Phase 3 will add HMD-presence detection + auto-switching.
+    // VR phases 1+2+3 (issue #30): if the `vr` cargo feature is on,
+    // evaluate the desktop ↔ VR mode now, then poll every 2 s so
+    // plugging/unplugging the headset mid-session triggers the
+    // auto-switch transparently. settings.vr_mode = "desktop" or
+    // "vr" forces; "auto" (default) probes SteamVR + HMD-present.
     #[cfg(feature = "vr")]
-    {
-        match vr::init_session() {
-            Ok(sess) => {
-                eprintln!("[vr] session active — pushing first frame");
-                *state.vr_session.borrow_mut() = Some(sess);
-                state.vr_repaint();
-            }
-            Err(e) => eprintln!("[vr] init skipped: {e:?}"),
-        }
-    }
+    let _vr_mode_timer: Rc<slint::Timer> = {
+        state.evaluate_vr_mode();
+        let timer = Rc::new(slint::Timer::default());
+        let s = state.clone();
+        let t = timer.clone();
+        t.start(
+            slint::TimerMode::Repeated,
+            Duration::from_secs(2),
+            move || s.evaluate_vr_mode(),
+        );
+        timer
+    };
 
     win.run()?;
     Ok(())

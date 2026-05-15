@@ -124,6 +124,16 @@ pub struct Settings {
     /// settings.toml at startup.
     #[serde(default = "Settings::default_welcome_shown")]
     pub welcome_shown: bool,
+
+    /// VR overlay mode (#30 phase 3). One of:
+    ///   "auto"    — enter VR if SteamVR is running AND an HMD is
+    ///               present (default).
+    ///   "vr"      — force VR mode even without HMD detection.
+    ///   "desktop" — force desktop mode; never init OpenVR.
+    /// Re-evaluated every 2 s so plugging/unplugging the headset mid-
+    /// session triggers the auto-switch transparently.
+    #[serde(default = "Settings::default_vr_mode")]
+    pub vr_mode: String,
 }
 
 impl Settings {
@@ -138,6 +148,7 @@ impl Settings {
     fn default_tts_volume() -> f32 { 1.0 }
     fn default_window_opacity() -> f32 { 1.0 }
     fn default_welcome_shown() -> bool { true }
+    fn default_vr_mode() -> String { "auto".into() }
 
     /// Clamp a stored or UI-supplied opacity into the legal 0.3..=1.0
     /// range. Centralised so the floor lives in one place.
@@ -207,6 +218,7 @@ impl Default for Settings {
             tts_rate: Self::default_tts_rate(),
             tts_volume: Self::default_tts_volume(),
             welcome_shown: Self::default_welcome_shown(),
+            vr_mode: Self::default_vr_mode(),
         }
     }
 }
