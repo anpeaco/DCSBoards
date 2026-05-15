@@ -2265,8 +2265,23 @@ impl AppState {
         }
     }
 
+    /// Switch the active aircraft. The actual load is heavy (PNG decode +
+    /// sidecar JSON parse for every tab in the new module — several seconds
+    /// for big checklist sets) and runs on the UI thread, so we push a
+    /// "Loading…" pill first and defer the load by one frame. Slint paints
+    /// the pill in that gap; without the deferral the UI stays frozen and
+    /// the user thinks the click did nothing.
     fn set_aircraft(&self, aircraft: String) {
         self.stop_speaking();
+        self.show_transcript(format!("Loading checklists for {aircraft}…"));
+        let me = self.clone();
+        slint::Timer::single_shot(Duration::from_millis(16), move || {
+            me.set_aircraft_inner(aircraft);
+        });
+    }
+
+    fn set_aircraft_inner(&self, aircraft: String) {
+        let started = std::time::Instant::now();
         {
             let mut tabs = self.tabs.borrow_mut();
             tabs.set_aircraft(aircraft.clone());
@@ -2279,9 +2294,13 @@ impl AppState {
         self.push_stt_initial_prompt(&aircraft);
         {
             let mut s = self.settings.borrow_mut();
-            s.current_aircraft = Some(aircraft);
+            s.current_aircraft = Some(aircraft.clone());
             let _ = s.save(&settings_path());
         }
+        eprintln!(
+            "[aircraft] switched to {aircraft} in {} ms",
+            started.elapsed().as_millis()
+        );
     }
 
     /// Compose the Whisper initial-prompt string for `aircraft` from
