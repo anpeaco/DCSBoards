@@ -265,6 +265,11 @@ slint::slint! {
         // Settings bound from Rust (in-out so the panel's widgets can mutate).
         in-out property <bool> settings-open: false;
         in-out property <bool> voice-commands-open: false;
+        // First-run welcome overlay. Pushed by Rust as `false` only when
+        // settings.toml was absent at startup; the dismiss button hides it
+        // and persists the choice so subsequent launches skip it.
+        in-out property <bool> welcome-open: false;
+        callback welcome-dismissed();
         in property <[VoiceCommandRow]> voice-commands;
         in-out property <bool> auto-read: false;
         in-out property <bool> auto-advance: false;
@@ -1589,6 +1594,97 @@ slint::slint! {
                     );
                     background: rgba(255, 204, 51, 0.55);
                     border-radius: 2px;
+                }
+            }
+        }
+
+        // First-run welcome overlay. Dim backdrop (helps signal "this is
+        // modal — dismiss me") + a centered card with three onboarding
+        // hints. Shown only when settings.toml didn't exist at startup;
+        // dismissed once and never seen again. Sits on top of everything
+        // else so it's the first thing a brand-new user sees.
+        if root.welcome-open: Rectangle {
+            x: 0px; y: 0px;
+            width: parent.width;
+            height: parent.height;
+            background: rgba(0, 0, 0, 0.55);
+
+            // Catch backdrop clicks so they don't fall through to the
+            // page image / chrome behind. Dismissal is button-only — too
+            // easy to click-through-and-lose-the-tutorial otherwise.
+            TouchArea { clicked => { /* swallow */ } }
+
+            Rectangle {
+                x: (parent.width - self.width) / 2;
+                y: (parent.height - self.height) / 2;
+                width: 440px;
+                height: 320px;
+                background: #2a2a32;
+                border-color: #ffcc33;
+                border-width: 1px;
+                border-radius: 8px;
+
+                VerticalLayout {
+                    padding: 22px;
+                    spacing: 12px;
+
+                    Text {
+                        text: "Welcome to DCS Kneeboard";
+                        color: #ffffff;
+                        font-size: 20px;
+                        font-weight: 600;
+                    }
+                    Text {
+                        text: "Three things to get you flying:";
+                        color: #d8d8d8;
+                        font-size: 13px;
+                    }
+                    Rectangle { height: 4px; }
+
+                    Text {
+                        text: "1.  Open Settings — Ctrl+Alt+S, or click the gear icon at the top.";
+                        color: #f0f0f0;
+                        font-size: 13px;
+                        wrap: word-wrap;
+                    }
+                    Text {
+                        text: "2.  Bind Push-To-Talk — in Settings, click the pencil next to 'Push to Talk' and press your HOTAS button.";
+                        color: #f0f0f0;
+                        font-size: 13px;
+                        wrap: word-wrap;
+                    }
+                    Text {
+                        text: "3.  Voice needs Whisper — drop a model into models/ (see README). Without it, the visual kneeboard still works but voice is off.";
+                        color: #f0f0f0;
+                        font-size: 13px;
+                        wrap: word-wrap;
+                    }
+
+                    Rectangle { vertical-stretch: 1; }
+
+                    HorizontalLayout {
+                        alignment: end;
+                        Rectangle {
+                            width: 100px;
+                            height: 32px;
+                            background: dismiss-touch.has-hover ? #ffe070 : #ffcc33;
+                            border-radius: 4px;
+                            Text {
+                                text: "Got it";
+                                color: #1a1a1e;
+                                font-size: 14px;
+                                font-weight: 600;
+                                horizontal-alignment: center;
+                                vertical-alignment: center;
+                            }
+                            dismiss-touch := TouchArea {
+                                clicked => {
+                                    root.welcome-open = false;
+                                    root.welcome-dismissed();
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -3488,7 +3584,16 @@ impl AppState {
 
 fn main() -> Result<()> {
     let app_config = AppConfig::load_or_default(&config_path());
+    // Detect first-ever launch BEFORE load_or_default, which writes
+    // settings.toml for any subsequent run. Used solely to flip the
+    // welcome overlay to "show me" on the very first launch — existing
+    // settings.toml files default welcome_shown to true so an upgrader
+    // doesn't get a stale tutorial they don't need.
+    let first_run = !settings_path().exists();
     let settings = Rc::new(RefCell::new(Settings::load_or_default(&settings_path())));
+    if first_run {
+        settings.borrow_mut().welcome_shown = false;
+    }
 
     // Collected during init so silent failures (whisper missing, audio
     // open failure, piper fallback) can be surfaced in the pill once
@@ -3563,6 +3668,7 @@ fn main() -> Result<()> {
         win.set_mute_mic_during_speech(s.mute_mic_during_speech);
         win.set_click_through(s.click_through);
         win.set_window_opacity(Settings::clamp_window_opacity(s.window_opacity));
+        win.set_welcome_open(!s.welcome_shown);
         win.set_tts_rate(s.tts_rate);
         win.set_tts_volume(s.tts_volume);
         // Restore size before position so the on-monitor check uses the
@@ -3913,6 +4019,22 @@ fn main() -> Result<()> {
     {
         let s = state.clone();
         win.on_reload_pronunciation(move || s.reload_pronunciation());
+    }
+
+    // Persist the welcome dismissal so the overlay never appears again
+    // for this user. The slint side already flipped welcome-open to
+    // false; we just need to mirror that into settings.toml.
+    {
+        let settings = settings.clone();
+        win.on_welcome_dismissed(move || {
+            let mut s = settings.borrow_mut();
+            if !s.welcome_shown {
+                s.welcome_shown = true;
+                if let Err(e) = s.save(&settings_path()) {
+                    eprintln!("[settings] welcome-dismiss save failed: {e:?}");
+                }
+            }
+        });
     }
 
     // Keyboard FocusScope routes here. handle_event does the capture-vs-
