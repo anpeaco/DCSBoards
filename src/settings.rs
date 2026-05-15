@@ -116,6 +116,14 @@ pub struct Settings {
     /// Output volume, 0.0..=1.0.
     #[serde(default = "Settings::default_tts_volume")]
     pub tts_volume: f32,
+
+    /// First-run welcome overlay dismissal marker. Defaults true so
+    /// existing settings.toml files (from before this field existed)
+    /// don't suddenly show the welcome on upgrade — the only path that
+    /// flips it back to false is `main` detecting the absence of
+    /// settings.toml at startup.
+    #[serde(default = "Settings::default_welcome_shown")]
+    pub welcome_shown: bool,
 }
 
 impl Settings {
@@ -129,6 +137,7 @@ impl Settings {
     fn default_tts_rate() -> f32 { 1.0 }
     fn default_tts_volume() -> f32 { 1.0 }
     fn default_window_opacity() -> f32 { 1.0 }
+    fn default_welcome_shown() -> bool { true }
 
     /// Clamp a stored or UI-supplied opacity into the legal 0.3..=1.0
     /// range. Centralised so the floor lives in one place.
@@ -197,6 +206,7 @@ impl Default for Settings {
             tts_piper_voice: None,
             tts_rate: Self::default_tts_rate(),
             tts_volume: Self::default_tts_volume(),
+            welcome_shown: Self::default_welcome_shown(),
         }
     }
 }
