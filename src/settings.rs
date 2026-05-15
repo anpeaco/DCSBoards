@@ -79,6 +79,14 @@ pub struct Settings {
     #[serde(default)]
     pub click_through: bool,
 
+    /// Window opacity, 0.3..=1.0. Applied via Win32
+    /// `SetLayeredWindowAttributes` so the whole overlay (image, chrome,
+    /// pills) fades uniformly. Floor of 0.3 keeps the UI legible — going
+    /// lower would let users render the app effectively invisible with no
+    /// way to find it again.
+    #[serde(default = "Settings::default_window_opacity")]
+    pub window_opacity: f32,
+
     /// Which TTS engine to use: "winrt" (Windows system voices, default) or
     /// "piper" (open-source neural — needs models/piper/piper.exe + a .onnx
     /// voice). Falls back to winrt if piper is selected but unavailable.
@@ -109,6 +117,13 @@ impl Settings {
     fn default_tts_engine() -> String { "winrt".into() }
     fn default_tts_rate() -> f32 { 1.0 }
     fn default_tts_volume() -> f32 { 1.0 }
+    fn default_window_opacity() -> f32 { 1.0 }
+
+    /// Clamp a stored or UI-supplied opacity into the legal 0.3..=1.0
+    /// range. Centralised so the floor lives in one place.
+    pub fn clamp_window_opacity(v: f32) -> f32 {
+        v.clamp(0.3, 1.0)
+    }
 
     pub fn load_or_default(path: &Path) -> Self {
         let mut s = match std::fs::read_to_string(path) {
@@ -164,6 +179,7 @@ impl Default for Settings {
             hot_reload: false,
             mute_mic_during_speech: Self::default_mute_mic_during_speech(),
             click_through: false,
+            window_opacity: Self::default_window_opacity(),
             tts_engine: Self::default_tts_engine(),
             tts_piper_voice: None,
             tts_rate: Self::default_tts_rate(),

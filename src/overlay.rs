@@ -7,11 +7,11 @@
 #![cfg(windows)]
 
 use windows::core::PCWSTR;
-use windows::Win32::Foundation::HWND;
+use windows::Win32::Foundation::{COLORREF, HWND};
 use windows::Win32::UI::WindowsAndMessaging::{
-    FindWindowW, GetWindowLongPtrW, SetWindowLongPtrW, SetWindowPos, GWL_EXSTYLE,
-    SWP_FRAMECHANGED, SWP_NOACTIVATE, SWP_NOMOVE, SWP_NOSIZE, SWP_NOZORDER,
-    WS_EX_LAYERED, WS_EX_TRANSPARENT,
+    FindWindowW, GetWindowLongPtrW, SetLayeredWindowAttributes, SetWindowLongPtrW, SetWindowPos,
+    GWL_EXSTYLE, LWA_ALPHA, SWP_FRAMECHANGED, SWP_NOACTIVATE, SWP_NOMOVE, SWP_NOSIZE,
+    SWP_NOZORDER, WS_EX_LAYERED, WS_EX_TRANSPARENT,
 };
 
 const WINDOW_TITLE: &str = "DCS Kneeboard";
@@ -55,5 +55,31 @@ pub fn set_click_through(enabled: bool) -> bool {
         );
     }
     eprintln!("[overlay] click-through {}", if enabled { "ON" } else { "off" });
+    true
+}
+
+/// Apply a uniform window opacity in the 0.3..=1.0 range. Sets WS_EX_LAYERED
+/// (idempotent — slint already does for us, but click-through assumes the
+/// flag is present too) then calls `SetLayeredWindowAttributes` with
+/// `LWA_ALPHA`. Slint renders an opaque `#000` background so this fades the
+/// whole UI uniformly without needing per-pixel alpha.
+pub fn set_opacity(opacity: f32) -> bool {
+    let alpha_byte = (opacity.clamp(0.3, 1.0) * 255.0).round() as u8;
+    let Some(hwnd) = find_our_window() else {
+        eprintln!("[overlay] could not find our window — opacity skipped");
+        return false;
+    };
+    unsafe {
+        let style = GetWindowLongPtrW(hwnd, GWL_EXSTYLE);
+        let layered = WS_EX_LAYERED.0 as isize;
+        if style & layered == 0 {
+            SetWindowLongPtrW(hwnd, GWL_EXSTYLE, style | layered);
+        }
+        if let Err(e) = SetLayeredWindowAttributes(hwnd, COLORREF(0), alpha_byte, LWA_ALPHA) {
+            eprintln!("[overlay] SetLayeredWindowAttributes failed: {e}");
+            return false;
+        }
+    }
+    eprintln!("[overlay] opacity {alpha_byte}/255");
     true
 }
