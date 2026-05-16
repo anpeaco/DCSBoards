@@ -137,6 +137,14 @@ pub struct Settings {
     #[serde(default = "Settings::default_welcome_shown")]
     pub welcome_shown: bool,
 
+    /// Verbose per-dispatch tracing. When on, every Action that fires
+    /// gets a one-line `[dispatch] <source> → <action> (<label>)` log
+    /// showing what physical input (keyboard / gamepad / HID / voice /
+    /// on-screen button / startup) produced it. Off by default — useful
+    /// when binding HOTAS buttons to debug which button fires what.
+    #[serde(default)]
+    pub dispatch_log: bool,
+
     /// VR overlay mode (#30 phase 3). One of:
     ///   "auto"    — enter VR if SteamVR is running AND an HMD is
     ///               present (default).
@@ -239,6 +247,7 @@ impl Default for Settings {
             welcome_shown: Self::default_welcome_shown(),
             vr_mode: Self::default_vr_mode(),
             vr_poses: HashMap::new(),
+            dispatch_log: false,
         }
     }
 }
