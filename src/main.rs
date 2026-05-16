@@ -280,6 +280,8 @@ slint::slint! {
         in-out property <bool> hot-reload: false;
         in-out property <bool> mute-mic-during-speech: true;
         in-out property <bool> click-through: false;
+        // Verbose dispatch tracing. Mirrors settings.dispatch_log.
+        in-out property <bool> dispatch-log: false;
         // Window opacity 0.3..=1.0. Applied via Win32 SetLayeredWindowAttributes
         // on the Rust side; this property is just the slider's bound value.
         in-out property <float> window-opacity: 1.0;
@@ -1024,6 +1026,14 @@ slint::slint! {
                     checked: root.click-through;
                     toggled => {
                         root.click-through = self.checked;
+                        root.settings-changed();
+                    }
+                }
+                DarkCheckBox {
+                    text: "Verbose dispatch log (every Action prints its trigger to the console)";
+                    checked: root.dispatch-log;
+                    toggled => {
+                        root.dispatch-log = self.checked;
                         root.settings-changed();
                     }
                 }
@@ -2160,6 +2170,43 @@ impl PillMessage {
     }
 }
 
+/// What physical thing caused an Action to fire. Plumbed into
+/// `dispatch_traced` so verbose logging can answer "which button /
+/// phrase fired which Action?" without per-call-site eprintlns.
+#[derive(Debug)]
+enum DispatchSource {
+    /// Keyboard, gamepad, or HID — wraps the resolved Trigger so we
+    /// can reuse its existing display() formatter.
+    Input(input::Trigger),
+    /// STT-recognised utterance; carries the trimmed transcript so the
+    /// log shows what the user actually said.
+    Voice(String),
+    /// Click on one of the chrome buttons (nav arrows, gear, etc.).
+    /// String is a short stable id ("next-button", "prev-button", …).
+    OnScreen(&'static str),
+}
+
+impl std::fmt::Display for DispatchSource {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            DispatchSource::Input(t) => {
+                // Prefix with the trigger kind so the log line says
+                // "keyboard Space" rather than just "Space" — at a
+                // glance the user can tell whether their HOTAS or
+                // their keyboard fired.
+                let kind = match t {
+                    input::Trigger::Keyboard { .. } => "keyboard",
+                    input::Trigger::Gamepad { .. } => "gamepad",
+                    input::Trigger::Hid { .. } => "hid",
+                };
+                write!(f, "{kind} {}", t.display())
+            }
+            DispatchSource::Voice(transcript) => write!(f, "voice \"{transcript}\""),
+            DispatchSource::OnScreen(id) => write!(f, "ui:{id}"),
+        }
+    }
+}
+
 impl AppState {
     fn apply(&self) {
         let Some(win) = self.win.upgrade() else { return };
@@ -3107,7 +3154,7 @@ impl AppState {
                     eprintln!("[probe] {} → {}", trigger.display(), action.label());
                     self.flash_binding(action);
                 } else {
-                    self.dispatch(action);
+                    self.dispatch_traced(action, DispatchSource::Input(trigger));
                 }
                 true
             }
@@ -3566,6 +3613,19 @@ impl AppState {
         );
     }
 
+    /// Wrap `dispatch` with a one-line trace identifying the physical
+    /// input that produced the action. No-op when `settings.dispatch_log`
+    /// is off; otherwise emits `[dispatch] <source> → <Action> (<label>)`.
+    /// Use this rather than `dispatch` everywhere a real input fires —
+    /// the bare `dispatch` should only be called from `dispatch_traced`
+    /// itself and from places where the source is already implicit.
+    fn dispatch_traced(&self, action: Action, source: DispatchSource) {
+        if self.settings.borrow().dispatch_log {
+            eprintln!("[dispatch] {source} → {action:?} ({})", action.label());
+        }
+        self.dispatch(action);
+    }
+
     /// Dispatch a resolved action. The Cancel action is context-sensitive:
     /// closes the settings panel if open, otherwise stops in-flight speech.
     fn dispatch(&self, action: Action) {
@@ -3874,6 +3934,7 @@ fn main() -> Result<()> {
         win.set_hot_reload(s.hot_reload);
         win.set_mute_mic_during_speech(s.mute_mic_during_speech);
         win.set_click_through(s.click_through);
+        win.set_dispatch_log(s.dispatch_log);
         win.set_window_opacity(Settings::clamp_window_opacity(s.window_opacity));
         win.set_welcome_open(!s.welcome_shown);
         win.set_tts_rate(s.tts_rate);
@@ -4114,31 +4175,45 @@ fn main() -> Result<()> {
     // bound key.
     {
         let s = state.clone();
-        win.on_next_clicked(move || s.dispatch(Action::Next));
+        win.on_next_clicked(move || {
+            s.dispatch_traced(Action::Next, DispatchSource::OnScreen("next-button"));
+        });
     }
     {
         let s = state.clone();
-        win.on_prev_clicked(move || s.dispatch(Action::Previous));
+        win.on_prev_clicked(move || {
+            s.dispatch_traced(Action::Previous, DispatchSource::OnScreen("prev-button"));
+        });
     }
     {
         let s = state.clone();
-        win.on_page_next_clicked(move || s.dispatch(Action::PageNext));
+        win.on_page_next_clicked(move || {
+            s.dispatch_traced(Action::PageNext, DispatchSource::OnScreen("page-next-button"));
+        });
     }
     {
         let s = state.clone();
-        win.on_page_prev_clicked(move || s.dispatch(Action::PagePrev));
+        win.on_page_prev_clicked(move || {
+            s.dispatch_traced(Action::PagePrev, DispatchSource::OnScreen("page-prev-button"));
+        });
     }
     {
         let s = state.clone();
-        win.on_next_heading_clicked(move || s.dispatch(Action::NextHeading));
+        win.on_next_heading_clicked(move || {
+            s.dispatch_traced(Action::NextHeading, DispatchSource::OnScreen("next-heading-button"));
+        });
     }
     {
         let s = state.clone();
-        win.on_prev_heading_clicked(move || s.dispatch(Action::PrevHeading));
+        win.on_prev_heading_clicked(move || {
+            s.dispatch_traced(Action::PrevHeading, DispatchSource::OnScreen("prev-heading-button"));
+        });
     }
     {
         let s = state.clone();
-        win.on_read_clicked(move || s.dispatch(Action::TogglePlay));
+        win.on_read_clicked(move || {
+            s.dispatch_traced(Action::TogglePlay, DispatchSource::OnScreen("read-button"));
+        });
     }
     {
         let s = state.clone();
@@ -4177,6 +4252,7 @@ fn main() -> Result<()> {
                 // Only update the click-through field; the Win32 apply
                 // happens unconditionally below so the new state takes effect.
                 sett.click_through = win.get_click_through();
+                sett.dispatch_log = win.get_dispatch_log();
                 sett.window_opacity = Settings::clamp_window_opacity(win.get_window_opacity());
                 sett.tts_rate = win.get_tts_rate();
                 sett.tts_volume = win.get_tts_volume();
@@ -4397,7 +4473,10 @@ fn main() -> Result<()> {
                                 action.label(),
                                 trimmed
                             ));
-                            s.dispatch(action);
+                            s.dispatch_traced(
+                                action,
+                                DispatchSource::Voice(trimmed.to_string()),
+                            );
                         }
                         voice_router::RoutedIntent::Query(query) => {
                             let label = match &query {
